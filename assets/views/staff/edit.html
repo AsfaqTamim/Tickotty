@@ -1,0 +1,243 @@
+<div ng-include src="'assets/views/includes/sidebar.html'"></div>
+<md-content class="app-wrapper">
+    <div ng-show="REMOVE" class="remove-item-container">
+        <div class="remove-item-card">
+            <h3 translate="REMOVE_WARN_TITLE"></h3>
+            <h6 translate="REMOVE_WARN_DESC"></h6>
+            <p translate="REMOVE_WARN_DETAIL"></p>
+            <div class="action">
+                <button class="do-it" ng-click="REMOVE_USER()"><span translate="YES"></span></button>
+                <button class="cancel-it" ng-click="REMOVE =! REMOVE" translate="CANCEL"></button>
+            </div>
+        </div>
+    </div>
+    <div class="md-toolbar-tools standart-feature-header">
+        <h2 flex md-truncate translate="MANAGE_USER"></h2>
+        <md-button ng-if="!STAFF.ADMIN" ng-click="GO_PATH('staff/' + STAFF.TOKEN)" class="md-icon-button action-icon-button" aria-label="Back">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/back.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Back"></span></md-tooltip>
+        </md-button>
+        <md-button ng-if="STAFF.ADMIN" ng-click="GO_PATH('staff/' + STAFF.TOKEN)" class="md-icon-button action-icon-button" aria-label="Back">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/back.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Back"></span></md-tooltip>
+        </md-button>
+        <md-button ng-click="CHANGE_PASSWORD=! CHANGE_PASSWORD" class="md-icon-button action-icon-button" aria-label="More">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/password.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="CHANGE_PASS"></span></md-tooltip>
+        </md-button>
+        <md-button ng-click="REMOVE = ! REMOVE" class="md-icon-button action-icon-button" aria-label="More">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/remove.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Remove"></span></md-tooltip>
+        </md-button>
+        <md-button ng-click="UPDATE_STAFF()" class="md-icon-button action-icon-button" aria-label="Update">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/update.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Update"></span></md-tooltip>
+        </md-button>
+    </div>
+    <div class="col-md-12 no-margin no-padding">
+        <md-content class="md-padding pt-0 row">
+            <div class="grid-container" ng-if="!USER.IS_ADMIN">
+                <div class="client-staff-members">
+                    <div class="client-detail">
+                        <div class="staff-con staff-department">
+                            <span translate="USER_INFO_TITLE"></span>
+                        </div>
+                        <div class="user-info-card col-md-12 p-0">
+                            <div class="user-info-card-icon">
+                                <md-icon class="user-info-card-icon-a" md-svg-icon="assets/icons/phone.svg"></md-icon>
+                            </div>
+                            <div class="user-info-card-text">
+                                <a href="tel:{{STAFF.PHONE}}">{{STAFF.PHONE}}</a>
+                            </div>
+                        </div>
+                        <div class="user-info-card col-md-12 p-0">
+                            <div class="user-info-card-icon">
+                                <md-icon class="user-info-card-icon-a" md-svg-icon="assets/icons/mail.svg"></md-icon>
+                            </div>
+                            <div class="user-info-card-text">
+                                <a href="mailto:{{STAFF.EMAIL}}">{{STAFF.EMAIL}}</a>
+                            </div>
+                        </div>
+                        <div class="user-info-card col-md-12 p-0">
+                            <div class="user-info-card-icon">
+                                <md-icon class="user-info-card-icon-a" md-svg-icon="assets/icons/pin.svg"></md-icon>
+                            </div>
+                            <div class="user-info-card-text">{{STAFF.ADDRESS}} </div>
+                        </div>
+                    </div>
+                    <div class="logs-by-target">
+                        <div class="staff-con staff-department" ng-if="STAFF.LOGS.length">
+                            <span translate="USER_LOG_TITLE"></span>
+                        </div>
+                        <div class="log-container">
+                            <div class="steamline mt-0">
+                                <div class="sl-item" ng-repeat="LOG in STAFF.LOGS">
+                                    <div class="sl-left"> <img ng-src="https://avatar.oxro.io/avatar.svg?name={{LOG.USER.NAME}}+{{LOG.USER.SURNAME | lowercase}}&background=d0d0d0&caps=3&bold=true" alt="user" class="rounded-circle"> </div>
+                                    <div class="sl-right">
+                                        <div><a href="javascript:void(0)" class="link text-uppercase">{{LOG.USER.NAME}}</a> <span class="sl-date" ng-bind="LOG.DATE | relativeDate"></span>
+                                            <p compile="LOG.DETAIL"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="client-details-right col-md-12 no-padding">
+                    <md-content class="md-padding bg-white">
+                        <div class="md-block col-md-6 pl-0 mb-0">
+                            <label class="label-tickotty" translate="Name"></label>
+                            <input class="tickotty-input" required ng-model="STAFF.NAME">
+                        </div>
+                        <div class="md-block col-md-6 pl-0 pr-0 mb-0">
+                            <label class="label-tickotty" translate="Surname"></label>
+                            <input class="tickotty-input" required ng-model="STAFF.SURNAME">
+                        </div>
+                        <div class="md-block col-md-6 pl-0 mb-0">
+                            <label class="label-tickotty" translate="Phone"></label>
+                            <input class="tickotty-input" required ng-model="STAFF.PHONE">
+                        </div>
+                        <div class="md-block col-md-6 pl-0 pr-0 mb-0">
+                            <label class="label-tickotty" translate="Email"></label>
+                            <input class="tickotty-input" required ng-model="STAFF.EMAIL">
+                        </div>
+                        <md-input-container ng-if="CHANGE_PASSWORD" class="md-block col-md-12 pl-0">
+                            <label translate="NEW_PASS"></label>
+                            <input ng-model="STAFF.PASSWORD">
+                        </md-input-container>
+                        <div class="md-block col-md-12 pl-0 pr-0 mb-0">
+                            <label class="label-tickotty" translate="Address"></label>
+                            <input class="tickotty-input" required ng-model="STAFF.ADDRESS" rows="2"></input>
+                        </div>
+                        <div class="md-block col-md-6 pr-0 mb-0">
+                            <md-input-container class="md-block">
+                                <label translate="Language"></label>
+                                <md-select ng-model="STAFF.LANGUAGE">
+                                    <md-option value="en_US">English</md-option>
+                                    <md-option value="nl_NL">Nederlands</md-option>
+                                    <md-option value="ru_RU">Russian</md-option>
+                                    <md-option value="tr_TR">Turkish</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                    </md-content>
+                </div>
+            </div>
+            <div class="container-x" ng-if="USER.IS_ADMIN">
+                <div class="col-md-6 pl-0 pr-0">
+                    <md-toolbar class="inline-toolbar">
+                        <div class="md-toolbar-tools">
+                            <h2 flex md-truncate translate="USER_DETAILS_TITLE"></h2>
+                            <md-input-container class="">
+                                <md-switch layout="row" ng-model="STAFF.ACTIVE" ng-change="UPDATE_STAFF()" aria-label="Active">
+                                    <span ng-if="STAFF.ACTIVE" translate="Active"></span>
+                                    <span ng-if="!STAFF.ACTIVE" translate="Passive"></span>
+                                </md-switch>
+                            </md-input-container>
+                        </div>
+                    </md-toolbar>
+                    <div class="col-md-12 mt-20">
+                        <div class="md-block col-md-6 mb-0">
+                            <label class="label-tickotty" translate="Name"></label>
+                            <input class="tickotty-input" required ng-model="STAFF.NAME">
+                        </div>
+                        <div class="md-block col-md-6 pr-0 mb-0">
+                            <label class="label-tickotty" translate="Surname"></label>
+                            <input class="tickotty-input" required ng-model="STAFF.SURNAME">
+                        </div>
+                        <div class="md-block col-md-6 mb-0">
+                            <label class="label-tickotty" translate="Phone"></label>
+                            <input class="tickotty-input" required ng-model="STAFF.PHONE">
+                        </div>
+                        <div class="md-block col-md-6 pr-0 mb-0">
+                            <label class="label-tickotty" translate="Email"></label>
+                            <input class="tickotty-input" required ng-model="STAFF.EMAIL">
+                        </div>
+                        <md-input-container ng-if="CHANGE_PASSWORD" class="md-block col-md-12 pl-0">
+                            <label translate="NEW_PASS"></label>
+                            <input ng-model="STAFF.PASSWORD">
+                        </md-input-container>
+                        <div class="md-block col-md-12 pr-0 mb-0">
+                            <label class="label-tickotty" translate="Address"></label>
+                            <input class="tickotty-input" required ng-model="STAFF.ADDRESS" rows="2"></input>
+                        </div>
+                        <div class="md-block col-md-6 pr-0 mb-0">
+                            <md-input-container class="md-block">
+                                <label translate="Department"></label>
+                                <md-select ng-model="STAFF.DEPARTMENT_ID">
+                                    <md-option ng-repeat="DEPARTMENT in DEPARTMENTS" value="{{DEPARTMENT.ID}}">
+                                        {{DEPARTMENT.NAME}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <div class="md-block col-md-6 pr-0 mb-0">
+                            <md-input-container class="md-block">
+                                <label translate="Language"></label>
+                                <md-select ng-model="STAFF.LANGUAGE">
+                                    <md-option value="en_US">English</md-option>
+                                    <md-option value="nl_NL">Nederlands</md-option>
+                                    <md-option value="ru_RU">Russian</md-option>
+                                    <md-option value="tr_TR">Turkish</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 pl-0 pr-0">
+                    <md-toolbar class="inline-toolbar">
+                        <div class="md-toolbar-tools">
+                            <h2 flex md-truncate translate="USER_PERMISSIONS_TITLE"></h2>
+                        </div>
+                    </md-toolbar>
+                    <div class="col-md-12 pl-25 mt-20">
+                        <span class="text-bold text-muted" translate="Privileges"></span>
+                        <div layout="row" layout-wrap="" flex="" class="layout-wrap layout-row flex">
+                            <div flex="50" ng-repeat="PRIVILEGE in STAFF.PRIVILEGES">
+                                <md-switch class="m-t-5 m-b-5" ng-model="PRIVILEGE.VALUE" ng-change="UPDATE_PRIVILAGE(STAFF.ID,PRIVILEGE.VALUE,PRIVILEGE.ID)" aria-label="Durum"><strong class="text-muted">{{PRIVILEGE.NAME}}</strong></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 pl-20">
+                        <span class="text-bold text-muted" translate="USER_ROLE"></span>
+                        <md-switch ng-model="STAFF.ADMIN" ng-change="UPDATE_STAFF()" aria-label="Admin"><span translate="Admin"></span></md-switch>
+                        <md-switch ng-model="STAFF.STAFF" ng-change="UPDATE_STAFF()" aria-label="Staff"><span translate="Staff"></span></md-switch>
+                    </div>
+                </div>
+                <div class="col-md-12 no-margin no-padding">
+                    <md-toolbar class="inline-toolbar">
+                        <div class="md-toolbar-tools">
+                            <h2 flex md-truncate translate="USER_WORKING_HOURS_TITLE"></h2>
+                        </div>
+                    </md-toolbar>
+                    <div class="staff-working-hours-container pl-25 pr-25">
+                        <md-content class="staff-working-hours-card" flex="13" ng-repeat="PLAN in STAFF.WORKING_HOURS" layout-padding>
+                            <md-checkbox ng-model="PLAN.STATUS"><span class="text-uppercase text-bold">{{ PLAN.DAY }}</span></md-checkbox>
+                            <fieldset>
+                                <md-input-container class="working-hours-input">
+                                    <label translate="Start"></label>
+                                    <input str-to-time="" ng-model="PLAN.START" type="time">
+                                </md-input-container>
+                                <md-input-container class="working-hours-input">
+                                    <label translate="End"></label>
+                                    <input str-to-time="" ng-model="PLAN.END" type="time">
+                                </md-input-container>
+                            </fieldset>
+                            <fieldset>
+                                <legend translate="Break_Time"></legend>
+                                <md-input-container class="working-hours-input">
+                                    <label translate="Start"></label>
+                                    <input str-to-time="" ng-model="PLAN.BREAKS.START" type="time">
+                                </md-input-container>
+                                <md-input-container class="working-hours-input">
+                                    <label translate="End"></label>
+                                    <input str-to-time="" ng-model="PLAN.BREAKS.END" type="time">
+                                </md-input-container>
+                            </fieldset>
+                        </md-content>
+                    </div>
+                </div>
+            </div>
+        </md-content>
+    </div>
+</md-content>

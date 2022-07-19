@@ -1,0 +1,147 @@
+<div ng-include src="'assets/views/includes/sidebar.html'"></div>
+<md-content class="app-wrapper">
+    <md-toolbar class="md-toolbar-tools standart-feature-header">
+        <h2 flex md-truncate translate="SLA_TITLE"></h2>
+        <md-button ng-click="GO_PATH('sla')" class="md-icon-button action-icon-button" aria-label="Back">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/back.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Update"></span></md-tooltip>
+        </md-button>
+        <md-button ng-click="UPDATE_POLICY()" class="md-icon-button action-icon-button" aria-label="Update">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/update.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Update"></span></md-tooltip>
+        </md-button>
+    </md-toolbar>
+    <md-content class="pr-20 pl-25 pb-20">
+        <div class="sla-create">
+            <div class="options-feature-header">
+                <div class="col-md-6 no-padding no-margin">
+                    <h5><strong translate="SLA_SUB_TITLE"></strong></h5>
+                    <span translate="SLA_SUB_DESC"></span>
+                </div>
+                <div class="col-md-6 no-padding no-margin right-stable">
+                    <md-switch ng-model="POLICY.ACTIVE" aria-label="Policy Active"><span translate="Active"></span></md-switch>
+                </div>
+            </div>
+            <div class="panel-body no-padding no-margin">
+                <fieldset flex="13" class="sla-policies-container col-md-4" ng-repeat="TARGET in POLICY.TARGETS" layout-padding>
+                    <legend class="sla-priority-name">
+                        {{TARGET.NAME}}
+                    </legend>
+                    <fieldset ng-repeat="DATA in TARGET.DATA">
+                        <legend>
+                            {{DATA.NAME}}
+                        </legend>
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label translate="SLA_TIME"></label>
+                                <input ng-model="DATA.TIME" type="number">
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label translate="SLA_PERIOD"></label>
+                                <md-select ng-model="DATA.PERIOD">
+                                    <md-option ng-repeat="PERIOD in SLA_PERIODS" value="{{PERIOD.ID}}">
+                                        {{PERIOD.NAME}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                    </fieldset>
+                    <md-input-container class="md-block" layout-gt-sm="row">
+                        <label translate="SLA_OH"></label>
+                        <md-select ng-model="TARGET.OPERATIONAL_HOURSES">
+                            <md-option ng-repeat="HOUR in OPERATIONAL_HOURSES" value="{{HOUR.ID}}">
+                                {{HOUR.NAME}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </fieldset>
+            </div>
+            <div layout="row">
+                <md-input-container flex="50">
+                    <label translate="SLA_NAME"></label>
+                    <input required ng-model="POLICY.NAME">
+                </md-input-container>
+                <md-input-container flex="50">
+                    <label translate="SLA_INPUT_DESC"></label>
+                    <input required ng-model="POLICY.DESCRIPTION">
+                </md-input-container>
+            </div>
+            <div class="options-feature-header">
+                <div class="col-md-6 no-padding no-margin">
+                    <h5><strong translate="SLA_APPLY_ON"></strong></h5>
+                    <span translate="SLA_APPLY_ON_DESC"></span>
+                </div>
+            </div>
+            <div layout="row">
+                <md-input-container flex="50">
+                    <label translate="SLA_TRIGGER"></label>
+                    <md-select name="type" ng-model="POLICY.TRIGGER.RELATION_TYPE" required ng-change="DROP_SELECTED_TRIGGER($index)">
+                        <md-option ng-repeat="TRIGGER in SLA_POLICY_TRIGGERS" value="{{TRIGGER.ID}}">
+                            {{TRIGGER.NAME}}
+                        </md-option>
+                    </md-select>
+                    <div class="hint" translate="SLA_TRIGGER_HINT"></div>
+                </md-input-container>
+                <md-input-container ng-if="POLICY.TRIGGER.RELATION_TYPE == 1" flex="50">
+                    <label translate="SLA_SELECT_CLIENT"></label>
+                    <md-select ng-model="POLICY.TRIGGER.RELATION">
+                        <md-option ng-repeat="CLIENT in ALL_CLIENTS" value="{{CLIENT.ID}}">
+                            {{CLIENT.NAME}} {{CLIENT.SURNAME}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container ng-if="POLICY.TRIGGER.RELATION_TYPE == 2" flex="50">
+                    <label translate="SLA_SELECT_USER"></label>
+                    <md-select ng-model="POLICY.TRIGGER.RELATION">
+                        <md-option ng-repeat="USER in ALL_USERS" value="{{RELATION.ID}}">
+                            {{USER.NAME}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div class="options-feature-header">
+                <div class="col-md-6 no-padding no-margin">
+                    <h5><strong translate="SLA_VIO_TITLE"></strong></h5>
+                </div>
+            </div>
+            <div ng-repeat="RULE in POLICY.VIOLATION_RULES">
+                <div class="options-feature-header">
+                    <div class="col-md-6 no-padding no-margin">
+                        <h5><strong ng-bind="RULE.NAME"></strong></h5>
+                        <span ng-bind="RULE.DESCRIPTION"></span></div>
+                    <div class="col-md-6 no-padding no-margin right-stable">
+                        <md-switch ng-model="RULE.WARN_ASSIGNED" aria-label="Warn Assigned"><span translate="SLA_VIO_WARN_ASSIGNED"></span></md-switch>
+                    </div>
+                </div>
+                <div layout="row">
+                    <md-input-container flex="30">
+                        <label translate="SLA_VIO_ESCALATE"></label>
+                        <md-select name="type" ng-model="RULE.ESCALATE" required>
+                            <md-option value="1"><span translate="SLA_VIO_ESCALATE_OPT_1"></span></md-option>
+                            <md-option value="2"><span translate="SLA_VIO_ESCALATE_OPT_2"></span></md-option>
+                            <md-option value="3"><span translate="SLA_VIO_ESCALATE_OPT_3"></span></md-option>
+                            <md-option value="4"><span translate="SLA_VIO_ESCALATE_OPT_4"></span></md-option>
+                            <md-option value="5"><span translate="SLA_VIO_ESCALATE_OPT_5"></span></md-option>
+                            <md-option value="6"><span translate="SLA_VIO_ESCALATE_OPT_6"></span></md-option>
+                            <md-option value="7"><span translate="SLA_VIO_ESCALATE_OPT_7"></span></md-option>
+                            <md-option value="8"><span translate="SLA_VIO_ESCALATE_OPT_8"></span></md-option>
+                            <md-option value="9"><span translate="SLA_VIO_ESCALATE_OPT_9"></span></md-option>
+                            <md-option value="10"><span translate="SLA_VIO_ESCALATE_OPT_10"></span></md-option>
+                            <md-option value="11"><span translate="SLA_VIO_ESCALATE_OPT_11"></span></md-option>
+                            <md-option value="12"><span translate="SLA_VIO_ESCALATE_OPT_12"></span></md-option>
+                            <md-option value="13"><span translate="SLA_VIO_ESCALATE_OPT_13"></span></md-option>
+                        </md-select>
+                        <div class="hint" translate="SLA_VIO_ESCALATE_OPTION_HINT"></div>
+                    </md-input-container>
+                    <md-input-container class="autocomplete" flex="70">
+                        <label translate="SLA_VIO_ESCALATE_NOTIFY_TITLE"></label>
+                        <md-contact-chips ng-model="RULE.INFORM" md-contacts="GET_STAFF(NAME)" md-contact-name="NAME" md-contact-email="EMAIL" md-require-match="true" md-highlight-flags="i" placeholder="{{'SLA_VIO_ESCALATE_NOTIFY_PLACEHOLDER'|translate}}" secondary-placeholder="{{'SLA_VIO_ESCALATE_NOTIFY_PLACEHOLDER_TWO'|translate}}"
+                            input-aria-label="Senders">
+                        </md-contact-chips>
+                        <div class="hint" translate="SLA_VIO_ESCALATE_NOTIFY_HINT"></div>
+                    </md-input-container>
+                </div>
+            </div>
+        </div>
+    </md-content>
+</md-content>

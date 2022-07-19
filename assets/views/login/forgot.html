@@ -1,0 +1,18 @@
+<div class="login-background">
+    <div class="text-center mt-20"><img width="200px" src="assets/img/app-logo.png" alt=""></div>
+    <form class="form-signin mt-50" name="form" ng-submit="FORGOT_PASSWORD()" role="form">
+        <div ng-show="!RETURN_SUCCESS_MESSAGE" class="form__group">
+            <input type="text" class="form__input" name="FORGOT_EMAIL" ng-model="FORGOT_EMAIL" placeholder="E-mail" required="" autofocus="" />
+        </div>
+        <div ng-show="!RETURN_SUCCESS_MESSAGE" class="form__group">
+            <button class="btn login-btn btn-lg btn-default btn-block" ng-disabled="form.$invalid || dataLoading" type="submit" translate="Send"></button>
+        </div>
+        <div ng-show="RETURN_SUCCESS_MESSAGE" class="form__group">
+            <img width="120px" src="assets/icons/token.svg" alt=""><br>
+            <small translate="FORGOT_TEXT"></small>
+        </div>
+        <hr>
+        <a href="#!/" translate="Go_Home"></a> -
+        <a href="#!/login" translate="BACK_LOGIN"></a>
+    </form>
+</div>

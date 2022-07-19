@@ -1,0 +1,144 @@
+<div ng-include src="'assets/views/includes/sidebar.html'"></div>
+<md-content class="app-wrapper">
+    <md-toolbar class="md-toolbar-tools standart-feature-header">
+        <h2 flex md-truncate translate="OPTIONS_GENERAL_TITLE"></h2>
+        <md-button ng-click="GO_PATH('options/')" class="md-icon-button action-icon-button" aria-label="Back">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/back.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Back"></span></md-tooltip>
+        </md-button>
+        <md-button ng-click="UPDATE_OPTIONS()" class="md-icon-button action-icon-button" aria-label="Update">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/update.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Update"></span></md-tooltip>
+        </md-button>
+    </md-toolbar>
+    <md-toolbar class="inline-toolbar">
+        <div class="md-toolbar-tools">
+            <h2 flex md-truncate translate="OPTIONS_GENERAL_DESC"></h2>
+            <md-input-container class="md-block pull-left mr-5">
+                <md-radio-group required ng-model="OPTIONS.HELPDESK_STATUS" layout="row" aria-label="Helpdesk Status">
+                    <span class="mr-5" translate="HELP_DESK_STATUS"></span>
+                    <md-radio-button value="true"><span translate="Online"></span></md-radio-button>
+                    <md-radio-button value="false"><span translate="Offline"></span></md-radio-button>
+                </md-radio-group>
+            </md-input-container>
+            <md-input-container class="md-block pull-right">
+                <md-switch ng-model="OPTIONS.VACATION_MODE" ng-change="UPDATE_OPTIONS()" aria-label="Switch 2" ng-true-value="true" ng-false-value="false">
+                    <span translate="VACATION_MODE"></span>
+                </md-switch>
+            </md-input-container>
+        </div>
+    </md-toolbar>
+    <md-content class="pl-20 bg-white pt-10" layout-padding>
+        <div class="col-md-12">
+            <div layout-gt-sm="row">
+                <div class="md-block col-md-3 pl-0 mb-0">
+                    <label class="label-tickotty" translate="Name"></label>
+                    <input class="tickotty-input" required ng-model="OPTIONS.APPLICATION_NAME">
+                </div>
+                <div class="md-block col-md-3 pl-0 mb-0">
+                    <label class="label-tickotty" translate="DESK_URL"></label>
+                    <input class="tickotty-input" required ng-model="OPTIONS.DESK_URL">
+                </div>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label translate="DEFAULT_DEPARTMENT"></label>
+                    <md-select ng-model="OPTIONS.DEFAULT_DEPARTMENT">
+                        <md-option ng-repeat="DEPARTMENT in DEPARTMENTS" value="{{DEPARTMENT.ID}}">
+                            {{DEPARTMENT.NAME}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label translate="MAX_PAGE_SIZE"></label>
+                    <md-select ng-model="OPTIONS.MAX_PAGE_SIZE">
+                        <md-option ng-repeat="n in [] | range:50" value="{{$index}}">
+                            {{$index}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="md-block hide" flex-gt-sm>
+                    <label>Ticket View Order</label>
+                    <md-select ng-model="user.state">
+                        <md-option ng-repeat="state in states" value="{{state.abbrev}}">
+                            {{state.abbrev}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="md-block hide" flex-gt-sm>
+                    <label>Auto Refresh Rate</label>
+                    <md-select ng-model="user.state">
+                        <md-option ng-repeat="state in states" value="{{state.abbrev}}">
+                            {{state.abbrev}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+        </div>
+    </md-content>
+    <md-toolbar class="inline-toolbar">
+        <div class="md-toolbar-tools">
+            <h2 flex md-truncate translate="DATE_TIME_OPTIONS_TITLE"></h2>
+        </div>
+    </md-toolbar>
+    <md-content class="pl-20 bg-white pt-0" layout-padding>
+        <div class="col-md-12">
+            <div layout-gt-sm="row" class="mt-10">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label translate="Language"></label>
+                    <md-select ng-model="OPTIONS.LANG">
+                        <md-option value="en_US">English</md-option>
+                        <md-option value="nl_NL">Nederlands</md-option>
+                        <md-option value="ru_RU">Russian</md-option>
+                        <md-option value="tr_TR">Turkish</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label translate="DEFAULT_LOCALE"></label>
+                    <md-select ng-model="OPTIONS.DEFAULT_LOCALE" ng-change="CHANGE_DEFAULT_LOCALE()">
+                        <md-option ng-repeat="LOCALE in LOCALES" ng-value="{{LOCALE.ID}}">
+                            {{LOCALE.GROUP}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label translate="DEFAULT_TIME_ZONE"></label>
+                    <md-select ng-model="OPTIONS.DEFAULT_TIME_ZONE">
+                        <md-option ng-repeat="ZONE in TIME_ZONES[0].ZONES" value="{{ZONE.VALUE}}">
+                            {{ZONE.NAME}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+        </div>
+    </md-content>
+    <md-toolbar class="inline-toolbar">
+        <div class="md-toolbar-tools">
+            <h2 flex md-truncate translate="INTERFACE_OPTIONS_TITLE"></h2>
+        </div>
+    </md-toolbar>
+    <md-content class="pl-20 pt-20 bg-white">
+        <div class="col-md-12 no-padding no-margin">
+            <div class="image-changer col-md-4">
+                <h4 for="Login" translate="APP_LOGO"></h4>
+                <span translate="APP_LOGO_DESC"></span>
+                <md-button ng-click="CHANGE_APP_LOGO()" class="action-icon-small-button" aria-label="Edit">
+                    <md-icon class="action-icon-small-button-icon" md-svg-icon="assets/icons/edit.svg"></md-icon>
+                    <md-tooltip md-direction="bottom"><span translate="Change"></span></md-tooltip>
+                </md-button>
+                <input id="ATTACHMENT_LOGO" type="file" nv-file-select="" uploader="uploader" multiple onchange="angular.element(this).scope().UPLOAD_APP_LOGO()" />
+                <hr>
+                <img height="40px" src="assets/img/app-logo.png" alt="">
+            </div>
+            <div class="image-changer col-md-4">
+                <h4 for="Login" translate="APP_ICON"></h4>
+                <span translate="APP_ICON_DESC"></span>
+                <md-button ng-click="CHANGE_APP_ICON()" class="action-icon-small-button" aria-label="Edit">
+                    <md-icon class="action-icon-small-button-icon" md-svg-icon="assets/icons/edit.svg"></md-icon>
+                    <md-tooltip md-direction="bottom"><span translate="Change"></span></md-tooltip>
+                </md-button>
+                <input id="ATTACHMENT_ICON" type="file" nv-file-select="" uploader="uploader" multiple onchange="angular.element(this).scope().UPLOAD_APP_ICON()" />
+                <hr>
+                <img height="40px" src="assets/img/logo.png" alt="">
+            </div>
+        </div>
+    </md-content>
+</md-content>

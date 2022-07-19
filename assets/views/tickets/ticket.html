@@ -1,0 +1,682 @@
+<div ng-include src="'assets/views/includes/sidebar.html'" ng-conroller="Master"></div>
+<md-content class="app-wrapper">
+    <div class="md-toolbar-tools standart-feature-header">
+        <h2 flex md-truncate> <span class="text-uppercase">#{{TICKET.TOKEN}}</span> - {{TICKET.SUBJECT}}</h2>
+        <md-button class="md-icon-button action-icon-button hide" ng-class="{'priority-low': TICKET.PRIORITY === '1','priority-medium': TICKET.PRIORITY === '2','priority-high': TICKET.PRIORITY === '3'}" aria-label="Back">
+            <md-icon class="action-icon-button-icon priority" md-svg-icon="assets/icons/priority.svg" role="img" aria-hidden="true"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Priority"></span></md-tooltip>
+        </md-button>
+        <md-button ng-click="GO_PATH('tickets')" class="md-icon-button action-icon-button" aria-label="Back">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/back.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Back"></span></md-tooltip>
+        </md-button>
+        <md-button ng-show="USER.ADMIN" ng-click="MERGE.SHOW = ! MERGE.SHOW" class="md-icon-button action-icon-button hide-xs" aria-label="Merge">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/merge.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Merge"></span></md-tooltip>
+        </md-button>
+        <md-button ng-show="USER.ADMIN" ng-click="REMOVE = ! REMOVE" class="md-icon-button action-icon-button" aria-label="More">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/remove.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Remove"></span></md-tooltip>
+        </md-button>
+        <md-button ng-show="USER.ADMIN" ng-click="SHOW_NOTE_AREA = ! SHOW_NOTE_AREA;SHOW_REPLY_AREA = false" class="md-icon-button action-icon-button" aria-label="Add Note">
+            <md-tooltip md-direction="bottom"><span translate="Add_Note"></span></md-tooltip>
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/add_note.svg" class="favorite-icon"></md-icon>
+        </md-button>
+        <input id="ATTACHMENT" type="file" nv-file-select="" uploader="uploader" multiple onchange="angular.element(this).scope().UPLOAD_TICKET_ATTACHMENT()" />
+    </div>
+    <md-content class="ticket-detail">
+        <div class="ticket-header hide-sm hide-xs">
+            <ul class="timeline" id="timeline">
+                <li class="li" ng-class="{'complete': TICKET.USER , 'not-complete': !TICKET.USER}">
+                    <div class="timestamp">
+                        <span class="author" ng-bind="TICKET.USER.NAME + ' ' + TICKET.USER.SURNAME"></span>
+                        <span class="date" ng-bind="TICKET.CREATED_DATE | date:'dd, MMMM yyyy HH:mm'"><span>
+                    </div>
+                    <div class="status"><h4 translate="Ticket_Created"></h4></div>
+                </li>
+                <li class="li" ng-class="{'complete': TICKET.SEEN_BY , 'not-complete': !TICKET.SEEN_BY}">
+                    <div class="timestamp">
+                        <span ng-if="TICKET.SEEN_BY" class="author" ng-bind="TICKET.SEEN_BY.NAME + ' ' + TICKET.SEEN_BY.SURNAME"></span>
+                        <span ng-if="TICKET.SEEN_BY" class="date" ng-bind="TICKET.SEEN_DATE | date:'dd, MMMM yyyy HH:mm'"><span></span>
+                    </div>
+                    <div class="status">
+                        <h4 translate="Seen"></h4>
+                    </div>
+                </li>
+                <li class="li" ng-class="{'complete': TICKET.ASSIGNED , 'not-complete': !TICKET.ASSIGNED}">
+                    <div class="timestamp">
+                        <span ng-if="TICKET.ASSIGNED" class="author" ng-bind="TICKET.ASSIGNED.NAME + ' ' + TICKET.ASSIGNED.SURNAME"></span>
+                        <span ng-if="TICKET.ASSIGNED" class="date" ng-bind="TICKET.ASSIGNED_DATE | date:'dd, MMMM yyyy HH:mm'"><span></span>
+                    </div>
+                    <div class="status">
+                        <h4 translate="Assigned"></h4>
+                    </div>
+                </li>
+                <li class="li" ng-class="{'complete': TICKET.CLOSER , 'not-complete': !TICKET.CLOSER}">
+                    <div class="timestamp">
+                        <span ng-if="TICKET.CLOSER" class="author" ng-bind="TICKET.CLOSER.NAME + ' ' + TICKET.CLOSER.SURNAME"></span>
+                        <span ng-if="TICKET.CLOSER" class="date" ng-bind="TICKET.CLOSED_DATE | date:'dd, MMMM yyyy HH:mm'"><span></span>
+                    </div>
+                    <div class="status">
+                        <h4 translate="Closed"></h4>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="ticket-body">
+            <div class="ticket-detail-aside col-md-12 col-lg-4 col-sm-12 pull-right">
+                <div class="col-md-12 ticket-detail-body-user">
+                    <div class="signature">
+                        <div class="icon"></div>
+                        <p class="title" translate="Created_by"></p>
+                        <p ng-click="GO_PATH('clients/client/' + TICKET.USER.TOKEN)" class="subtitle" ng-bind="TICKET.USER.NAME + ' ' + TICKET.USER.SURNAME"></p>
+                        <p class="email" ng-bind="TICKET.USER.EMAIL"></p>
+                        <div class="phone hide">
+                            <h6 translate="Phone"></h6>
+                            <span class="label text-uppercase label-ticket-user-phone" ng-bind="TICKET.USER.PHONE"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 ticket-detail-body-info bg-white">
+                    <div class="col-md-12 no-padding no-margin">
+                        <md-input-container flex-gt-sm class="col-md-6 col-sm-6 col-xs-6 pl-0">
+                            <label translate="Status"></label>
+                            <md-select ng-disabled="!USER.ADMIN && !USER.STAFF" name="type" ng-model="TICKET.STATUS" ng-change="CHANGE_TICKET_STATUS(TICKET.STATUS)">
+                                <md-option ng-repeat="STATUS in TICKET_STATUSES" ng-value="STATUS.ID">{{STATUS.NAME}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container flex-gt-sm class="col-md-6 col-sm-6 col-xs-6 pl-0 pr-0">
+                            <label translate="Priority"></label>
+                            <md-select ng-disabled="!USER.ADMIN && !USER.STAFF" name="type" ng-model="TICKET.PRIORITY" ng-change="CHANGE_TICKET_PRIORITY(TICKET.PRIORITY)">
+                                <md-option ng-repeat="PRIORITY in TICKET_PRIORITIES" ng-value="PRIORITY.ID">{{PRIORITY.NAME}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container flex-gt-sm class="col-md-6 col-sm-6 col-xs-6 pl-0">
+                            <label translate="Department"></label>
+                            <md-select ng-disabled="!USER.ADMIN && !USER.STAFF" name="type" ng-model="TICKET.DEPARTMENT_ID" ng-change="CHANGE_TICKET_DEPARTMENT(TICKET.DEPARTMENT_ID)">
+                                <md-option ng-repeat="DEPARTMENT in DEPARTMENTS" ng-value="DEPARTMENT.ID">{{DEPARTMENT.NAME}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container flex-gt-sm class="col-md-6 col-sm-6 col-xs-6 pl-0 pr-0">
+                            <label translate="Process"></label>
+                            <md-select ng-disabled="!USER.ADMIN && !USER.STAFF" name="type" ng-model="TICKET.PROCESS" ng-change="CHANGE_TICKET_PROCESS(TICKET.PROCESS)">
+                                <md-option ng-repeat="PROCESS in TICKET_PROCESS | filter: { DEPARTMENT_ID: TICKET.DEPARTMENT_ID }" ng-value="PROCESS.ID">{{PROCESS.NAME}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container flex-gt-sm class="col-md-6 col-sm-6 col-xs-6 pl-0">
+                            <label translate="SLA_Policy"></label>
+                            <md-select ng-disabled="!USER.ADMIN && !USER.STAFF" name="type" ng-model="TICKET.SLA_POLICY" ng-change="CHANGE_TICKET_SLA_POLICIY(TICKET.SLA_POLICY)">
+                                <md-option ng-repeat="POLICY in SLA_POLICIES" ng-value="POLICY.ID">{{POLICY.NAME}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container flex-gt-sm class="col-md-6 col-sm-6 col-xs-6 pl-0 pr-0">
+                            <label translate="Assigned"></label>
+                            <md-select ng-disabled="!USER.ADMIN && !USER.STAFF" name="type" ng-model="TICKET.ASSIGNED.ID" ng-change="ASSIGN_STAFF(TICKET.ASSIGNED.ID)">
+                                <md-option ng-repeat="STAFF in ALL_STAFF" ng-value="STAFF.ID">{{STAFF.NAME + ' ' + STAFF.SURNAME}}</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <div ng-if="TICKET.SLA" class="col-md-12 no-padding ticket-sla-policies">
+                        <div class="sla-respond col-md-6 no-padding">
+                            <md-icon md-svg-icon="assets/icons/sla-respond.svg" class="icon"></md-icon>
+                            <p class="title" translate="SLA_Respond"></p>
+                            <p class="date" ng-bind="TICKET.SLA.RESPOND_DUE | date:'dd, MM yyyy HH:mm'"></p>
+                        </div>
+                        <div class="sla-resolve col-md-6 no-padding">
+                            <md-icon md-svg-icon="assets/icons/sla-resolve.svg" class="icon"></md-icon>
+                            <p class="title" translate="SLA_Resolve"></p>
+                            <p class="date" ng-bind="TICKET.SLA.RESOLVE_DUE | date:'dd, MM yyyy HH:mm'"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 bg-white" ng-if="TICKET.CUSTOM_FIELDS.length">
+                    <div class="custom-fields-content-header">
+                        <h2 translate="Custom_Fields"></h2>
+                    </div>
+                    <div ng-repeat="FIELD in TICKET.CUSTOM_FIELDS" ng-if="CHECK_FIELD_CONDITION(FIELD,FIELD.CONDITION.ID)">
+                        <!-- INPUT -->
+                        <md-input-container class="md-block" ng-if="FIELD.TYPE === 'input'">
+                            <label class="text-bold">{{FIELD.NAME}}</label>
+                            <input ng-required="FIELD.REQUIRED" type="text" ng-model="FIELD.DATA" />
+                            <div class="hint mt-1 mb-3" ng-if="FIELD.DESCRIPTION" ng-bind="FIELD.DESCRIPTION"></div>
+                        </md-input-container>
+                        <!-- NUMBER -->
+                        <md-input-container class="md-block" ng-if="FIELD.TYPE === 'number'">
+                            <label class="text-bold">{{FIELD.NAME}}</label>
+                            <input ng-required="FIELD.REQUIRED" type="number" string-to-number ng-model="FIELD.DATA" />
+                            <div class="hint mt-1 mb-3" ng-if="FIELD.DESCRIPTION" ng-bind="FIELD.DESCRIPTION"></div>
+                        </md-input-container>
+                        <!-- DATE -->
+                        <md-input-container class="md-block" ng-if="FIELD.TYPE === 'date'">
+                            <label class="text-bold">{{FIELD.NAME}}</label>
+                            <input ng-required="FIELD.REQUIRED" type="date" ng-model="FIELD.DATA" />
+                            <div class="hint mt-1 mb-3" ng-if="FIELD.DESCRIPTION" ng-bind="FIELD.DESCRIPTION"></div>
+                        </md-input-container>
+                        <!-- SELECT -->
+                        <md-input-container class="md-block" ng-if="FIELD.TYPE === 'select'">
+                            <label class="text-bold">{{FIELD.NAME}}</label>
+                            <md-select placeholder="{{FIELD.NAME}}" ng-required="FIELD.REQUIRED" ng-model="FIELD.DATA.ID">
+                                <md-option ng-value="OPTION.ID" ng-repeat="OPTION in FIELD.SELECT_OPTIONS track by $index">{{OPTION.NAME}}
+                                </md-option>
+                            </md-select>
+                            <div class="hint mt-1" ng-if="FIELD.DESCRIPTION" ng-bind="FIELD.DESCRIPTION"></div>
+                        </md-input-container>
+                        <!-- TEXTAREA -->
+                        <md-input-container ng-if="FIELD.TYPE === 'textarea'">
+                            <label class="text-bold">{{FIELD.NAME}}</label>
+                            <textarea ng-required="FIELD.REQUIRED" ng-model="FIELD.DATA" rows="3" md-select-on-focus></textarea>
+                            <div class="hint mt-1 mb-3" ng-if="FIELD.DESCRIPTION" ng-bind="FIELD.DESCRIPTION"></div>
+                        </md-input-container>
+                        <!-- RADIO -->
+                        <md-input-container ng-if="FIELD.TYPE === 'radio'">
+                            <span>{{FIELD.NAME}}</span>
+                            <md-radio-group ng-required="FIELD.REQUIRED" ng-model="FIELD.SELECTED" layout="row">
+                                <md-radio-button ng-value="OPTION.ID" ng-repeat="OPTION in FIELD.SELECT_OPTIONS track by $index">
+                                    {{OPTION.NAME}}</md-radio-button>
+                            </md-radio-group>
+                            <div class="hint mt-1 mb-3" ng-if="FIELD.DESCRIPTION" ng-bind="FIELD.DESCRIPTION"></div>
+                        </md-input-container>
+                        <!-- UPLOAD -->
+                        <md-input-container ng-if="FIELD.TYPE === 'upload'">
+                            <label class="text-bold">{{FIELD.NAME}}</label>
+                            <input ng-required="FIELD.REQUIRED" type="file" ng-model="FIELD.[$index].DATA" />
+                            <div class="hint mt-1 mb-3" ng-if="FIELD.DESCRIPTION" ng-bind="FIELD.DESCRIPTION"></div>
+                        </md-input-container>
+                        <custom-fields fields="FIELD.NODES" parent="FIELD"></custom-fields>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 ticket-detail-left">
+                <div ng-show="MERGE.SHOW" class="merging-container container no-padding">
+                    <div class="merge-header col-md-12">
+                        <div class="title">
+                            <h5 translate="MERGE_TITLE"></h5>
+                            <span translate="MERGE_SEARCH"></span>
+                        </div>
+                        <div class="pull-right">
+                            <md-button ng-click="MERGE.SHOW = ! MERGE.SHOW" class="md-icon-button in-reply-btn action-icon-button" aria-label="Close">
+                                <md-tooltip md-direction="bottom"><span translate="MERGE_CLOSE"></span></md-tooltip>
+                                <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/close.svg" class="favorite-icon"></md-icon>
+                            </md-button>
+                        </div>
+                    </div>
+                    <div class="col-md-12 no-margin no-padding merge-body">
+                        <div class="search-ticket-for-merge col-md-4">
+                            <div class="md-block " class="md-icon-float md-icon-right md-block">
+                                <label class="label-tickotty" translate="MERGE_SEARCH_TITLE"></label>
+                                <input class="tickotty-input" ng-model="SEARCH_KEY" placeholder="{{'MERGE_SEARCH_PLACEHOLDER'|translate}}" ng-model-options="{ debounce: 1000 }" ng-change="SEARCH_TICKET_FOR_MERGE()">
+                                <i ng-show="!TICKET_FOUND || !SEARCH_KEY" class="input-button-right merge"></i>
+                                <i ng-if="TICKET_FOUND && SEARCH_KEY" class="input-button-right" ng-click="ADD_TO_MERGE()"></i>
+                                <div class="hint mt-1 mb-3" ng-if="!TICKET_FOUND && SEARCH_KEY"><span translate="MERGE_NOT_FOUND"></span></div>
+                            </div>
+                            <hr ng-show="TICKETS_TO_MERGE.length">
+                            <div ng-show="TICKETS_TO_MERGE.length" class="status-actions">
+                                <label class="label-tickotty" translate="MERGE_CHILD_STATUS"></label>
+                                <select ng-model="MERGE.CHILD_STATUS" class="mb-10">
+                                    <option ng-repeat="STATUS in TICKET_STATUSES" ng-value="STATUS.ID">{{STATUS.NAME}}</option>
+                                </select>
+                                <label class="label-tickotty" translate="MERGE_PARENT_STATUS"></label>
+                                <select ng-model="MERGE.PARENT_STATUS" placeholder="{{'MERGE_PARENT_STATUS'|translate}}">
+                                    <option value="">- Select -</option>
+                                    <option ng-repeat="STATUS in TICKET_STATUSES" ng-value="STATUS.ID">{{STATUS.NAME}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="merging-action col-md-8">
+                            <label ng-show="TICKETS_TO_MERGE.length" class="label-tickotty"><span translate="MERGE_TICKETS_TO_MERGE_TITLE"></span></label>
+                            <ul class="tickets-to-merge">
+                                <li ng-repeat="TICKET_TO_MERGE in TICKETS_TO_MERGE" ng-click="SELECT_PARENT_TICKET(TICKET_TO_MERGE.TOKEN)" ng-class="{'parent-ticket': PARENT_TICKET_TOKEN === TICKET_TO_MERGE.TOKEN}">
+                                    <span class="text-uppercase token"> #{{TICKET_TO_MERGE.TOKEN}}</span>
+                                    <span class="client"> {{TICKET_TO_MERGE.USER.NAME}} {{TICKET_TO_MERGE.USER.SURNAME}}</span>
+                                    <ion-icon ng-click="REMOVE_FROM_MERGE_LIST($index)" class="pull-right remove" name="remove-circle-outline"></ion-icon>
+                                </li>
+                                <hr ng-show="TICKETS_TO_MERGE.length">
+                                <h5 class="text-bold text-danger" translate="MERGE_TICKETS_TO_MERGE_NOTICE_TITLE"></h5>
+                                <p ng-if="TICKETS_TO_MERGE.length"><span translate="MERGE_TICKETS_TO_MERGE_DESC"></span></p>
+                                <p ng-if="!TICKETS_TO_MERGE.length"><span translate="MERGE_TICKETS_TO_MERGE_DESC_TWO"></span></p>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="merging-footer col-md-12 no-padding">
+                        <md-switch class="pull-left ml-20 mt-10" ng-model="MERGE.MERGE_THREADS" aria-label="Delete Child Tickets"><span translate="MERGE_MERGE_THREADS"></span></md-switch>
+                        <button ng-show="PARENT_TICKET_TOKEN && TICKETS_TO_MERGE.length > 1" ng-click="START_MERGING()" class="btn btn-success pull-right btn-ticket-comment-draft"><span translate="Merge"></span></button>
+                    </div>
+                </div>
+                <div class="panel-ticket-message">
+                    <div class="ticket-detail-header">
+                        <div class="ticket-detail-header-requester">
+                            <img width="80px" class="img-circle asigned-staff-picture" ng-src="https://avatar.oxro.io/avatar.svg?name={{TICKET.USER.NAME}}+{{TICKET.USER.SURNAME | lowercase}}&background=d0d0d0&caps=3&bold=true" alt="User Avatar" />
+                            <div class="requester-name">
+                                <h3 ng-bind="TICKET.USER.NAME + ' ' + TICKET.USER.SURNAME"></h3>
+                                <h5><span ng-bind="TICKET.USER.EMAIL"></span></h5>
+                            </div>
+                        </div>
+                        <div ng-show="USER.ADMIN || USER.STAFF" class="no-margin no-padding">
+                            <md-button ng-click="MARK_TICKET_AS_SPAM()" ng-if="!TICKET.SPAM" ng-show="USER.ADMIN || USER.STAFF && !TICKET.SPAM" class="md-icon-button pull-right in-reply-btn action-icon-button" aria-label="Spam">
+                                <md-tooltip md-direction="bottom"><span translate="MARK_SPAM"></span></md-tooltip>
+                                <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/spam.svg" class="favorite-icon"></md-icon>
+                            </md-button>
+                            <md-button ng-click="MARK_TICKET_AS_NOT_SPAM()" ng-if="TICKET.SPAM" ng-show="USER.ADMIN || USER.STAFF" class="md-icon-button pull-right in-reply-btn action-icon-button" aria-label="Not Spam">
+                                <md-icon class="action-icon-button-icon spam" md-svg-icon="assets/icons/spam-flag.svg"></md-icon>
+                                <md-tooltip md-direction="left"><span translate="SPAM_TICKET_DESC"></span></md-tooltip>
+                            </md-button>
+                            <md-button ng-show="SHOW_RESPOND_DUE || SHOW_RESOLVE_DUE" ng-show="USER.ADMIN || USER.STAFF" ng-mouseenter="SLA_BREACHES = ! SLA_BREACHES" ng-mouseleave="SLA_BREACHES = ! SLA_BREACHES" class="md-icon-button pull-right in-reply-btn action-icon-button"
+                                aria-label="SLA">
+                                <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/reply-in.svg" class="favorite-icon"></md-icon>
+                            </md-button>
+                            <div ng-if="SLA_BREACHES" class="sla-breaches">
+                                <div ng-show="SHOW_RESPOND_DUE" class="sla-breaches-countdown">
+                                    <div class="label text-muted" translate="REPLY_IN"></div>
+                                    <span ng-if="RESPOND_DUE_TIMER.DAYS> 0" class="text-bold">{{ RESPOND_DUE_TIMER.DAYS }}</span>
+                                    <div ng-if="RESPOND_DUE_TIMER.DAYS > 0" class="label text-muted">day</div>
+                                    <span class="text-bold">{{ RESPOND_DUE_TIMER.HOURS }}:</span>
+                                    <span class="text-bold">{{ RESPOND_DUE_TIMER.MINUTES }}:</span>
+                                    <span class="text-bold">{{ RESPOND_DUE_TIMER.SECONDS }}</span>
+                                </div>
+                                <div ng-show="SHOW_RESOLVE_DUE" class="sla-breaches-countdown">
+                                    <div class="label text-muted" translate="RESOLVE_IN"></div>
+                                    <span ng-if="RESOLVE_DUE_TIMER.DAYS> 0">{{ RESOLVE_DUE_TIMER.DAYS }}</span>
+                                    <div ng-if="RESOLVE_DUE_TIMER.DAYS > 0" class="label text-muted">day</div>
+                                    <span class="text-bold">{{ RESOLVE_DUE_TIMER.HOURS }}:</span>
+                                    <span class="text-bold">{{ RESOLVE_DUE_TIMER.MINUTES }}:</span>
+                                    <span class="text-bold">{{ RESOLVE_DUE_TIMER.SECONDS }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <md-content class="child-ticket-inline" ng-if="TICKET.PARENT">
+                        This ticket <strong>child</strong> of <a ng-href="#!/tickets/ticket/{{TICKET.PARENT.TOKEN}}" class="notification-target-link">#{{TICKET.PARENT.TOKEN}}</a>
+                    </md-content>
+                    <md-content class="parent-ticket-inline" ng-if="TICKET.CHILD_TICKETS.length">
+                        <div compile="'PARENT_TICKET_WARN'|translate"></div>
+                    </md-content>
+                    <div class="ticket-detail-body">
+                        <div ng-cloak>
+                            <md-content>
+                                <md-tabs md-dynamic-height md-border-bottom>
+                                    <md-tab label="{{'DETAIL'|translate}}">
+                                        <md-content class="p-20">
+                                            <p class="ticket-detail-text" ng-bind="TICKET.DETAIL"></p>
+                                            <div ng-if="TICKET.ATTACHMENTS.length> 0" class="attachment-container">
+                                                <div class="attachment-file-container" ng-repeat="ATTACHMENT in TICKET.ATTACHMENTS">
+                                                    <div class="attachment-file-container-wrapper">
+                                                        <div class="feather-file-text">
+                                                            <img ng-src="assets/icons/attachment.svg" alt="">
+                                                        </div>
+                                                        <div class="attachment-file-container-detail hide">
+                                                            <div class="attachment-file-container-name" ng-bind="ATTACHMENT.FILE_NAME"></div>
+                                                            <div class="attachment-file-container-date" ng-bind="ATTACHMENT.FILE_SIZE | Filesize"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="attachment-file-container-icons">
+                                                        <md-button ng-click="DOWNLOAD_FILE(ATTACHMENT)" class="md-icon-button attachment-action-btn " aria-label="Download">
+                                                            <md-tooltip md-direction="left"><span translate="Download"></span></md-tooltip>
+                                                            <md-icon md-svg-icon="assets/icons/export.svg" class="favorite-icon"></md-icon>
+                                                        </md-button>
+                                                        <md-button ng-click="REMOVE_FILE(ATTACHMENT)" class="md-icon-button attachment-action-btn " aria-label="Remove">
+                                                            <md-tooltip md-direction="left"><span translate="Remove"></span></md-tooltip>
+                                                            <md-icon md-svg-icon="assets/icons/remove.svg" class="favorite-icon"></md-icon>
+                                                        </md-button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </md-content>
+                                    </md-tab>
+                                    <md-tab label="{{'RELATED_TICKETS'|translate}} ({{TICKET.CHILD_TICKETS.length}})">
+                                        <md-content>
+                                            <table class="tickotty-table-item-container" ng-hide="!TICKET.CHILD_TICKETS.length">
+                                                <tbody>
+                                                    <tr class="table-header">
+                                                        <th class="pl-25" ng-click="FILTER.ORDER_BY_CLIENT = ! FILTER.ORDER_BY_CLIENT">
+                                                            <span translate="Client"></span>
+                                                            <ion-icon ng-if="FILTER.ORDER_BY_CLIENT" class="pull-right pr-20" name="arrow-down-outline"></ion-icon>
+                                                            <ion-icon ng-if="!FILTER.ORDER_BY_CLIENT" class="pull-right pr-20" name="arrow-up-outline"></ion-icon>
+                                                        </th>
+                                                        <th class="pl-20" ng-click="FILTER.ORDER_BY_DATE = ! FILTER.ORDER_BY_DATE">
+                                                            <span translate="DATE"></span>
+                                                            <ion-icon ng-if="FILTER.ORDER_BY_DATE" class="pull-right pr-20" name="arrow-down-outline"></ion-icon>
+                                                            <ion-icon ng-if="!FILTER.ORDER_BY_DATE" class="pull-right pr-20" name="arrow-up-outline"></ion-icon>
+                                                        </th>
+                                                        <th ng-click="FILTER.ORDER_BY_STATUS = ! FILTER.ORDER_BY_STATUS">
+                                                            <span translate="STATUS"></span>
+                                                            <ion-icon ng-if="FILTER.ORDER_BY_STATUS" class="pull-right pr-20" name="arrow-down-outline"></ion-icon>
+                                                            <ion-icon ng-if="!FILTER.ORDER_BY_STATUS" class="pull-right pr-20" name="arrow-up-outline"></ion-icon>
+                                                        </th>
+                                                    </tr>
+                                                    <tr class="tickotty-table-item " ng-repeat="TICKET in TICKET.CHILD_TICKETS" ng-click="GO_PATH('tickets/ticket/' + TICKET.TOKEN)">
+                                                        <td>
+                                                            <div ng-click="SELECT_APPLICATION(TICKET)" class="tickotty-ticket-owner">
+                                                                <div class="name">{{TICKET.USER.NAME}} {{TICKET.USER.SURNAME}}</div>
+                                                                <div class="other">
+                                                                    <span class="identity">{{TICKET.SUBJECT}} </span>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div ng-click="SELECT_APPLICATION(TICKET)" class="tickotty-ticket-info">
+                                                                <div class="date col-md-5">
+                                                                    <span class="title" translate="Created"></span>
+                                                                    <span class="date" ng-bind="TICKET.CREATED_DATE | date:'dd, MMMM yyyy HH:mm'"></span>
+                                                                </div>
+                                                                <div class="indicator col-md-1">
+                                                                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                                                                </div>
+                                                                <div class="category col-md-6">
+                                                                    <span class="title" translate="Department"></span>
+                                                                    <span class="category">{{TICKET.DEPARTMENT.NAME}}</span>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div ng-click="SELECT_APPLICATION(TICKET)" class="tickotty-ticket-status">
+                                                                <div class="status">
+                                                                    <div ng-if="TICKET.STATUS === '1'" class="waiting" translate="OPENED"></div>
+                                                                    <div ng-if="TICKET.STATUS === '2'" class="confirmed" translate="ASSIGNED"></div>
+                                                                    <div ng-if="TICKET.STATUS === '3'" class="confirmed" translate="REPLIED"></div>
+                                                                    <div ng-if="TICKET.STATUS === '4'" class="solved" translate="CLOSED"></div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </md-content>
+                                    </md-tab>
+                                </md-tabs>
+                            </md-content>
+                        </div>
+                    </div>
+                    <div class="ticket-detail-footer">
+                        <span class="created-date" ng-bind="TICKET.CREATED_DATE | relativeDate"></span>
+                        <md-button ng-show="USER.ADMIN || USER.STAFF" ng-click="SHOW_REPLY_AREA = ! SHOW_REPLY_AREA;SHOW_NOTE_AREA = false" class="md-icon-button pull-right in-reply-btn action-icon-button" aria-label="Reply">
+                            <md-tooltip md-direction="bottom"><span translate="Reply"></span></md-tooltip>
+                            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/reply.svg" class="favorite-icon"></md-icon>
+                        </md-button>
+                    </div>
+                    <div ng-show="SHOW_REPLY_AREA" class="panel-ticket-message-comment">
+                        <div class="panel-body">
+                            <div class="panel-ticket-message-textarea">
+                                <ng-quill-editor format="text" ng-model="MESSAGE.CONTENT"></ng-quill-editor>
+                            </div>
+                        </div>
+                        <div class="panel-footer panel-ticket-message-comment-footer">
+                            <div ng-if="UPLOADED_ATTACHMENT" class="attachment-container footer-attach">
+                                <div class="attachment-file-container" ng-repeat="ATTACHMENT in TMP_UPLOADS">
+                                    <div class="attachment-file-container-wrapper">
+                                        <div class="feather-file-text">
+                                            <img ng-src="assets/icons/attachment.svg" alt="">
+                                        </div>
+                                        <div class="attachment-file-container-detail hide">
+                                            <div class="attachment-file-container-name" ng-bind="ATTACHMENT.FILE_NAME"></div>
+                                            <div class="attachment-file-container-date" ng-bind="ATTACHMENT.FILE_SIZE | Filesize"></div>
+                                        </div>
+                                    </div>
+                                    <div class="attachment-file-container-icons">
+                                        <md-button ng-click="DOWNLOAD_FILE(ATTACHMENT)" class="md-icon-button attachment-action-btn " aria-label="Download">
+                                            <md-tooltip md-direction="left"><span translate="Download"></span></md-tooltip>
+                                            <md-icon md-svg-icon="assets/icons/export.svg" class="favorite-icon"></md-icon>
+                                        </md-button>
+                                        <md-button ng-click="REMOVE_FILE(ATTACHMENT)" class="md-icon-button attachment-action-btn " aria-label="Remove">
+                                            <md-tooltip md-direction="left"><span translate="Remove"></span></md-tooltip>
+                                            <md-icon md-svg-icon="assets/icons/remove.svg" class="favorite-icon"></md-icon>
+                                        </md-button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn-group dropup" uib-dropdown>
+                                <button type="submit" ng-click="ADD_MESSAGE()" id="split-button" type="button" class="btn btn-succes btn-ticket-comment"><span translate="Reply"></span></button>
+                                <button ng-if="USER.IS_ADMIN" type="button" class="btn btn-succes btn-ticket-comment-arrow" uib-dropdown-toggle><ion-icon name="ellipsis-vertical"></ion-icon></button>
+                                <div ng-show="CANNED_RESPONSE.AREA" class="tickotty-case-predefined-replies">
+                                    <div class="row">
+                                        <div class="col-xs-8">
+                                            <h2 class="font-medium m-t-0 text-bold mt-0" translate="Responses"></h2>
+                                            <h5 class="text-muted m-t-0" translate="CANNED_RESPONSES"></h5>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div ng-click="CANNED_RESPONSE.AREA = ! CANNED_RESPONSE.AREA" class="circle-md pull-right circle bg-success">
+                                                <ion-icon name="close-outline"></ion-icon>
+                                            </div>
+                                            <div ng-click="CANNED_RESPONSE.NEW = ! CANNED_RESPONSE.NEW; CANNED_RESPONSE.AREA = false" class="circle-md pull-right circle bg-success">
+                                                <ion-icon name="add-outline"></ion-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="pre-replies-center p-t-10">
+                                        <div class="reply-area" ng-repeat="REPLY_M in CANNED_RESPONSES | orderBy: '-ID'" ng-click='ADD_PREDEFINED_MESSAGE_TO(REPLY_M); CANNED_RESPONSE = ! CANNED_RESPONSE'>
+                                            <div class="reply-contnet">
+                                                <span class="pre-define-message-title text-bold" ng-bind="REPLY_M.NAME"></span>
+                                                <br/><span class="reply-desc" ng-bind-html="REPLY_M.MESSAGE | limitTo:100"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-show="CANNED_RESPONSE.NEW" class="tickotty-case-predefined-replies-new">
+                                    <div class="row">
+                                        <div class="col-xs-8">
+                                            <h2 class="font-medium m-t-0 text-bold mt-0" translate="NEW_RESPONSE_TITLE"></h2>
+                                            <h5 class="text-muted m-t-0" translate="CANNED_RESPONSES"></h5>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div ng-click="CANNED_RESPONSE.NEW = ! CANNED_RESPONSE.NEW; CANNED_RESPONSE.AREA = true" class="circle-md pull-right circle bg-success">
+                                                <ion-icon name="close-outline"></ion-icon>
+                                            </div>
+                                            <div ng-click="CREATE_CANNED_RESPONSE();CANNED_RESPONSE.NEW = ! CANNED_RESPONSE.NEW; CANNED_RESPONSE.AREA = true" class="circle-md pull-right circle bg-success">
+                                                <ion-icon name="checkmark-outline"></ion-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="pre-replies p-t-10">
+                                        <div class="md-block col-md-12 no-margin no-padding">
+                                            <label class="label-tickotty" translate="Title"></label>
+                                            <input type="text" class="type-new-ticket-title" required ng-model="CANNED_NAME" placeholder="Type response title!" />
+                                        </div>
+                                        <div class="md-block col-md-12 mt-10 no-padding">
+                                            <label class="label-tickotty" translate="Response"></label>
+                                            <ng-quill-editor format="text" ng-model="CANNED_MESSAGE"></ng-quill-editor>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                                    <li class="divider"></li>
+                                    <li ng-click="CANNED_RESPONSE.AREA = ! CANNED_RESPONSE.AREA" role="menuitem">
+                                        <a class="text-bold" translate="CANNED_RESPONSES"></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <button ng-click="SHOW_REPLY_AREA = ! SHOW_REPLY_AREA" class="btn btn-success pull-right btn-ticket-comment-draft"><span translate="Cancel"></span></button>
+                            <button ng-click="SELECT_ATTACHMENT()" type="button" class="btn btn-default pull-right btn-ticket-comment-attachment"><ion-icon name="attach"></ion-icon></button>
+                        </div>
+                    </div>
+                    <div ng-show="SHOW_NOTE_AREA" class="panel-ticket-message-comment">
+                        <div class="panel-body">
+                            <div class="panel-ticket-message-textarea">
+                                <ng-quill-editor format="text" ng-model="NOTE"></ng-quill-editor>
+                            </div>
+                        </div>
+                        <div class="panel-footer panel-ticket-message-comment-footer">
+                            <div class="btn-group dropup" uib-dropdown>
+                                <button type="submit" ng-click="ADD_NOTE()" id="split-button" type="button" class="btn btn-succes btn-ticket-comment"><span translate="ADD_NOTE"></span></button>
+                            </div>
+                            <button ng-click="SHOW_NOTE_AREA = ! SHOW_NOTE_AREA" class="btn btn-success pull-right btn-ticket-comment-draft"><span translate="Cancel"></span></button>
+                            <button ng-click="SELECT_ATTACHMENT()" type="button" class="btn btn-default pull-right btn-ticket-comment-attachment"><ion-icon name="attach"></ion-icon></button>
+                            <md-switch class="pull-left ml-20" ng-model="NOTE_PERMISSION" aria-label="NOTE_PERMISSION"><span translate="Private"></span></md-switch>
+                        </div>
+                    </div>
+                </div>
+                <section ng-if="TICKET.REPLIES.length> 0" class="ticket-replies">
+                    <div ng-repeat="REPLY in TICKET.REPLIES | orderBy: '-DATE':true" class="ticket-reply" ng-class="{'ticket-reply-private-note': REPLY.PRIVATE == 'true'}">
+                        <div class="inner-wrap">
+                            <h3><img ng-src="https://avatar.oxro.io/avatar.svg?name={{REPLY.USER.NAME}}+{{REPLY.USER.SURNAME | lowercase}}&background=d0d0d0&caps=3&bold=true" alt="Sender">
+                                <span ng-bind="REPLY.USER.NAME + ' ' + REPLY.USER.SURNAME"></span>
+                            </h3>
+                            <div class="note-remove-badge" ng-if="REPLY.TYPE == 'CONVERSATION'" ng-show="USER.ADMIN" ng-click="REMOVE_REPLY(REPLY.ID)">
+                                <md-icon md-svg-icon="assets/icons/remove.svg" class="favorite-icon"></md-icon>
+                                <md-tooltip md-direction="left"><span translate="REMOVE_REPLY"></span></md-tooltip>
+                            </div>
+                            <div class="note-remove-badge" ng-if="REPLY.TYPE == 'NOTE'" ng-show="USER.ADMIN" ng-click="REMOVE_NOTE(REPLY.ID)">
+                                <md-icon md-svg-icon="assets/icons/remove.svg" class="favorite-icon"></md-icon>
+                                <md-tooltip md-direction="left"><span translate="REMOVE_REPLY"></span></md-tooltip>
+                            </div>
+                            <div class="note-remove-badge" ng-if="REPLY.TYPE == 'CONVERSATION'" ng-show="REPLY.USER.ID === USER.ID" ng-click="REMOVE_REPLY(REPLY.ID)">
+                                <md-icon md-svg-icon="assets/icons/remove.svg" class="favorite-icon"></md-icon>
+                                <md-tooltip md-direction="left"><span translate="REMOVE_REPLY"></span></md-tooltip>
+                            </div>
+                            <div class="note-private-badge" ng-if="REPLY.PRIVATE == 'true'">
+                                <md-icon md-svg-icon="assets/icons/private.svg" class="favorite-icon"></md-icon>
+                                <md-tooltip md-direction="left"><span translate="PRIVATE_NOTE_WARN"></span></md-tooltip>
+                            </div>
+                            <p ng-bind-html="REPLY.CONTENT"></p>
+                            <div ng-if="REPLY.ATTACHMENTS.length> 0" class="attachment-container">
+                                <div class="attachment-file-container" ng-repeat="ATTACHMENT in REPLY.ATTACHMENTS">
+                                    <div class="attachment-file-container-wrapper">
+                                        <div class="feather-file-text">
+                                            <img ng-src="assets/icons/attachment.svg" alt="">
+                                        </div>
+                                        <div class="attachment-file-container-detail hide">
+                                            <div class="attachment-file-container-name" ng-bind="ATTACHMENT.FILE_NAME"></div>
+                                            <div class="attachment-file-container-date" ng-bind="ATTACHMENT.FILE_SIZE | Filesize"></div>
+                                        </div>
+                                    </div>
+                                    <div class="attachment-file-container-icons">
+                                        <md-button ng-click="DOWNLOAD_FILE(ATTACHMENT)" class="md-icon-button attachment-action-btn " aria-label="Download">
+                                            <md-tooltip md-direction="left"><span translate="Download"></span></md-tooltip>
+                                            <md-icon md-svg-icon="assets/icons/export.svg" class="favorite-icon"></md-icon>
+                                        </md-button>
+                                        <md-button ng-click="REMOVE_FILE(ATTACHMENT)" class="md-icon-button attachment-action-btn " aria-label="Remove">
+                                            <md-tooltip md-direction="left"><span translate="Remove"></span></md-tooltip>
+                                            <md-icon md-svg-icon="assets/icons/remove.svg" class="favorite-icon"></md-icon>
+                                        </md-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bottom-bar">
+                            <p ng-bind="REPLY.DATE | date:'dd, MMMM yyyy HH:mm'"></p>
+                            <button ng-click="$parent.SHOW_REPLY_AREA = $index" class="btn reply-button"><span translate="Reply"></span></button>
+                        </div>
+                        <div ng-show="$parent.SHOW_REPLY_AREA === $index" class="panel-ticket-message-comment">
+                            <div class="panel-body">
+                                <div class="panel-ticket-message-textarea">
+                                    <ng-quill-editor format="text" ng-model="MESSAGE.CONTENT"></ng-quill-editor>
+                                </div>
+                            </div>
+                            <div class="panel-footer panel-ticket-message-comment-footer">
+                                <div ng-if="UPLOADED_ATTACHMENT" class="attachment-container footer-attach">
+                                    <div class="attachment-file-container" ng-repeat="ATTACHMENT in TMP_UPLOADS">
+                                        <div class="attachment-file-container-wrapper">
+                                            <div class="feather-file-text">
+                                                <img ng-src="assets/icons/attachment.svg" alt="">
+                                            </div>
+                                            <div class="attachment-file-container-detail hide">
+                                                <div class="attachment-file-container-name" ng-bind="ATTACHMENT.FILE_NAME"></div>
+                                                <div class="attachment-file-container-date" ng-bind="ATTACHMENT.FILE_SIZE | Filesize"></div>
+                                            </div>
+                                        </div>
+                                        <div class="attachment-file-container-icons">
+                                            <md-button ng-click="DOWNLOAD_FILE(ATTACHMENT)" class="md-icon-button attachment-action-btn " aria-label="Download">
+                                                <md-tooltip md-direction="left"><span translate="Download"></span></md-tooltip>
+                                                <md-icon md-svg-icon="assets/icons/export.svg" class="favorite-icon"></md-icon>
+                                            </md-button>
+                                            <md-button ng-click="REMOVE_FILE(ATTACHMENT)" class="md-icon-button attachment-action-btn " aria-label="Remove">
+                                                <md-tooltip md-direction="left"><span translate="Remove"></span></md-tooltip>
+                                                <md-icon md-svg-icon="assets/icons/remove.svg" class="favorite-icon"></md-icon>
+                                            </md-button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="btn-group dropup" uib-dropdown>
+                                    <button type="submit" ng-click="ADD_MESSAGE()" id="split-button" type="button" class="btn btn-succes btn-ticket-comment"><span translate="Reply"></span></button>
+                                    <button ng-if="USER.IS_ADMIN" type="button" class="btn btn-succes btn-ticket-comment-arrow" uib-dropdown-toggle><ion-icon name="ellipsis-vertical"></ion-icon></button>
+                                    <div ng-show="CANNED_RESPONSE.AREA" class="tickotty-case-predefined-replies">
+                                        <div class="row">
+                                            <div class="col-xs-8">
+                                                <h2 class="font-medium m-t-0 text-bold mt-0" translate="Responses"></h2>
+                                                <h5 class="text-muted m-t-0" translate="CANNED_RESPONSES"></h5>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <div ng-click="CANNED_RESPONSE.AREA = ! CANNED_RESPONSE.AREA" class="circle-md pull-right circle bg-success">
+                                                    <ion-icon name="close-outline"></ion-icon>
+                                                </div>
+                                                <div ng-click="CANNED_RESPONSE.NEW = ! CANNED_RESPONSE.NEW; CANNED_RESPONSE.AREA = false" class="circle-md pull-right circle bg-success">
+                                                    <ion-icon name="add-outline"></ion-icon>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pre-replies-center p-t-10">
+                                            <div class="reply-area" ng-repeat="REPLY_M in CANNED_RESPONSES | orderBy: '-ID'" ng-click='ADD_PREDEFINED_MESSAGE_TO(REPLY_M); CANNED_RESPONSE = ! CANNED_RESPONSE'>
+                                                <div class="reply-contnet">
+                                                    <span class="pre-define-message-title text-bold" ng-bind="REPLY_M.NAME"></span>
+                                                    <br/><span class="reply-desc" ng-bind-html="REPLY_M.MESSAGE | limitTo:100"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div ng-show="CANNED_RESPONSE.NEW" class="tickotty-case-predefined-replies-new">
+                                        <div class="row">
+                                            <div class="col-xs-8">
+                                                <h2 class="font-medium m-t-0 text-bold mt-0" translate="NEW_RESPONSE_TITLE"></h2>
+                                                <h5 class="text-muted m-t-0" translate="CANNED_RESPONSES"></h5>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <div ng-click="CANNED_RESPONSE.NEW = ! CANNED_RESPONSE.NEW; CANNED_RESPONSE.AREA = true" class="circle-md pull-right circle bg-success">
+                                                    <ion-icon name="close-outline"></ion-icon>
+                                                </div>
+                                                <div ng-click="CREATE_CANNED_RESPONSE();CANNED_RESPONSE.NEW = ! CANNED_RESPONSE.NEW; CANNED_RESPONSE.AREA = true" class="circle-md pull-right circle bg-success">
+                                                    <ion-icon name="checkmark-outline"></ion-icon>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="pre-replies p-t-10">
+                                            <div class="md-block col-md-12 no-margin no-padding">
+                                                <label class="label-tickotty" translate="Title"></label>
+                                                <input type="text" class="type-new-ticket-title" required ng-model="CANNED_NAME" placeholder="Type response title!" />
+                                            </div>
+                                            <div class="md-block col-md-12 mt-10 no-padding">
+                                                <label class="label-tickotty" translate="Response"></label>
+                                                <ng-quill-editor format="text" ng-model="CANNED_MESSAGE"></ng-quill-editor>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                                        <li class="divider"></li>
+                                        <li ng-click="CANNED_RESPONSE.AREA = ! CANNED_RESPONSE.AREA" role="menuitem">
+                                            <a class="text-bold" translate="CANNED_RESPONSES"></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <button ng-click="$parent.SHOW_REPLY_AREA = !$index" class="btn btn-success pull-right btn-ticket-comment-draft"><span translate="Cancel"></span></button>
+                                <button ng-click="SELECT_ATTACHMENT()" type="button" class="btn btn-default pull-right btn-ticket-comment-attachment"><ion-icon name="attach"></ion-icon></button>
+                            </div>
+                        </div>
+                </section>
+                <div class="steamline mt-0">
+                    <div class="sl-item" ng-repeat="LOG in TICKET.LOGS | limitTo:STR_LIMIT">
+                        <div class="sl-left"> <img ng-src="https://avatar.oxro.io/avatar.svg?name={{LOG.USER.NAME}}+{{LOG.USER.SURNAME | lowercase}}&background=d0d0d0&caps=3&bold=true" alt="user" class="rounded-circle"> </div>
+                        <div class="sl-right">
+                            <div><a href="javascript:void(0)" class="link text-uppercase">{{LOG.USER.NAME}}</a> <span class="sl-date" ng-bind="LOG.DATE | relativeDate"></span>
+                                <p compile="LOG.DETAIL"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="show-more-log" ng-if="TICKET.LOGS.length > 3" ng-click="SHOW_MORE_LOGS()"><ion-icon name="arrow-down-outline"></ion-icon></button>
+                </div>
+                </div>
+            </div>
+    </md-content>
+</md-content>
+<div ng-show="REMOVE" class="remove-item-container">
+    <div class="remove-item-card">
+        <h3 translate="REMOVE_WARN_TITLE"></h3>
+        <h6 translate="REMOVE_WARN_DESC"></h6>
+        <p translate="REMOVE_WARN_DETAIL"></p>
+        <div class="action">
+            <button class="do-it" ng-click="REMOVE_TICKET()"><span translate="YES"></span></button>
+            <button class="cancel-it" ng-click="REMOVE = ! REMOVE"><span translate="CANCEL"></span></button>
+        </div>
+    </div>
+</div>

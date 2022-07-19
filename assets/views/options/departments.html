@@ -1,0 +1,58 @@
+<div ng-include src="'assets/views/includes/sidebar.html'"></div>
+<md-content class="app-wrapper">
+    <md-toolbar class="md-toolbar-tools standart-feature-header">
+        <h2 flex md-truncate translate="OPTIONS_DEPARTMENTS_TITLE"></h2>
+        <md-button ng-click="GO_PATH('options/')" class="md-icon-button action-icon-button" aria-label="Back">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/back.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Back"></span></md-tooltip>
+        </md-button>
+        <md-button ng-click="NEW_DEPARTMENT()" class="md-icon-button action-icon-button" aria-label="Update">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/create.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="New"></span></md-tooltip>
+        </md-button>
+    </md-toolbar>
+    <md-toolbar class="inline-toolbar">
+        <div class="md-toolbar-tools">
+            <h2 flex md-truncate translate="OPTIONS_DEPARTMENTS_DESC"></h2>
+        </div>
+    </md-toolbar>
+    <md-content class="pl-20 mb-20 pr-20 bg-white row department-container" layout-padding>
+        <div class="col-md-4" ng-repeat="DEPARTMENT in DEPARTMENTS">
+            <div class="col-md-12 department-detail">
+                <div class="department-header">
+                    <div class="col-md-9 col-sm-9 col-xs-9  no-padding">
+                        <a class="department-title" href="#" editable-text="DEPARTMENT.NAME" onaftersave="RENAME_DEPARTMENT(DEPARTMENT.ID, DEPARTMENT.NAME)" onaftersave="RENAME_DEPARTMENT(DEPARTMENT.ID, DEPARTMENT.NAME)">
+                            {{ DEPARTMENT.NAME || 'empty' }}
+                          </a>
+                    </div>
+                    <div class="col-md-3 no-padding">
+                        <md-button ng-click="REMOVE = ! REMOVE" class="action-icon-small-button" aria-label="Remove">
+                            <md-icon class="action-icon-small-button-icon" md-svg-icon="assets/icons/remove.svg"></md-icon>
+                            <md-tooltip md-direction="bottom"><span translate="Remove"></span></md-tooltip>
+                        </md-button>
+                        <div ng-show="REMOVE" class="remove-item-container">
+                            <div class="remove-item-card">
+                                <h3 translate="REMOVE_WARN_TITLE"></h3>
+                                <h6 translate="REMOVE_WARN_DESC"></h6>
+                                <p translate="REMOVE_WARN_DETAIL"></p>
+                                <div class="action">
+                                    <button class="do-it" ng-click="REMOVE_DEPARTMENT($index)"><span translate="YES"></span></button>
+                                    <button class="cancel-it" ng-click="REMOVE = ! REMOVE"><span translate="CANCEL"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="department-footer">
+                    <h2 class="pull-right tickets-percent"><span ng-bind="DEPARTMENT.TOTAL_COUNTS * 100 / STATS.TOTAL_TICKET_COUNTS | number :1"></span>%</h2>
+                    <div class="col-md-12 no-padding mt-4 mb-4">
+                        <h5 class="mt-4"><span translate="TOTAL_TICKETS"></span> ( {{DEPARTMENT.TOTAL_COUNTS}} / {{STATS.TOTAL_TICKET_COUNTS}} )</h5>
+                        <div class="progress t-d-progress">
+                            <div class="progress-bar bg-success" role="progressbar" ng-style="{'width': DEPARTMENT.TOTAL_COUNTS * 100 / STATS.TOTAL_TICKET_COUNTS + '%'}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </md-content>
+</md-content>

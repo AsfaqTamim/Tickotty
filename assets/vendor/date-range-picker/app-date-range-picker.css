@@ -1,0 +1,155 @@
+﻿app-date-range-picker {
+    position: relative;
+}
+app-date-range-picker .selectbox .caret {
+    top: -2px;
+    position: relative;
+}
+app-date-range-picker .caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-top: 4px solid;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
+app-date-range-picker .selectbox {
+    background: #fff;
+    color: #333;
+    padding: 8px;
+    line-height: 18px;
+    border-radius: 4px;
+    border-width: 0 1px 4px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    display: inline-block;
+}
+.app-daterangepicker {
+    position: absolute;
+    left: auto;
+    right: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    font-size: 14px;
+    text-align: left;
+    background-color: #fff;
+    border-radius: 4px;
+    background-clip: padding-box;
+    margin-left: -1000px;
+    z-index: 1000;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    display: flex;
+    overflow: hidden;
+    box-shadow: -1px -1px 20px 11px #0000000d;
+}
+.app-daterangepicker .calendar {
+    max-width: 270px;
+}
+.app-daterangepicker .calendar, .app-daterangepicker .ranges {
+    float: left;
+}
+.app-daterangepicker .ranges {
+    font-size: 11px;
+    margin: 10px;
+    text-align: left;
+}
+.app-daterangepicker .ranges ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 160px;
+}
+.app-daterangepicker .ranges li {
+    font-size: 12px;
+    background: #ffffff;
+    border: 1px solid #337ab7;
+    color: #000000;
+    padding: 5px 10px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+.app-daterangepicker .ranges li.active, .app-daterangepicker .ranges li:hover {
+    background: linear-gradient(to bottom, #1a95ff 0%, #1f87ea 100%);
+    border: 1px solid #1e88ec;
+    color: #fff;
+}
+.app-daterangepicker table {
+    width: 100%;
+    margin: 0;
+}
+.app-daterangepicker .calendar-table {
+    border: 1px solid #f5f5f5;
+}
+.app-daterangepicker .calendar td, .app-daterangepicker .calendar th {
+    white-space: nowrap;
+    text-align: center;
+    cursor: pointer;
+    padding: 4px;
+    font-size: 13px;
+    color: #4e4e4e;
+}
+.app-daterangepicker td.in-range {
+    background: #ebf4f8;
+    border-radius: 0;
+}
+.app-daterangepicker td.active, .app-daterangepicker td.active:hover {
+    background-color: #216ab4;
+    border-color: #216ab4;
+    color: #fff;
+}
+.app-daterangepicker td.start-date {
+    border-radius: 4px 0 0 4px;
+}
+.app-daterangepicker td.end-date {
+    border-radius: 0 4px 4px 0;
+}
+.app-daterangepicker td.off, .app-daterangepicker td.off.end-date, .app-daterangepicker td.off.in-range, .app-daterangepicker td.off.start-date {
+    color: #999;
+    background: #fff;
+    overflow: hidden;
+}
+.app-daterangepicker .input {
+    position: relative;
+}
+.app-daterangepicker .input-mini {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #555;
+    display: block;
+    height: 38px;
+    line-height: 30px;
+    vertical-align: middle;
+    margin: 0 0 5px;
+    padding: 0 6px 0 28px;
+    width: 100%;
+}
+.app-daterangepicker .input i {
+    position: absolute;
+    left: 8px;
+    top: 8px;
+}
+.app-daterangepicker .input a {
+    position: absolute;
+    right: 30px;
+    top: 0px;
+    color: #cccccc;
+    text-decoration: none;
+}
+.app-daterangepicker td.available:hover, .app-daterangepicker th.available:hover {
+    background: #eee;
+}
+.app-daterangepicker td a, .app-daterangepicker th a {
+    color: black;
+    text-decoration: none;
+    display: block;
+}

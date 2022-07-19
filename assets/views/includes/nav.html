@@ -1,0 +1,24 @@
+<nav class="navbar container navbar-expand-sm navbar-home">
+    <!-- Brand/logo -->
+    <a class="home-navbar-brand" href="#">
+        <img class="logo" src="assets/img/app-logo.png" alt="logo">
+    </a>
+    <!-- Links -->
+    <ul class="navbar-nav tickotty-navbar-nav">
+        <li ng-if="!AUTH_CHECK" class="tickotty-nav-item">
+            <a href="#!login" class="tickotty-nav-link" href="#" translate="Login"></a>
+        </li>
+        <li ng-if="!AUTH_CHECK" class="tickotty-nav-item">
+            <a href="#!register" class="tickotty-nav-link" href="#" translate="Register"></a>
+        </li>
+        <li ng-if="AUTH_CHECK" class="tickotty-nav-item">
+            <a href="#!tickets/create" class="tickotty-nav-link" href="#" translate="Create_Ticket"></a>
+        </li>
+        <li ng-if="AUTH_CHECK" class="tickotty-nav-item">
+            <a href="#!dashboard" class="tickotty-nav-link" href="#" translate="Dashboard"></a>
+        </li>
+        <li ng-if="AUTH_CHECK" class="tickotty-nav-item">
+            <a href="#!dashboard" class="tickotty-nav-link" ng-click="LOGOUT()" translate="Sign_Out"></a>
+        </li>
+    </ul>
+</nav>

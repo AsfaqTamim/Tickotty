@@ -1,0 +1,56 @@
+<div ng-include src="'assets/views/includes/sidebar.html'"></div>
+<md-content class="app-wrapper">
+    <md-toolbar class="md-toolbar-tools standart-feature-header">
+        <h2 flex md-truncate translate="OPTIONS_EMAIL_TITLE"></h2>
+        <md-button ng-click="GO_PATH('options/')" class="md-icon-button action-icon-button" aria-label="Back">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/back.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Back"></span></md-tooltip>
+        </md-button>
+        <md-button ng-click="UPDATE_EMAIL_OPTIONS()" class="md-icon-button action-icon-button" aria-label="Update">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/update.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Update"></span></md-tooltip>
+        </md-button>
+    </md-toolbar>
+    <md-toolbar class="inline-toolbar">
+        <div class="md-toolbar-tools">
+            <h2 flex md-truncate translate="OPTIONS_EMAIL_DESC"></h2>
+        </div>
+    </md-toolbar>
+    <md-content>
+        <form name="Application_Options">
+            <md-content class="pl-10 pt-20">
+                <div class="col-md-6">
+                    <md-input-container class="md-block" flex-gt-xs>
+                        <label><span class="text-bold text-warning" translate="MAIL_ENCRYPTION"></span></label>
+                        <md-select ng-init="EMAIL_ENCRYPTIONS = [{VALUE: '0',NAME: 'NONE'},{VALUE: '1',NAME: 'SSL'}, {VALUE: '2',NAME: 'TLS'}];" placeholder="E-mail Encryption" ng-model="EMAIL_OPTIONS.EMAIL_ENCRYPTION">
+                            <md-option ng-value="EMAIL_ENCRYPTION.VALUE" ng-repeat="EMAIL_ENCRYPTION in EMAIL_ENCRYPTIONS"><span class="text-uppercase">{{EMAIL_ENCRYPTION.NAME}}</span></md-option>
+                        </md-select>
+                        <br>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label translate="SMTP_HOST"></label>
+                        <input required ng-model="EMAIL_OPTIONS.SMTP_HOST">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label translate="SMTP_PORT"></label>
+                        <input required ng-model="EMAIL_OPTIONS.SMTP_PORT">
+                    </md-input-container>
+                </div>
+                <div class="col-md-6">
+                    <md-input-container class="md-block">
+                        <label translate="SMTP_USERNAME"></label>
+                        <input required ng-model="EMAIL_OPTIONS.SMTP_USER">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label translate="SMTP_PASS"></label>
+                        <input required ng-model="EMAIL_OPTIONS.SMTP_PASS">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label translate="SENDER_EMAIL"></label>
+                        <input required ng-model="EMAIL_OPTIONS.NO_REPLY_EMAIL">
+                    </md-input-container>
+                </div>
+            </md-content>
+        </form>
+    </md-content>
+</md-content>

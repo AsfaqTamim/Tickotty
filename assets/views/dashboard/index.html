@@ -1,0 +1,171 @@
+<div ng-include src="'assets/views/includes/sidebar.html'"></div>
+<md-content class="app-wrapper">
+    <md-toolbar class="md-toolbar-tools standart-feature-header">
+        <h2 flex md-truncate translate="Dashboard"></h2>
+        <md-button ng-click="GO_PATH('#!')" class="md-icon-button action-icon-button" aria-label="Home Page">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/knowledge.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span>Go Home Page</span></md-tooltip>
+        </md-button>
+        <md-button ng-click="GO_PATH('tickets/create')" class="md-icon-button action-icon-button" aria-label="Update">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/create.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="NEW_TICKET"></span></md-tooltip>
+        </md-button>
+    </md-toolbar>
+    <div class="tickets-green-toolbar dashboard-up-title">
+        <div class="icon"><img src="assets/icons/bar-chart.svg" alt="Bar"></div>
+        <h3 translate="DASHBOARD_GRAPH_TITLE"></h3>
+        <p translate="DASHBOARD_GRAPH_DESC" class="lead"></p>
+    </div>
+    <div class="app_dashboard_chart" ng-controller="Chart">
+        <div class="axis y hide">
+            <div ng-repeat="LABEL in SOLVED_UNSOLVED_GRAHP" class="x-ticks">
+                <div ng-bind="LABEL.SOLVED"></div>
+                <div ng-bind="LABEL.TOTAL"></div>
+            </div>
+        </div>
+        <div class="axis x">
+            <div ng-repeat="LABEL in SOLVED_UNSOLVED_GRAHP" class="tick x">
+                <div class="cases-counter-bar-container">
+                    <div class="solved-cases-count-bar" ng-style="{'height': LABEL.SOLVED * 100 / LABEL.TOTAL + '%'}"></div>
+                    <div class="waiting-cases-count-bar" ng-style="{'height': LABEL.WAITING * 100 / LABEL.TOTAL + '%'}"></div>
+                </div>
+                <div class="value value--statement">
+                    <div class="value-revenue">
+                        <h5 translate="SOLVED"></h5>
+                        <span ng-bind="LABEL.SOLVED"></span>
+                    </div>
+                    <div class="value-expenses">
+                        <h5 translate="UNSOLVED"></h5>
+                        <span ng-bind="LABEL.WAITING"></span>
+                    </div>
+                </div>
+                <div ng-bind="LABEL.NAME"></div>
+            </div>
+        </div>
+    </div>
+    <div class="feature-no-margin-body home-stats-center">
+        <div class="tickotty-tickets-stats-summary clearfix col-md-3">
+            <div class="tickets-summary-details">
+                <div class="tickets-summary-info">
+                    <h4><strong translate="OPENED"></strong></h4>
+                    <small translate="OPENED_TICKET_DESC"></small>
+                </div>
+                <div class="tickets-summary-right-icon tickets-summary-open-icon"></div>
+            </div>
+            <hr />
+            <div class="tickets-summary-info-extra">
+                <div class="col-md-6 col-xs-6 col-sm-6">
+                    <div class="short-info-block-info">
+                        <h3 ng-bind="STATS.OPEN_TICKET_COUNTS"></h3>
+                        <span translate="TOTAL_TICKET_COUNT_BY_STATUS_DESC"></span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-6 col-sm-6">
+                    <div class="short-info-block-info">
+                        <h3>{{STATS.OPEN_TICKET_COUNTS * 100 / STATS.TOTAL_TICKET_COUNTS | number :1}}%</h3>
+                        <span translate="PERCENTAGE_OF_TOTAL_TICKET_COUNT_BY_STATUS_DESC"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tickotty-tickets-stats-summary clearfix col-md-3">
+            <div class="tickets-summary-details">
+                <div class="tickets-summary-info">
+                    <h4><strong translate="ASSIGNED"></strong></h4>
+                    <small translate="ASSIGNED_TICKET_DESC"></small>
+                </div>
+                <div class="tickets-summary-right-icon tickets-summary-in-progress-icon"></div>
+            </div>
+            <hr />
+            <div class="tickets-summary-info-extra">
+                <div class="col-md-6 col-xs-6 col-sm-6">
+                    <div class="short-info-block-info">
+                        <h3 ng-bind="STATS.IN_PROGRESS_TICKET_COUNTS"></h3>
+                        <span translate="TOTAL_TICKET_COUNT_BY_STATUS_DESC"></span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-6 col-sm-6">
+                    <div class="short-info-block-info">
+                        <h3>{{STATS.IN_PROGRESS_TICKET_COUNTS * 100 / STATS.TOTAL_TICKET_COUNTS | number :1}}%</h3>
+                        <span translate="PERCENTAGE_OF_TOTAL_TICKET_COUNT_BY_STATUS_DESC"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tickotty-tickets-stats-summary clearfix col-md-3">
+            <div class="tickets-summary-details">
+                <div class="tickets-summary-info">
+                    <h4><strong translate="REPLIED"></strong></h4>
+                    <small translate="REPLIED_TICKET_DESC"></small>
+                </div>
+                <div class="tickets-summary-right-icon tickets-summary-replied-icon"></div>
+            </div>
+            <hr />
+            <div class="tickets-summary-info-extra">
+                <div class="col-md-6 col-xs-6 col-sm-6">
+                    <div class="short-info-block-info">
+                        <h3 ng-bind="STATS.REPLIED_TICKET_COUNTS"></h3>
+                        <span translate="TOTAL_TICKET_COUNT_BY_STATUS_DESC"></span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-6 col-sm-6">
+                    <div class="short-info-block-info">
+                        <h3>{{STATS.REPLIED_TICKET_COUNTS * 100 / STATS.TOTAL_TICKET_COUNTS | number :1}}%</h3>
+                        <span translate="PERCENTAGE_OF_TOTAL_TICKET_COUNT_BY_STATUS_DESC"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tickotty-tickets-stats-summary clearfix col-md-3">
+            <div class="tickets-summary-details">
+                <div class="tickets-summary-info">
+                    <h4><strong translate="CLOSED"></strong></h4>
+                    <small translate="CLOSED_TICKET_DESC"></small>
+                </div>
+                <div class="tickets-summary-right-icon tickets-summary-solved-icon"></div>
+            </div>
+            <hr />
+            <div class="tickets-summary-info-extra">
+                <div class="col-md-6 col-xs-6 col-sm-6">
+                    <div class="short-info-block-info">
+                        <h3 ng-bind="STATS.CLOSED_TICKET_COUNTS"></h3>
+                        <span translate="TOTAL_TICKET_COUNT_BY_STATUS_DESC"></span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-6 col-sm-6">
+                    <div class="short-info-block-info">
+                        <h3>{{STATS.CLOSED_TICKET_COUNTS * 100 / STATS.TOTAL_TICKET_COUNTS | number :1}}%</h3>
+                        <span translate="PERCENTAGE_OF_TOTAL_TICKET_COUNT_BY_STATUS_DESC"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ticket-statements-container">
+        <div class="today-ticket-widget col-md-3">
+            <div class="text-uppercase text-tracked today-ticket-widget-title" translate="SOLVED_TODAY"></div>
+            <div class="revenue-today-number"><span ng-bind="STATS.CLOSED_TICKET_COUNTS"></span></div>
+            <div class="text-muted hide">
+                <span class="text-danger"><ion-icon name="arrow-down"></ion-icon>5%</span>
+            </div>
+        </div>
+        <div class="tickets-statements-panel col-md-9">
+            <h2 class="tickets-statements-title" translate="DASHBOARD_STATEMENT_TITLE"></h2>
+            <small class="tickets-statements-desc" translate="DASHBOARD_STATEMENT_DESC"></small>
+            <div class="tickets-statements">
+                <div role="group" class="tickets-statements-first" ng-style="{'width': STATS.CLOSED_TICKET_COUNTS * 100 / STATS.TOTAL_TICKET_COUNTS + '%'}">
+                    <span aria-hidden="true"><span class="label label-success" ng-bind="STATS.CLOSED_TICKET_COUNTS"></span>
+                    <strong>%{{STATS.CLOSED_TICKET_COUNTS * 100 / STATS.TOTAL_TICKET_COUNTS | number :1}}</strong></span>
+                    <div class="tickets-statements-bar"></div>
+                    <span class="text-capitalize" aria-hidden="true" translate="SOLVED"></span>
+                </div>
+                <div role="group" class="tickets-statements-second" ng-style="{'width': (STATS.OPEN_TICKET_COUNTS + STATS.IN_PROGRESS_TICKET_COUNTS + STATS.REPLIED_TICKET_COUNTS) * 100 / STATS.TOTAL_TICKET_COUNTS + '%'}">
+                    <span aria-hidden="true"><span class="label label-danger" ng-bind="(STATS.OPEN_TICKET_COUNTS + STATS.IN_PROGRESS_TICKET_COUNTS + STATS.REPLIED_TICKET_COUNTS)"></span>
+                    <strong>%{{(STATS.OPEN_TICKET_COUNTS + STATS.IN_PROGRESS_TICKET_COUNTS + STATS.REPLIED_TICKET_COUNTS) * 100 / STATS.TOTAL_TICKET_COUNTS | number :1}}</strong></span>
+                    <div class="tickets-statements-bar --exced"></div>
+                    <span class="text-capitalize" aria-hidden="true" translate="UNSOLVED"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</md-content>

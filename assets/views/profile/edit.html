@@ -1,0 +1,104 @@
+<div ng-include src="'assets/views/includes/sidebar.html'"></div>
+<md-content class="app-wrapper">
+    <div ng-show="REMOVE" class="remove-item-container">
+        <div class="remove-item-card">
+            <h3 translate="REMOVE_WARN_TITLE"></h3>
+            <h6 translate="REMOVE_WARN_DESC"></h6>
+            <p translate="REMOVE_WARN_DETAIL"></p>
+            <div class="action">
+                <button class="do-it" ng-click="REMOVE_USER()"><span translate="YES"></span></button>
+                <button class="cancel-it" ng-click="REMOVE = ! REMOVE"><span translate="CANCEL"></span></button>
+            </div>
+        </div>
+    </div>
+    <div class="md-toolbar-tools standart-feature-header">
+        <h2 flex md-truncate>Manage User</h2>
+        <md-button ng-click="GO_PATH('profile/')" class="md-icon-button action-icon-button" aria-label="Back">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/back.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Back"></span></md-tooltip>
+        </md-button>
+        <md-button ng-click="CHANGE_PASSWORD=! CHANGE_PASSWORD" class="md-icon-button action-icon-button" aria-label="More">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/password.svg"></md-icon>
+            <md-tooltip md-direction="bottom">Change password</md-tooltip>
+        </md-button>
+        <md-button ng-click="UPDATE_PROFILE()" class="md-icon-button action-icon-button" aria-label="Update">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/update.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Update"></span></md-tooltip>
+        </md-button>
+    </div>
+    <div class="col-md-12 no-margin no-padding">
+        <md-content class="md-padding pt-0 row">
+            <div class="container-x">
+                <div class="col-md-12 p-l-0 mb-10">
+                    <div class="staff-details-header">
+                        <h3 class="text-bold">User Details</h3>
+                        <p class="text-sm">Please fill out all your staff details</p>
+                    </div>
+                    <div class="md-block col-md-6 pl-0 mb-0">
+                        <label class="label-tickotty">Name</label>
+                        <input class="tickotty-input" required ng-model="STAFF.NAME">
+                    </div>
+                    <div class="md-block col-md-6 pl-0 pr-0 mb-0">
+                        <label class="label-tickotty">Surname</label>
+                        <input class="tickotty-input" required ng-model="STAFF.SURNAME">
+                    </div>
+                    <div class="md-block col-md-6 pl-0 mb-0">
+                        <label class="label-tickotty">Phone</label>
+                        <input class="tickotty-input" required ng-model="STAFF.PHONE">
+                    </div>
+                    <div class="md-block col-md-6 pl-0 pr-0 mb-0">
+                        <label class="label-tickotty">E-Mail</label>
+                        <input class="tickotty-input" required ng-model="STAFF.EMAIL">
+                    </div>
+                    <md-input-container ng-if="CHANGE_PASSWORD" class="md-block col-md-12 pl-0">
+                        <label>New Password</label>
+                        <input ng-model="STAFF.PASSWORD">
+                    </md-input-container>
+                    <div class="md-block col-md-12 pl-0 pr-0 mb-0">
+                        <label class="label-tickotty">Address</label>
+                        <input class="tickotty-input" required ng-model="STAFF.ADDRESS" rows="2"></input>
+                    </div>
+                    <md-input-container class="md-block col-md-6 pl-0 pr-0 hide">
+                        <label>Language</label>
+                        <md-select ng-model="STAFF.LANGUAGE">
+                            <md-option value="english">English</md-option>
+                            <md-option value="turkish">Turkish</md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div class="col-md-12">
+                    <div class="staff-details-header bt-1">
+                        <h3 class="text-bold">Staff Working Hours</h3>
+                        <p class="text-sm">You can define working hours and breaks from this screen.</p>
+                    </div>
+                    <div class="staff-working-hours-container">
+                        <md-content class="staff-working-hours-card" flex="13" ng-repeat="PLAN in STAFF.WORKING_HOURS" layout-padding>
+                            <md-checkbox ng-model="PLAN.STATUS"><span class="text-uppercase text-bold">{{ PLAN.DAY }}</span></md-checkbox>
+                            <fieldset>
+                                <md-input-container class="working-hours-input">
+                                    <label translate="Start"></label>
+                                    <input str-to-time="" ng-model="PLAN.START" type="time">
+                                </md-input-container>
+                                <md-input-container class="working-hours-input">
+                                    <label translate="End"></label>
+                                    <input str-to-time="" ng-model="PLAN.END" type="time">
+                                </md-input-container>
+                            </fieldset>
+                            <fieldset>
+                                <legend translate="Break_Time"></legend>
+                                <md-input-container class="working-hours-input">
+                                    <label translate="Start"></label>
+                                    <input str-to-time="" ng-model="PLAN.BREAKS.START" type="time">
+                                </md-input-container>
+                                <md-input-container class="working-hours-input">
+                                    <label translate="End"></label>
+                                    <input str-to-time="" ng-model="PLAN.BREAKS.END" type="time">
+                                </md-input-container>
+                            </fieldset>
+                        </md-content>
+                    </div>
+                </div>
+            </div>
+        </md-content>
+    </div>
+</md-content>

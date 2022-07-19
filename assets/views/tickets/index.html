@@ -1,0 +1,396 @@
+<div ng-include src="'assets/views/includes/sidebar.html'"></div>
+<md-content class="app-wrapper">
+    <div class="md-toolbar-tools standart-feature-header">
+        <h2 flex md-truncate translate="Tickets"></h2>
+        <input type="text" class="top-search hide-xs" placeholder="{{ 'Search_Placeholder' | translate }}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search something quickly'" ng-model-options="{ debounce: 1000 }" ng-model="FILTER.KEYWORD" ng-change="GET_FILTERED_DATA()"
+        />
+        <md-button ng-click="GO_PATH('tickets/create')" class="md-icon-button action-icon-button" aria-label="Update">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/create.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="NEW_TICKET"></span></md-tooltip>
+        </md-button>
+    </div>
+    <div class="tickotty-ticket-stats hide-xs">
+        <div class="col-md-12 tickotty-ticket-stats-container">
+            <div class="col-md-3 general">
+                <h5 class="title" translate="OPEN_TICKETS"></h5>
+                <span class="total ">{{STATS.OPEN_TICKET_COUNTS}}</span>
+                <div class="col-md-12 no-padding mt-4 mb-4">
+                    <h5 class="mt-4"><span class="text-bold text-muted" translate="OPEN"></span><span class="pull-right ">{{STATS.OPEN_TICKET_COUNTS}} / <span class="text-muted text-bold ">{{STATS.TOTAL_TICKET_COUNTS}}</span></span>
+                    </h5>
+                    <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" ng-style="{'width': STATS.OPEN_TICKET_COUNTS * 100 / STATS.TOTAL_TICKET_COUNTS + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 status-card">
+                <div class="card">
+                    <div class="card-body waiting">
+                        <span class="card-title text-uppercase pull-left text-muted font-light" translate="ASSIGNED"></span>
+                        <div class="text-right">
+                            <span class="text-muted font-light" translate="TOTAL"></span>
+                            <h2 class="mt-2 display-7 font-bold text-muted "><sup><ion-icon name="arrow-up-outline"></ion-icon></sup>{{STATS.IN_PROGRESS_TICKET_COUNTS}}</h2>
+                        </div>
+                        <h5 class="text-muted ">{{STATS.IN_PROGRESS_TICKET_COUNTS * 100 / STATS.TOTAL_TICKET_COUNTS | number:0}}%</h5>
+                        <div class="progress">
+                            <div class="progress-bar bg-success" role="progressbar" ng-style="{'width': STATS.IN_PROGRESS_TICKET_COUNTS * 100 / STATS.TOTAL_TICKET_COUNTS + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 status-card">
+                <div class="card">
+                    <div class="card-body confirmed">
+                        <span class="card-title text-uppercase pull-left text-muted font-light" translate="REPLIED"></span>
+                        <div class="text-right">
+                            <span class="text-muted font-light" translate="TOTAL"></span>
+                            <h2 class="mt-2 display-7 font-bold text-muted "><sup><ion-icon name="arrow-up-outline"></ion-icon></sup>{{STATS.REPLIED_TICKET_COUNTS}}</h2>
+                        </div>
+                        <h5 class="text-muted ">{{STATS.REPLIED_TICKET_COUNTS * 100 / STATS.TOTAL_TICKET_COUNTS | number:0}}%</h5>
+                        <div class="progress">
+                            <div class="progress-bar bg-success" role="progressbar" ng-style="{'width': STATS.REPLIED_TICKET_COUNTS * 100 / STATS.TOTAL_TICKET_COUNTS + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 status-card">
+                <div class="card">
+                    <div class="card-body refused">
+                        <span class="card-title text-uppercase pull-left text-muted font-light" translate="SOLVED"></span>
+                        <div class="text-right">
+                            <span class="text-muted font-light" translate="TOTAL"></span>
+                            <h2 class="mt-2 display-7 font-bold text-muted "><sup><ion-icon name="arrow-up-outline"></ion-icon></sup>{{STATS.CLOSED_TICKET_COUNTS}}</h2>
+                        </div>
+                        <h5 class="text-muted ">{{STATS.CLOSED_TICKET_COUNTS * 100 / STATS.TOTAL_TICKET_COUNTS | number:0}}%</h5>
+                        <div class="progress">
+                            <div class="progress-bar bg-success" role="progressbar" ng-style="{'width': STATS.CLOSED_TICKET_COUNTS * 100 / STATS.TOTAL_TICKET_COUNTS + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <md-content ng-show="SELECTED.length > 0" class="feature-filter-area">
+        <div class="feature-filter-body">
+            <div layout="row" layout-fill layout-margin layout-align="start center">
+                <md-input-container class="md-block" flex="40">
+                    <md-select name="type" ng-model="ASSIGNING_TO" ng-change="ASSIGN_STAFF_TO_SELECTED_TICKET(ASSIGNING_TO)" placeholder="Assign  Staff">
+                        <md-option ng-repeat="STAFF in ALL_STAFF" ng-value="STAFF.ID">{{STAFF.NAME + ' ' + STAFF.SURNAME}}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="md-block" flex="30">
+                    <md-select ng-model="SELECTED_STATUS_TO" ng-change="SET_STATUS_TO()" placeholder="Change Status">
+                        <md-option ng-value="STATUS.ID" ng-repeat="STATUS in TICKET_STATUSES">{{STATUS.NAME}}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="md-block" flex="30">
+                    <label></label>
+                    <md-select ng-model="SELECTED_PRIORITY_TO" ng-change="SET_PRIORITY_TO()" placeholder="Change Priority">
+                        <md-option ng-value="PRIORITY.ID" ng-repeat="PRIORITY in TICKET_PRIORITIES">{{PRIORITY.NAME}}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-menu md-position-mode="target-left target" class="batch-actions-button">
+                    <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdMenu.open($event)">
+                        <md-icon class="ml-5" md-menu-origin md-svg-icon="assets/icons/more.svg"></md-icon>
+                    </md-button>
+                    <md-menu-content width="4">
+                        <md-menu-item>
+                            <md-button ng-click="MERGE_SELECTED_TICKETS()" aria-label="Merge">
+                                <div layout="row" flex>
+                                    <p flex translate="Merge"></p>
+                                    <md-icon md-menu-align-target md-svg-icon="assets/icons/merge.svg"></md-icon>
+                                </div>
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-click="MARK_SELECTED_TICKETS_AS_SPAM_WARNING()" aria-label="Mark As Spam">
+                                <div layout="row" flex>
+                                    <p flex translate="MARK_SPAM"></p>
+                                    <md-icon md-menu-align-target md-svg-icon="assets/icons/spam-flag.svg"></md-icon>
+                                </div>
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-divider></md-menu-divider>
+                        <md-menu-item>
+                            <md-button ng-click="REMOVE_SELECTED_TICKETS_WARNING()" aria-label="Remove">
+                                <div layout="row" flex>
+                                    <p flex translate="Remove"></p>
+                                    <md-icon md-menu-align-target md-svg-icon="assets/icons/remove.svg"></md-icon>
+                                </div>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </div>
+        </div>
+    </md-content>
+    <md-content ng-show="SHOW_FILTERS" class="feature-filter-area">
+        <div class="feature-filter-body">
+            <div layout="row" layout-fill layout-margin layout-align="start center">
+                <md-input-container flex="20">
+                    <md-select ng-model="FILTER.STATUS" multiple ng-change="GET_FILTERED_DATA(0)" placeholder="{{'FILTER_BY_STATUS'|translate}}">
+                        <md-option ng-value="STATUS.ID" ng-repeat="STATUS in TICKET_STATUSES">{{STATUS.NAME}}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container flex="20">
+                    <label></label>
+                    <md-select ng-model="FILTER.PRIORITY" multiple ng-change="GET_FILTERED_DATA(0)" placeholder="{{'FILTER_BY_PRIORITY'|translate}}">
+                        <md-option ng-value="PRIORITY.ID" ng-repeat="PRIORITY in TICKET_PRIORITIES">{{PRIORITY.NAME}}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container flex="20">
+                    <label></label>
+                    <md-select ng-model="FILTER.DEPARTMENT" multiple ng-change="GET_FILTERED_DATA(0)" placeholder="{{'FILTER_BY_DEPARTMENT'|translate}}">
+                        <md-option ng-value="DEPARTMENT.ID" ng-repeat="DEPARTMENT in DEPARTMENTS">{{DEPARTMENT.NAME}}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container flex="20" class="hide">
+                    <md-select ng-model="FILTER.CATEGORY" multiple ng-change="GET_FILTERED_DATA(0)" placeholder="{{'FILTER_BY_CATEGORY'|translate}}">
+                        <md-option ng-value="CATEGORY.ID" ng-repeat="CATEGORY in CATEGORIES">{{CATEGORY.NAME}}</md-option>
+                    </md-select>
+                </md-input-container>
+                <div flex="20">
+                    <md-datepicker ng-model="FILTER.CREATED_DATE_START" ng-change="GET_FILTERED_DATA(0)" md-placeholder="{{'FILTER_BY_DATE_FROM'|translate}}"></md-datepicker>
+                </div>
+                <div flex="35" flex-gt-xs>
+                    <md-datepicker ng-model="FILTER.CREATED_DATE_END" ng-change="GET_FILTERED_DATA(0)" md-placeholder="{{'FILTER_BY_DATE_TO'|translate}}"></md-datepicker>
+                </div>
+            </div>
+        </div>
+    </md-content>
+    <md-content class="feature-body">
+        <table class="tickotty-table-item-container">
+            <tbody>
+                <tr class="table-header">
+                    <th class="pl-25" ng-click="FILTER.ORDER_BY_CLIENT = ! FILTER.ORDER_BY_CLIENT;GET_FILTERED_DATA()">
+                        <span translate="Client"></span>
+                        <ion-icon ng-if="FILTER.ORDER_BY_CLIENT" class="pull-right pr-20" name="arrow-down-outline"></ion-icon>
+                        <ion-icon ng-if="!FILTER.ORDER_BY_CLIENT" class="pull-right pr-20" name="arrow-up-outline"></ion-icon>
+                    </th>
+                    <th class="hide-xs" ng-click="FILTER.ORDER_BY_ID = ! FILTER.ORDER_BY_ID;GET_FILTERED_DATA()">
+                        <span>ID</span>
+                        <ion-icon ng-if="FILTER.ORDER_BY_ID" class="pull-right pr-20" name="arrow-down-outline"></ion-icon>
+                        <ion-icon ng-if="!FILTER.ORDER_BY_ID" class="pull-right pr-20" name="arrow-up-outline"></ion-icon>
+                    </th>
+                    <th class="pl-20 hide-xs" ng-click="FILTER.ORDER_BY_DATE = ! FILTER.ORDER_BY_DATE;GET_FILTERED_DATA()">
+                        <span translate="DATE"></span>
+                        <ion-icon ng-if="FILTER.ORDER_BY_DATE" class="pull-right pr-20" name="arrow-down-outline"></ion-icon>
+                        <ion-icon ng-if="!FILTER.ORDER_BY_DATE" class="pull-right pr-20" name="arrow-up-outline"></ion-icon>
+                    </th>
+                    <th class="pl-20 hide-xs" ng-click="FILTER.ORDER_BY_ASSIGNED = ! FILTER.ORDER_BY_ASSIGNED;GET_FILTERED_DATA()">
+                        <span translate="ASSIGNED"></span>
+                        <ion-icon ng-if="FILTER.ORDER_BY_ASSIGNED" class="pull-right pr-20" name="arrow-down-outline"></ion-icon>
+                        <ion-icon ng-if="!FILTER.ORDER_BY_ASSIGNED" class="pull-right pr-20" name="arrow-up-outline"></ion-icon>
+                    </th>
+                    <th ng-click="FILTER.ORDER_BY_STATUS = ! FILTER.ORDER_BY_STATUS;GET_FILTERED_DATA()">
+                        <span translate="STATUS"></span>
+                        <ion-icon ng-if="FILTER.ORDER_BY_STATUS" class="pull-right pr-20" name="arrow-down-outline"></ion-icon>
+                        <ion-icon ng-if="!FILTER.ORDER_BY_STATUS" class="pull-right pr-20" name="arrow-up-outline"></ion-icon>
+                    </th>
+                    <th ng-repeat="FIELD in CUSTOM_TABLE_FIELDS" ng-if="FIELD.STATUS">{{FIELD.NAME}}</th>
+                    <th style="width: 30px;" ng-if="USER.ADMIN || USER.STAFF">
+                        <md-checkbox class="mt-5" aria-label="Select All" ng-checked="IS_CHECKED_SOLIDARITY()" md-indeterminate="IS_INDETERMINATE_SOLIDARITY()" ng-click="TOGGLE_ALL_SOLIDARITY()"></md-checkbox>
+                    </th>
+                </tr>
+                <tr class="tickotty-table-item " ng-repeat="TICKET in TICKETS">
+                    <td ng-click="GO_PATH('tickets/ticket/' + TICKET.TOKEN)">
+                        <div class="tickotty-ticket-owner">
+                            <div class="name">{{TICKET.USER.NAME}} {{TICKET.USER.SURNAME}}</div>
+                            <div class="other">
+                                <span class="identity">{{TICKET.SUBJECT}} </span>
+                            </div>
+
+                        </div>
+                    </td>
+                    <td class="hide-xs" ng-click="GO_PATH('tickets/ticket/' + TICKET.TOKEN)">
+                        <div class="ticket-token">
+                            #{{TICKET.TOKEN}}
+                        </div>
+                    </td>
+                    <td class="hide-xs" ng-click="GO_PATH('tickets/ticket/' + TICKET.TOKEN)">
+                        <div class="tickotty-ticket-info">
+                            <div class="date col-md-5">
+                                <span class="title" translate="Created"></span>
+                                <span class="date" ng-bind="TICKET.CREATED_DATE | date:'dd, MMMM yyyy HH:mm'"></span>
+                            </div>
+                            <div class="indicator col-md-1">
+                                <ion-icon name="arrow-forward-outline"></ion-icon>
+                            </div>
+                            <div class="category col-md-6">
+                                <span class="title" translate="Department"></span>
+                                <span class="category">{{TICKET.DEPARTMENT.NAME}}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="hide-xs">
+                        <div ng-click="SELECT_APPLICATION(TICKET)" class="tickotty-ticket-assigned">
+                            <div class="assigned-staff">
+                                <div ng-if="TICKET.ASSIGNED != false" class="staff">
+                                    <small class="assignee-name text-bold">{{TICKET.ASSIGNED.NAME }} {{TICKET.ASSIGNED.SURNAME }}</small>
+                                </div>
+                                <div ng-if="!TICKET.ASSIGNED" class="unassigned" translate="NOT_ASSIGNED"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div ng-click="SELECT_APPLICATION(TICKET)" class="tickotty-ticket-status">
+                            <div class="status">
+                                <div ng-if="TICKET.STATUS === '1'" class="waiting" translate="OPENED"></div>
+                                <div ng-if="TICKET.STATUS === '2'" class="confirmed" translate="ASSIGNED"></div>
+                                <div ng-if="TICKET.STATUS === '3'" class="confirmed" translate="REPLIED"></div>
+                                <div ng-if="TICKET.STATUS === '4'" class="solved" translate="CLOSED"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="hide">
+                        <div class="status">
+                            <div ng-if="TICKET.PRIORITY === '3'" class="priority-high-inline" translate="PRIORITY_HIGH"></div>
+                            <div ng-if="TICKET.PRIORITY === '2'" class="priority-medium-inline" translate="PRIORITY_MEDIUM"></div>
+                            <div ng-if="TICKET.PRIORITY === '1'" class="priority-low-inline" translate="PRIORITY_LOW"></div>
+                        </div>
+                    </td>
+                    <td style="width: 40px;" ng-if="USER.ADMIN || USER.STAFF">
+                        <div class="card-action-checkbox selected" ng-if="EXIST_SOLIDARITY(TICKET, SELECTED)" ng-model="TICKET.SELECTED" ng-click="TOGGLE_SOLIDARITY(TICKET, SELECTED)" aria-label="Not Selected"></div>
+                        <div class="card-action-checkbox" ng-if="!EXIST_SOLIDARITY(TICKET, SELECTED)" ng-model="TICKET.SELECTED" ng-click="TOGGLE_SOLIDARITY(TICKET, SELECTED)" aria-label="Selected"></div>
+                        <md-checkbox class="hide-absolute" ng-checked="EXIST_SOLIDARITY(TICKET, SELECTED)" ng-model="TICKET.SELECTED" ng-click="TOGGLE_SOLIDARITY(TICKET, SELECTED)" aria-label="Item"></md-checkbox>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </md-content>
+    <div class="col-md-12 no-margin text-center no-padding" ng-hide="TICKETS.length" class="bt-1">
+        <img class="mt-10-percent" width="20%" src="assets/img/empty.svg" alt="">
+        <h3 class="text-bold text-muted" translate="EMPTY_PAGE_TITLE"></h3>
+        <p translate="EMPTY_PAGE_TITLE"></p>
+    </div>
+    <md-content class="feature-footer">
+        <div class="btn-group btn-group select-mode m-b-30">
+            <div class="btn-group hide-xs">
+                <button class="btn btn-default btn-assignee" ng-click="SHOW_FILTERS = ! SHOW_FILTERS" type="button">
+                    <img width="50px" src="assets/icons/filter.svg" alt="">
+                </button>
+                <md-tooltip md-direction="top"><span translate="Filter"></span></md-tooltip>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-default btn-assignee" ng-show="SHOW_FILTERS" ng-click="SHOW_FILTERS = ! SHOW_FILTERS;RESET_FILTER()" type="button">
+                    <img width="50px" src="assets/icons/reset-filter.svg" alt="">
+                </button>
+                <md-tooltip md-direction="top"><span translate="Reset_Filter"></span></md-tooltip>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-default btn-assignee" type="button" ng-click="CHANGE_ASSIGNATED_FILTER(false); GET_FILTERED_DATA()" ng-class="{'btn-active-assigned': !FILTER.ASSIGNATED }">
+                    <img width="50px" src="assets/icons/all-applications.svg" alt="">
+                </button>
+                <md-tooltip md-direction="top"><span translate="Show"></span></md-tooltip>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-default btn-assignee" type="button" ng-click="CHANGE_ASSIGNATED_FILTER(1); GET_FILTERED_DATA()" ng-class="{'btn-active-assigned': !FILTER.ASSIGNATED }">
+                    <img width="50px" src="assets/icons/unassigned-applications.svg" alt="">
+                 </button>
+                <md-tooltip md-direction="top"><span translate="NOT_ASSIGNED"></span></md-tooltip>
+            </div>
+            <div class="btn-group" ng-if="USER.IS_ADMIN">
+                <button class="btn btn-default btn-assignee" type="button" ng-click="CHANGE_ASSIGNATED_FILTER(2); GET_FILTERED_DATA()" ng-class="{'btn-active-assigned': FILTER.ASSIGNATED }">
+                    <div class="assignated-staff-case-count" ng-bind="STATS.STAFF_ASSIGNATED_CASE_COUNT"></div>
+                    <img width="50px" src="assets/icons/agent-ticket.svg" alt="">
+                </button>
+                <md-tooltip md-direction="top"><span translate="ASSIGNED_TO_YOU"></span></md-tooltip>
+            </div>
+            <div class="btn-group hide" ng-if="USER.IS_ADMIN">
+                <button class="btn btn-default btn-assignee" type="button" ng-click="CUSTOM_TABLE_FIELD_OPTIONS = ! CUSTOM_TABLE_FIELD_OPTIONS">
+                    <img width="50px" src="assets/icons/table-view.svg" alt="">
+                </button>
+                <md-tooltip md-direction="top"><span>Soon (Now disabled)</span></md-tooltip>
+                <div ng-if="CUSTOM_TABLE_FIELD_OPTIONS" class="custom-table-field-options">
+                    <div class="custom-table-field" ng-repeat="FIELD in CUSTOM_TABLE_FIELDS">
+                        <md-checkbox ng-model="FIELD.STATUS">
+                            {{ FIELD.NAME }}
+                        </md-checkbox>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul uib-pagination total-items="TOTAL_COUNT" ng-change="PAGE_CHANGED(FILTER.INDEX)" items-per-page="FILTER.SELECTED_PAGE_SIZE" direction-links="true" ng-model="FILTER.INDEX" max-size="FILTER.MAX_SIZE" class="pagination m-0 pull-right hide-xs" boundary-links="true"
+            rotate="false" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+    </md-content>
+</md-content>
+<div ng-show="REMOVE" class="remove-item-container">
+    <div class="remove-item-card">
+        <h3 translate="REMOVE_WARN_TITLE"></h3>
+        <h6 translate="REMOVE_WARN_DESC"></h6>
+        <p>If you delete those tickets, you will not be able to retrieve the data belong the removed tickets.</p>
+        <div class="action">
+            <button class="do-it" ng-click="REMOVE_SELECTED_TICKETS()"><span translate="YES"></span></button>
+            <button class="cancel-it" ng-click="REMOVE = ! REMOVE"><span translate="CANCEL"></span></button>
+        </div>
+    </div>
+</div>
+<div ng-show="CONFIRM" class="confirm-item-container">
+    <div class="confirm-item-card">
+        <h3>Confirm!</h3>
+        <h6 translate="REMOVE_WARN_DESC"></h6>
+        <p>If you do this, the selected tickets will be marked as spam and will not be listed.</p>
+        <div class="action">
+            <button class="do-it" ng-click="MARK_SELECTED_TICKETS_AS_SPAM()">Comfirm</button>
+            <button class="cancel-it" ng-click="CONFIRM = ! CONFIRM">Cancel</button>
+        </div>
+    </div>
+</div>
+<div class="merge-modal" ng-show="MERGE.SHOW">
+    <div class="merge-modal-content">
+        <div tickotty-draggable class="merging-container container no-padding">
+            <div class="merge-header col-md-12">
+                <div class="title">
+                    <h5 translate="MERGE_TITLE"></h5>
+                    <span translate="MERGE_SEARCH"></span>
+                </div>
+                <div class="pull-right">
+                    <md-button ng-click="MERGE.SHOW = ! MERGE.SHOW" class="md-icon-button in-reply-btn action-icon-button" aria-label="Close">
+                        <md-tooltip md-direction="bottom"><span translate="MERGE_CLOSE"></span></md-tooltip>
+                        <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/close.svg" class="favorite-icon"></md-icon>
+                    </md-button>
+                </div>
+            </div>
+            <div class="col-md-12 no-margin no-padding merge-body">
+                <div class="search-ticket-for-merge col-md-4">
+                    <div class="md-block " class="md-icon-float md-icon-right md-block">
+                        <label class="label-tickotty" translate="MERGE_SEARCH_TITLE"></label>
+                        <input class="tickotty-input" ng-model="SEARCH_KEY" placeholder="Search ticket for merge" ng-model-options="{ debounce: 1000 }" ng-change="SEARCH_TICKET_FOR_MERGE()">
+                        <i ng-show="!TICKET_FOUND || !SEARCH_KEY" class="input-button-right merge"></i>
+                        <i ng-if="TICKET_FOUND && SEARCH_KEY" class="input-button-right" ng-click="ADD_TO_MERGE()"></i>
+                        <div class="hint mt-1 mb-3" ng-if="!TICKET_FOUND && SEARCH_KEY"><span translate="MERGE_NOT_FOUND"></span></div>
+                    </div>
+                    <hr ng-show="TICKETS_TO_MERGE.length">
+                    <div ng-show="TICKETS_TO_MERGE.length" class="status-actions">
+                        <label class="label-tickotty" translate="MERGE_CHILD_STATUS"></label>
+                        <select ng-model="MERGE.CHILD_STATUS" class="mb-10">
+                            <option ng-repeat="STATUS in TICKET_STATUSES" ng-value="STATUS.ID">{{STATUS.NAME}}</option>
+                        </select>
+                        <label class="label-tickotty" translate="MERGE_PARENT_STATUS"></label>
+                        <select ng-model="MERGE.PARENT_STATUS" placeholder="Select parent status">
+                            <option value="">- Select -</option>
+                            <option ng-repeat="STATUS in TICKET_STATUSES" ng-value="STATUS.ID">{{STATUS.NAME}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="merging-action col-md-8">
+                    <label ng-show="TICKETS_TO_MERGE.length" class="label-tickotty"><span translate="MERGE_TICKETS_TO_MERGE_TITLE"></span></label>
+                    <ul class="tickets-to-merge">
+                        <li ng-repeat="TICKET_TO_MERGE in TICKETS_TO_MERGE" ng-click="SELECT_PARENT_TICKET(TICKET_TO_MERGE.TOKEN)" ng-class="{'parent-ticket': PARENT_TICKET_TOKEN === TICKET_TO_MERGE.TOKEN}">
+                            <span class="text-uppercase token"> #{{TICKET_TO_MERGE.TOKEN}}</span>
+                            <span class="client"> {{TICKET_TO_MERGE.USER.NAME}} {{TICKET_TO_MERGE.USER.SURNAME}}</span>
+                            <ion-icon ng-click="REMOVE_FROM_MERGE_LIST($index)" class="pull-right remove" name="remove-circle-outline"></ion-icon>
+                        </li>
+                        <hr ng-show="TICKETS_TO_MERGE.length">
+                        <h5 class="text-bold text-danger" translate="MERGE_TICKETS_TO_MERGE_NOTICE_TITLE"></h5>
+                        <p ng-if="TICKETS_TO_MERGE.length"><span translate="MERGE_TICKETS_TO_MERGE_DESC"></span></p>
+                        <p ng-if="!TICKETS_TO_MERGE.length"><span translate="MERGE_TICKETS_TO_MERGE_DESC_TWO"></span></p>
+                    </ul>
+                </div>
+            </div>
+            <div class="merging-footer col-md-12 no-padding">
+                <md-switch class="pull-left ml-20 mt-10" ng-model="MERGE.MERGE_THREADS" aria-label="Merge Threads"><span translate="MERGE_MERGE_THREADS"></span></md-switch>
+                <button ng-show="PARENT_TICKET_TOKEN && TICKETS_TO_MERGE.length > 1" ng-click="START_MERGING()" class="btn btn-success pull-right btn-ticket-comment-draft"><span translate="Merge"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
