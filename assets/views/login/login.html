@@ -1,0 +1,30 @@
+<div class="login-background">
+    <div class="text-center mt-20"><img width="200px" src="assets/img/app-logo.png" alt=""></div>
+    <div class="login-wrapper form-signin">
+        <input type="radio" ng-click="GO_PATH('login')" ng-value="true" name="select" id="option-1" checked>
+        <input type="radio" ng-click="GO_PATH('register')" ng-value="false" name="select" id="option-2">
+        <label for="option-1" class="option option-1">
+            <div class="dot"></div>
+            <span translate="Sign_In"></span>
+        </label>
+        <label for="option-2" class="option option-2">
+            <div class="dot"></div>
+            <span translate="Register"></span>
+        </label>
+    </div>
+    <form class="form-signin mt-0" name="form" ng-submit="LOGIN()" role="form">
+        <div class="form__group">
+            <input type="text" class="form__input" name="USERNAME" ng-model="USERNAME" placeholder="{{'LOGIN_USERNAME'|translate}}" required="" autofocus="" />
+        </div>
+        <div class="form__group">
+            <input type="password" class="form__input" name="PASSWORD" ng-model="PASSWORD" placeholder="{{'LOGIN_PASS'|translate}}" required="" />
+        </div>
+        <div class="form__group">
+            <button class="btn login-btn btn-lg btn-default btn-block" ng-disabled="form.$invalid || dataLoading" type="submit" translate="Login"></button>
+        </div>
+        <hr>
+        <a href="#!/" translate="Go_Home"></a> -
+        <a href="#!/forgot" translate="Forgot_password"></a>
+    </form>
+
+</div>

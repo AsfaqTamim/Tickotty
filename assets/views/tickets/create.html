@@ -1,0 +1,179 @@
+<div ng-include src="'assets/views/includes/sidebar.html'"></div>
+<form class="form-new-ticket mt-0" name="form" ng-submit="CREATE_TICKET()" role="form">
+    <md-content class="app-wrapper">
+        <div class="md-toolbar-tools standart-feature-header">
+            <h2 flex md-truncate translate="NEW_TICKET"></h2>
+            <md-button ng-click="GO_PATH('tickets')" class="md-icon-button action-icon-button" aria-label="Back">
+                <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/back.svg"></md-icon>
+                <md-tooltip md-direction="bottom"><span translate="Back"></span></md-tooltip>
+            </md-button>
+            <md-button type="submit" class="md-icon-button action-icon-button" aria-label="Update">
+                <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/update.svg"></md-icon>
+                <md-tooltip md-direction="bottom"><span translate="Create"></span></md-tooltip>
+            </md-button>
+        </div>
+        <md-content>
+            <md-content layout-padding="" class="ticket-create-form">
+                <div ng-class="{'col-md-3': CUSTOM_FIELDS.length , 'hide': !CUSTOM_FIELDS.length }">
+                    <h4 translate="Custom_Fields"></h4>
+                    <hr>
+                    <div ng-repeat="FIELD in CUSTOM_FIELDS" ng-if="CHECK_FIELD_CONDITION(FIELD,FIELD.CONDITION.ID)">
+                        <!-- INPUT -->
+                        <div class="md-block" ng-if="FIELD.TYPE === 'input'">
+                            <label class="text-bold label-tickotty">{{FIELD.NAME}}</label>
+                            <input class="tickotty-input" ng-required="FIELD.REQUIRED" ng-class="{'required-input': FIELD.REQUIRED}" placeholder="{{FIELD.DESCRIPTION}}" type="text" ng-model="FIELD.DATA" />
+                        </div>
+                        <!-- NUMBER -->
+                        <md-input-container class="md-block" ng-if="FIELD.TYPE === 'number'">
+                            <label class="text-bold">{{FIELD.NAME}}</label>
+                            <input ng-required="FIELD.REQUIRED" type="number" string-to-number ng-model="FIELD.DATA" />
+                            <div class="hint mt-1 mb-3" ng-if="FIELD.DESCRIPTION" ng-bind="FIELD.DESCRIPTION"></div>
+                        </md-input-container>
+                        <!-- DATE -->
+                        <md-input-container class="md-block" ng-if="FIELD.TYPE === 'date'">
+                            <label class="text-bold">{{FIELD.NAME}}</label>
+                            <input ng-required="FIELD.REQUIRED" type="date" ng-model="FIELD.DATA" />
+                            <div class="hint mt-1 mb-3" ng-if="FIELD.DESCRIPTION" ng-bind="FIELD.DESCRIPTION"></div>
+                        </md-input-container>
+                        <!-- SELECT -->
+                        <md-input-container class="md-block" ng-if="FIELD.TYPE === 'select'">
+                            <label class="text-bold">{{FIELD.NAME}}</label>
+                            <md-select placeholder="{{FIELD.NAME}}" ng-required="FIELD.REQUIRED" ng-model="FIELD.SELECTED">
+                                <md-option ng-value="OPTION.ID" ng-repeat="OPTION in FIELD.SELECT_OPTIONS track by $index">{{OPTION.NAME}}
+                                </md-option>
+                            </md-select>
+                            <div class="hint mt-1" ng-if="FIELD.DESCRIPTION" ng-bind="FIELD.DESCRIPTION"></div>
+                            <br>
+                        </md-input-container>
+                        <!-- TEXTAREA -->
+                        <md-input-container ng-if="FIELD.TYPE === 'textarea'">
+                            <label class="text-bold">{{FIELD.NAME}}</label>
+                            <textarea ng-required="FIELD.REQUIRED" ng-model="FIELD.DATA" rows="3" md-select-on-focus></textarea>
+                            <div class="hint mt-1 mb-3" ng-if="FIELD.DESCRIPTION" ng-bind="FIELD.DESCRIPTION"></div>
+                        </md-input-container>
+                        <!-- RADIO -->
+                        <md-input-container ng-if="FIELD.TYPE === 'radio'">
+                            <span>{{FIELD.NAME}}</span>
+                            <md-radio-group ng-required="FIELD.REQUIRED" ng-model="FIELD.SELECTED" layout="row">
+                                <md-radio-button ng-value="OPTION.ID" ng-repeat="OPTION in FIELD.SELECT_OPTIONS track by $index">
+                                    {{OPTION.NAME}}</md-radio-button>
+                            </md-radio-group>
+                            <div class="hint mt-1 mb-3" ng-if="FIELD.DESCRIPTION" ng-bind="FIELD.DESCRIPTION"></div>
+                        </md-input-container>
+                        <!-- UPLOAD -->
+                        <md-input-container ng-if="FIELD.TYPE === 'upload'">
+                            <label class="text-bold">{{FIELD.NAME}}</label>
+                            <input ng-required="FIELD.REQUIRED" type="file" ng-model="FIELD.[$index].DATA" />
+                            <div class="hint mt-1 mb-3" ng-if="FIELD.DESCRIPTION" ng-bind="FIELD.DESCRIPTION"></div>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div ng-class="{'col-md-9': CUSTOM_FIELDS.length  , 'col-md-12': !CUSTOM_FIELDS.length }">
+                    <div class="col-md-12">
+                        <h4 translate="TICKET_DETAIL"></h4>
+                        <hr>
+                        <div class="md-block col-md-5 pl-0 mb-0">
+                            <label class="label-tickotty" translate="Subject"></label>
+                            <input type="text" class="type-new-ticket-title" required ng-class="{'required-input': !NEW_TICKET.SUBJECT}" ng-model="NEW_TICKET.SUBJECT" placeholder="{{'TYPE_SUBJECT'|translate}}" />
+                        </div>
+                        <md-input-container class="md-block col-md-3 pl-0 mb-0">
+                            <label translate="Department"></label>
+                            <md-select ng-model="NEW_TICKET.DEPARTMENT" required>
+                                <md-option ng-value="DEPARTMENT.ID" ng-repeat="DEPARTMENT in DEPARTMENTS">{{ DEPARTMENT.NAME }}
+                                </md-option>
+                            </md-select>
+                            <bind-expression ng-init="NEW_TICKET.DEPARTMENT = OPTIONS.DEFAULT_DEPARTMENT" expression="OPTIONS.DEFAULT_DEPARTMENT" ng-model="NEW_TICKET.DEPARTMENT" />
+                        </md-input-container>
+                        <md-input-container class="md-block col-md-4 pl-0 mb-0 pr-0" required>
+                            <label translate="Priority"></label>
+                            <md-select placeholder="Priority" ng-model="NEW_TICKET.PRIORITY">
+                                <md-option ng-value="PRIORITY.ID" ng-repeat="PRIORITY in TICKET_PRIORITIES">
+                                    <span>{{PRIORITY.NAME}}</span></md-option>
+                            </md-select><br />
+                        </md-input-container>
+                    </div>
+                    <div class="col-md-12">
+                        <ng-quill-editor class="ticket-type-text" required placeholder="'Type your ticket detail...'" format="text" ng-model="NEW_TICKET.DETAIL"></ng-quill-editor>
+                    </div>
+                    <div class="col-md-12" nv-file-drop="" uploader="uploader" filters="queueLimit, customFilter">
+                        <hr>
+                        <h4><span translate="Uploaded_Attachments"></span> ({{ uploader.queue.length }})</h4>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div ng-show="uploader.isHTML5">
+                                    <!-- 3. nv-file-over uploader="link" over-class="className" -->
+                                    <div class="well my-drop-zone" nv-file-over="" uploader="uploader">
+                                        <span translate="DROP_FIES_HERE"></span>
+                                        <a href="" ng-click="SELECT_ATTACHMENT()"><br><strong translate="CLICK_HERE"></strong></a>
+                                    </div>
+                                </div>
+                                <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
+                                <input id="ATTACHMENT" type="file" nv-file-select="" uploader="uploader" multiple /><br />
+                            </div>
+                            <div class="col-md-9" ng-show="uploader.queue.length">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th width="50%" translate="FILE_NAME"></th>
+                                            <th ng-show="uploader.isHTML5" translate="Size"></th>
+                                            <th ng-show="uploader.isHTML5" translate="Process"></th>
+                                            <th translate="Status"></th>
+                                            <th translate="Action"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in uploader.queue">
+                                            <td><strong>{{ item.file.name }}</strong></td>
+                                            <td ng-show="uploader.isHTML5" nowrap>
+                                                {{ item.file.size/1024/1024|number:2 }} MB</td>
+                                            <td ng-show="uploader.isHTML5">
+                                                <div class="progress mb-0">
+                                                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                            </td>
+                                            <td nowrap>
+                                                <button type="button" class="btn btn-default btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                <ion-icon name="cloud-upload-outline"></ion-icon>
+                                            <span translate="Upload"></span>
+                                        </button>
+                                                <button type="button" class="btn btn-default btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                                <ion-icon name="close-outline"></ion-icon> <span translate="Cancel"></span>
+                                        </button>
+                                                <button type="button" class="btn btn-default btn-xs" ng-click="item.remove()">
+                                                <ion-icon name="trash-outline"></ion-icon> <span translate="Delete"></span>
+                                        </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div>
+                                    <div>
+                                        <span translate="Progress"></span>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-default btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
+                               <ion-icon name="cloud-upload-outline"></ion-icon> <span translate="Upload_All"></span>
+                            </button>
+                                    <button type="button" class="btn btn-default btn-s" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
+                                    <ion-icon name="close-outline"></ion-icon> <span translate="Cancel_All"></span>
+                            </button>
+                                    <button type="button" class="btn btn-default btn-s" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+                                    <ion-icon name="trash-outline"></ion-icon> <span translate="Remove_All"></span>
+                            </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </md-content>
+        </md-content>
+    </md-content>
+</form>

@@ -1,0 +1,99 @@
+<div ng-include src="'assets/views/includes/sidebar.html'"></div>
+<md-content class="app-wrapper">
+    <md-toolbar class="md-toolbar-tools standart-feature-header">
+        <h2 flex md-truncate><span translate="Clients"></span></h2>
+        <input type="text" class="top-search hide-xs" placeholder="{{ 'Search_Placeholder' | translate }}" onfocus="this.placeholder = ''" ng-model-options="{ debounce: 1000 }" ng-model="FILTER.NAME" ng-change="GET_FILTERED_DATA()" />
+    </md-toolbar>
+    <div class="tickotty-clients-right-block col-md-12 p-0">
+        <div class="tickotty-clients-pre-box clearfix col-md-4">
+            <div class="clietns-details">
+                <div class="clietns-info">
+                    <h4><strong translate="TOTAL_CLIENTS"></strong></h4>
+                </div>
+                <div class="clietns-right-icon">
+                    <div class="short-info-block-info">
+                        <h3> {{STATS.TOTAL_CLIENTS_COUNTS}}</h3>
+                    </div>
+                </div>
+            </div>
+            <p translate="TOTAL_CLIENTS_COUNT_DESC"></p>
+        </div>
+        <div class="tickotty-clients-pre-box clearfix col-md-4">
+            <div class="clietns-details">
+                <div class="clietns-info">
+                    <h4><strong translate="Passive"></strong></h4>
+                </div>
+                <div class="clietns-right-icon">
+                    <div class="short-info-block-info">
+                        <h3> 0 </h3>
+                    </div>
+                </div>
+            </div>
+            <p translate="PASSIVE_CLIENTS_COUNT_DESC"></p>
+        </div>
+        <div class="tickotty-clients-pre-box clearfix col-md-4">
+            <div class="clietns-details">
+                <div class="clietns-info">
+                    <h4><strong translate="Suspended"></strong></h4>
+                </div>
+                <div class="clietns-right-icon">
+                    <div class="short-info-block-info">
+                        <h3> {{STATS.SUSPENDED_CLIENTS_COUNTS}} </h3>
+                    </div>
+                </div>
+            </div>
+            <p translate="SUSPENDED_CLIENTS_COUNT_DESC"></p>
+        </div>
+
+    </div>
+    <md-content class="feature-body">
+        <table class="tickotty-table-item-container">
+            <tbody>
+                <tr class="table-header">
+                    <th class="pl-25" ng-click="FILTER.ORDER_BY_CLIENT = ! FILTER.ORDER_BY_CLIENT;GET_FILTERED_DATA()">
+                        <span translate="Client"></span>
+                        <ion-icon ng-if="FILTER.ORDER_BY_CLIENT" class="pull-right pr-20" name="arrow-down-outline"></ion-icon>
+                        <ion-icon ng-if="!FILTER.ORDER_BY_CLIENT" class="pull-right pr-20" name="arrow-up-outline"></ion-icon>
+                    </th>
+                    <th ng-click="FILTER.ORDER_BY_ID = ! FILTER.ORDER_BY_ID;GET_FILTERED_DATA()">
+                        <span translate="Ticket"></span>
+                        <ion-icon ng-if="FILTER.ORDER_BY_ID" class="pull-right pr-20" name="arrow-down-outline"></ion-icon>
+                        <ion-icon ng-if="!FILTER.ORDER_BY_ID" class="pull-right pr-20" name="arrow-up-outline"></ion-icon>
+                    </th>
+                    <th ng-click="FILTER.ORDER_BY_ID = ! FILTER.ORDER_BY_ID;GET_FILTERED_DATA()">
+                        <span translate="Open"></span>
+                        <ion-icon ng-if="FILTER.ORDER_BY_ID" class="pull-right pr-20" name="arrow-down-outline"></ion-icon>
+                        <ion-icon ng-if="!FILTER.ORDER_BY_ID" class="pull-right pr-20" name="arrow-up-outline"></ion-icon>
+                    </th>
+                    <th ng-repeat="FIELD in CUSTOM_TABLE_FIELDS" ng-if="FIELD.STATUS">{{FIELD.NAME}}</th>
+                </tr>
+                <tr class="tickotty-table-item " ng-repeat="CLIENT in CLIENTS" ng-click="GO_PATH('clients/client/' + CLIENT.TOKEN)">
+                    <td class="pl-25">
+                        <h4 class="item-title">{{CLIENT.NAME}} {{CLIENT.SURNAME}}</h4>
+                        <span class="item-desc" ng-bind="CLIENT.EMAIL"></span></td>
+                    <td class="text-left">
+                        <div class="item-published-date">
+                            <div class="ticket-count">{{CLIENT.TOTAL_TICKET_COUNTS}}</div>
+                            <div class="title" translate="Ticket"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-published-date">
+                            <div class="ticket-count">{{CLIENT.OPEN_TICKET_COUNTS}}</div>
+                            <div class="title" translate="Open"></div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </md-content>
+    <div class="col-md-12 no-margin text-center no-padding" ng-hide="CLIENTS.length" class="bt-1">
+        <img class="mt-10-percent" width="20%" src="assets/img/empty.svg" alt="">
+        <h3 class="text-bold text-muted" translate="EMPTY_PAGE_TITLE"></h3>
+        <p translate="EMPTY_PAGE_DESC"></p>
+    </div>
+    <md-content ng-hide="feature_creating" class="feature-footer">
+        <ul uib-pagination total-items="TOTAL_COUNT" ng-change="PAGE_CHANGED(FILTER.INDEX)" items-per-page="FILTER.SELECTED_PAGE_SIZE" direction-links="true" ng-model="FILTER.INDEX" max-size="FILTER.MAX_SIZE" class="pagination m-0 pull-right" boundary-links="true"
+            rotate="false" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+    </md-content>
+</md-content>

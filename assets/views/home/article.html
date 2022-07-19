@@ -1,0 +1,57 @@
+<div ng-include src="'assets/views/includes/nav.html'"></div>
+<div class="jumbotron knowledge-jumbotron article-jumbotron text-left bg-tickotty-opt">
+    <div class="container pl-25 pr-25">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a class="text-solid" href="#" translate="Home"></a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">{{ARTICLE.CATEGORY.NAME}}</li>
+            </ol>
+        </nav>
+        <button onclick="window.print()" class="home-article-print-button pull-right hide-xs" aria-selected="false" href="#">
+            <ion-icon name="print-outline"></ion-icon> <span translate="Print"></span></button>
+        <h2 class="blog-post-title">{{ARTICLE.TITLE}}</h2>
+        <p class="blog-post-meta">{{ARTICLE.DATE | date:'dd, MMMM yyyy HH:mm'}} - {{ARTICLE.AUTHOR.NAME}} {{ARTICLE.AUTHOR.SURNAME}}</p>
+
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 blog-main">
+            <div class="blog-post">
+                <hr>
+                <p class="home-article-content" ng-bind-html="ARTICLE.CONTENT"></p>
+            </div>
+            <div class="article-votes article__wrapper">
+                <div class="article-votes__question"><span translate="VOTE_ARTICLE_TEXT"></span></div>
+                <div class="article-votes__controls">
+                    <button role="button" ng-click="VOTE_ARTICLE(1)" rel="nofollow" class="btn big-app-button" aria-selected="false" href="#">
+                        <ion-icon name="thumbs-up-outline"></ion-icon><span translate="Yes"></span></button>
+                    <button role="button" ng-click="VOTE_ARTICLE(0)" rel="nofollow" class="btn big-app-button" aria-selected="false" href="#">
+                        <ion-icon name="thumbs-down-outline"></ion-icon><span translate="No"></span></button>
+                </div>
+                <div class="article-votes__count">
+                    <span class="article-vote-label">
+                        <span translate="VOTE_ARTICLE_DESC" translate-values="{'TOTAL_VOTES':ARTICLE.TOTAL_VOTES,'TOTAL_UPVOTE':ARTICLE.TOTAL_UPVOTE}"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <section class="section-articles">
+                <a class="zd_anchor" title="articles-in-this-section"></a>
+                <h3 class="section-articles__title"><span translate="CATEGORY_ARTICLES_TEXT"></span><i class="fas fa-link is-hidden" data-link="https://appsflyer1497782691.zendesk.com/hc/en-us/articles/360002070978articles-in-this-section" style="margin-left:5px; font-size:16px; cursor:pointer;"></i></h3>
+                <ul class="section-articles__list">
+                    <li class="section-articles__item" ng-repeat="ARTICLE in CATEGORY_ARTICLES">
+                        <a href="#!/article/{{ARTICLE.URL}}" class="section-articles__link">{{ARTICLE.TITLE}}</a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+</div>
+<hr class="featurette-divider">
+<footer class="container">
+    <p>&copy; <span ng-bind="DATE | date:'yyyy'"></span> {{OPTIONS.APPLICATION_NAME}}</p>
+</footer>

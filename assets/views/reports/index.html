@@ -1,0 +1,50 @@
+<div ng-include src="'assets/views/includes/sidebar.html'"></div>
+<md-content class="app-wrapper">
+    <md-toolbar class="md-toolbar-tools standart-feature-header">
+        <h2 flex md-truncate translate="Reports"></h2>
+    </md-toolbar>
+    <md-content class="feature-stats">
+        <div class="tickotty-tickets-owerview_container">
+            <div class="tickotty-tickets-owerview">
+                <div class="tickotty-tickets-owerview__inner">
+                    <h2 translate="AVERAGE_FIRST_RESPONSE_TIME_TITLE"></h2>
+                    <p translate="AVERAGE_FIRST_DESC"></p>
+                    <div class="stat"><span ng-bind="STATS.AVERAGE_RESPOND_TIME"></span> <small translate="AVERAGE_FIRST_MIN"></small></div>
+                    <p translate="AVERAGE_FIRST_RESPONSE_TIME_DESC"></p>
+                </div>
+            </div>
+            <div class="tickotty-tickets-owerview">
+                <div class="tickotty-tickets-owerview__inner">
+                    <h2 translate="AVERAGE_FIRST_RESOLVE_TIME_TITLE"></h2>
+                    <p translate="AVERAGE_FIRST_DESC"></p>
+                    <div class="stat"><span ng-bind="STATS.AVERAGE_RESOLVE_TIME"></span> <small translate="AVERAGE_FIRST_MIN"></small></div>
+                    <p translate="AVERAGE_FIRST_RESPONSE_TIME_DESC"></p>
+                </div>
+            </div>
+            <div class="tickotty-tickets-owerview">
+                <div class="tickotty-tickets-owerview__inner">
+                    <h2 translate="SOLVED_TICKETS_TITLE"></h2>
+                    <p translate="AVERAGE_FIRST_DESC"></p>
+                    <div class="stat"><span ng-bind="STATS.CLOSED_TICKET_COUNTS + ' / ' + STATS.TOTAL_TICKET_COUNTS"></span></div>
+                    <div class="progress">
+                        <div class="progress_bar--two" ng-style="{'width': STATS.CLOSED_TICKET_COUNTS * 100 /  STATS.TOTAL_TICKET_COUNTS + '%'}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </md-content>
+    <div ng-if="USER.ADMIN" class="col-md-12 staff-chart-report" ng-controller="Chart">
+        <h3 translate="STAFF_GRAPH_TITLE"></h3>
+        <small translate="STAFF_GRAPH_DESC"></small>
+        <input type="hidden" name="character" id="assigned-staff" checked>
+        <ul class="staff-based-tickets-chart">
+            <div class="chart-item" ng-repeat="DATA in ASIGNATED_STAFF_BASED_DATA | orderBy:'-COUNT'">
+                <li class="assignated-staff-chart-name">
+                    <span> {{DATA.STAFF_NAME}}</span>
+                    <div class="assignated-staff-chart-count">{{DATA.COUNT}}</div>
+                </li>
+                <li class="value" style="--value:{{DATA.PERCENT}}%;" data-name="%{{DATA.PERCENT}}"></li>
+            </div>
+        </ul>
+    </div>
+</md-content>

@@ -1,0 +1,37 @@
+<div ng-include src="'assets/views/includes/sidebar.html'"></div>
+<md-content class="app-wrapper">
+    <md-toolbar class="md-toolbar-tools standart-feature-header">
+        <h2 flex md-truncate translate="OPTIONS_CRON_JOB_TITLE"></h2>
+        <md-button ng-click="GO_PATH('options/')" class="md-icon-button action-icon-button" aria-label="Back">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/back.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Back"></span></md-tooltip>
+        </md-button>
+    </md-toolbar>
+    <md-toolbar class="inline-toolbar">
+        <div class="md-toolbar-tools">
+            <h2 flex md-truncate translate="OPTIONS_CRON_JOB_DESC"></h2>
+        </div>
+    </md-toolbar>
+    <md-content class="mb-20 bg-white" layout-padding>
+        <div class="form-group clearfix">
+            <label class=" col-md-2">Cron Job URL</label>
+            <div class=" col-md-10">{{OPTIONS.DESK_URL}}cron</div>
+        </div>
+        <div class="form-group clearfix">
+            <label class=" col-md-2">Recommended execution interval.</label>
+            <div class=" col-md-10"> Every 1 min</div>
+        </div>
+        <div class="form-group clearfix">
+            <label class=" col-md-2">cPanel Cron Job Command *</label>
+            <div class=" col-md-10">
+                <div>
+                    <pre>wget {{OPTIONS.DESK_URL}}cron</pre>
+                </div>
+                <hr>
+                <div>
+                    <pre><strong class="text-danger">or</strong> wget -q -O- {{OPTIONS.DESK_URL}}cron</pre>
+                </div>
+            </div>
+        </div>
+    </md-content>
+</md-content>

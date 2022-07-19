@@ -1,0 +1,58 @@
+<div ng-include src="'assets/views/includes/sidebar.html'"></div>
+<md-content class="app-wrapper">
+    <md-toolbar class="md-toolbar-tools standart-feature-header">
+        <h2 flex md-truncate translate="OPTIONS_PROCESS_TITLE"></h2>
+        <md-button ng-click="GO_PATH('options/')" class="md-icon-button action-icon-button" aria-label="Back">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/back.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Back"></span></md-tooltip>
+        </md-button>
+    </md-toolbar>
+    <md-toolbar class="inline-toolbar">
+        <div class="md-toolbar-tools">
+            <h2 flex md-truncate translate="OPTIONS_PROCESS_DESC"></h2>
+        </div>
+    </md-toolbar>
+    <md-content class="pl-20 mb-20 pr-20 bg-white row processes-container" layout-padding>
+        <div class="col-md-4" ng-repeat="DEPARTMENT in DEPARTMENTS">
+            <div class="col-md-12 processes-detail">
+                <div class="processes-header">
+                    <div class="col-md-9 col-sm-9 col-xs-9  no-padding">
+                        <span class="processes-title" href="#">  {{ DEPARTMENT.NAME || 'empty' }}</span>
+                    </div>
+                    <div class="col-md-3 no-padding">
+                        <md-button ng-click="NEW_PROCESSES(DEPARTMENT.ID)" class="action-icon-small-button" aria-label="New">
+                            <md-icon class="action-icon-small-button-icon" md-svg-icon="assets/icons/create.svg"></md-icon>
+                            <md-tooltip md-direction="bottom"><span translate="Add"></span></md-tooltip>
+                        </md-button>
+                    </div>
+                </div>
+                <ul class="processes-list">
+                    <li ng-repeat="PROCESS in DEPARTMENT.PROCESSES" class="item processes-item">
+                        <div class="col-md-9 col-sm-9 col-xs-9  no-padding">
+                            <a class="processes-item-title" href="#" editable-text="PROCESS.NAME" onaftersave="RENAME_PROCESSES(PROCESS.ID, PROCESS.NAME)" onaftersave="RENAME_PROCESSES(PROCESS.ID, PROCESS.NAME)">
+                                {{ PROCESS.NAME || 'empty' }}
+                              </a>
+                        </div>
+                        <div class="col-md-3 no-padding">
+                            <md-button ng-click="REMOVE = ! REMOVE" class="action-icon-small-button" aria-label="Remove">
+                                <md-icon class="action-icon-small-button-icon" md-svg-icon="assets/icons/remove.svg"></md-icon>
+                                <md-tooltip md-direction="bottom"><span translate="Remove"></span></md-tooltip>
+                            </md-button>
+                            <div ng-show="REMOVE" class="remove-item-container">
+                                <div class="remove-item-card">
+                                    <h3 translate="REMOVE_WARN_TITLE"></h3>
+                                    <h6 translate="REMOVE_WARN_DESC"></h6>
+                                    <p translate="REMOVE_WARN_DETAIL"></p>
+                                    <div class="action">
+                                        <button class="do-it" ng-click="REMOVE_PROCESSES(PROCESS.ID)"><span translate="YES"></span></button>
+                                        <button class="cancel-it" ng-click="REMOVE = ! REMOVE"><span translate="CANCEL"></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </md-content>
+</md-content>

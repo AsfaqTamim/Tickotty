@@ -1,0 +1,58 @@
+<div ng-include src="'assets/views/includes/sidebar.html'"></div>
+<md-content class="app-wrapper">
+    <div ng-show="REMOVE" class="remove-item-container">
+        <div class="remove-item-card">
+            <h3 translate="REMOVE_WARN_TITLE"></h3>
+            <h6 translate="REMOVE_WARN_DESC"></h6>
+            <p translate="REMOVE_WARN_DETAIL"></p>
+            <div class="action">
+                <button class="do-it" ng-click="REMOVE_ARTICLE()"><span translate="YES"></span></button>
+                <button class="cancel-it" ng-click="REMOVE = ! REMOVE"><span translate="CANCEL"></span></button>
+            </div>
+        </div>
+    </div>
+    <div class="md-toolbar-tools standart-feature-header">
+        <h2 flex md-truncate translate="UPDATE_ARTICLE"></h2>
+        <md-button ng-click="GO_PATH('knowledge-base')" class="md-icon-button action-icon-button" aria-label="Back">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/back.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Back"></span></md-tooltip>
+        </md-button>
+        <md-button ng-click="UPDATE_ARTICLE()" class="md-icon-button action-icon-button" aria-label="Update">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/update.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Update"></span></md-tooltip>
+        </md-button>
+        <md-button ng-click="REMOVE = ! REMOVE" class="md-icon-button action-icon-button" aria-label="More">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/remove.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Remove"></span></md-tooltip>
+        </md-button>
+    </div>
+    <div class="col-md-12 p-0">
+        <div class="col-md-3 mt-10">
+            <div class="md-block col-md-12 pl-0 pr-0 mb-10">
+                <label class="label-tickotty" translate="Title"></label>
+                <input type="text" class="type-new-ticket-title" required ng-class="{'required-input': !ARTICLE.TITLE}" ng-model="ARTICLE.TITLE" placeholder="Type subject here!" />
+            </div>
+            <md-input-container class="md-block col-md-12 pl-0 pr-0 mb-0  mt-20">
+                <label translate="Category"></label>
+                <md-select ng-model="ARTICLE.CATEGORY" required>
+                    <md-option ng-value="CATEGORY.ID" ng-repeat="CATEGORY in ARTICLE_CATEGORIES">{{CATEGORY.NAME}}</md-option>
+                </md-select>
+            </md-input-container>
+            <div class="row">
+                <div class="col-sm-12 col-xs-12 mt-10">
+                    <div class="form-group">
+                        <label for="Keywords" translate="Keywords"></label>
+                        <md-chips ng-model="ARTICLE.KEYWORDS" input-aria-label="Tags" md-separator-keys="TAG_KEYS" placeholder="Eg:Tickets" secondary-placeholder="Add tag" input-aria-describedby="commaSeparatorKeyDescription"></md-chips>
+                    </div>
+                    <div class="form-group">
+                        <label for="Keywords" translate="Description"></label>
+                        <textarea type="text" class="form-control" ng-model="ARTICLE.DESCRIPTION" placeholder="..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9  mt-20">
+            <ckeditor ng-model="ARTICLE.CONTENT"></ckeditor>
+        </div>
+    </div>
+</md-content>

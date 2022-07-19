@@ -1,0 +1,53 @@
+<div ng-include src="'assets/views/includes/nav.html'"></div>
+<div class="jumbotron knowledge-jumbotron text-center bg-tickotty-opt">
+    <h1 translate="Knowledge_Base"></h1>
+    <p translate="HOME_PAGE_SEARCH_TEXT"></p>
+    <div class="knowledge-search">
+        <input type="text" class="knowledge-input col-xs-10 col-md-4 col-md-offset-4 col-xs-offset-1" ng-model-options="{ debounce: 1000 }" ng-model="SEARCH_KEY" ng-change="GET_SEARCH_RESULT()" placeholder="{{'HOME_PAGE_SEARCH_TEXT'|translate}}" onfocus="this.placeholder = ''"
+            onblur="this.placeholder = 'Search for answers'">
+    </div>
+    <div ng-if="SEARCH_RESULTS" class="search-results col-xs-10 col-md-4 col-md-offset-4 col-xs-offset-1">
+        <ul>
+            <li ng-repeat="RESULT in SEARCH_RESULTS"><a href="#!/article/{{RESULT.URL}}">{{RESULT.TITLE}}</a></li>
+        </ul>
+    </div>
+</div>
+<div class="container knowledge-center-boxes hide">
+    <div class="row">
+        <div class="col-sm-12  col-md-4 ">
+            <div class="col-md-12 knowledge-box-item">
+                <img width="65" src="assets/icons/articles.svg" alt="">
+                <h3 class="text-muted">Articles</h3>
+                <p><strong>6</strong> articles in this category</p>
+            </div>
+        </div>
+        <div class="col-sm-12  col-md-4 ">
+            <div class="col-md-12 knowledge-box-item">
+                <img width="65" src="assets/icons/faq.svg" alt="">
+                <h3 class="text-muted">FAQ</h3>
+                <p><strong>6</strong> articles in this category</p>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4 ">
+            <div class="col-md-12 knowledge-box-item">
+                <img width="65" src="assets/icons/docs.svg" alt="">
+                <h3 class="text-muted">Help Docs</h3>
+                <p><strong>6</strong> articles in this category</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="col-md-12 mt-20">
+        <div class="col-md-4" ng-repeat="CATEGORY in ARTICLE_CATEGORIES track by $index">
+            <h2>{{CATEGORY.NAME}} ({{CATEGORY.ARTICLES.length}})</h2>
+            <ul class="article-list" ng-repeat="ARTICLE in CATEGORY.ARTICLES">
+                <li class="article-list-item"><a href="#!/article/{{ARTICLE.URL}}">{{ARTICLE.TITLE}}</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<hr class="featurette-divider">
+<footer class="container">
+    <p>&copy; <span ng-bind="DATE | date:'yyyy'"></span> {{OPTIONS.APPLICATION_NAME}}</p>
+</footer>

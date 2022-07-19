@@ -1,0 +1,86 @@
+.rtl .app-wrapper {
+    padding-left: 0;
+    padding-right: 380px;
+}
+
+.rtl .tickets-summary-right-icon {
+    float: left;
+}
+
+.rtl .standart-feature-header {
+    padding-left: 80px;
+    padding-right: 25px;
+    margin-right: -380px;
+    padding-right: 380px;
+}
+
+.rtl .standart-feature-header h2 {
+    padding-right: 405px;
+    font-weight: 700 !important;
+}
+
+.rtl .pull-right {
+    float: left !important;
+}
+
+.rtl .pull-left {
+    float: right !important;
+}
+
+.rtl .profile-header {
+    padding-right: 20px;
+}
+
+.rtl .sidebar-log-out-button {
+    left: 20px !important;
+    right: unset;
+}
+
+.rtl .cl_add {
+    float: left;
+}
+
+.rtl .calendar_events {
+    padding-left: 0px;
+    padding-right: 10px;
+}
+
+.rtl .options-feature-card .icon {
+    margin-left: 10px;
+    margin-right: 0px;
+    float: right;
+}
+
+.rtl .mobile-menu {
+    left: unset;
+    right: 0;
+    border-right: unset;
+    border-left: 1px solid #d3d1d1;
+}
+
+.rtl .notifications-button {
+    float: unset;
+    float: left;
+    right: unset;
+    left: 0;
+}
+
+.rtl .notifications-button:hover {
+    float: unset;
+    float: left;
+    right: unset;
+    left: 0;
+}
+
+.rtl .pl-25 {
+    padding-right: 25px !important;
+    padding-left: unset !important;
+}
+
+.rtl .text-right {
+    text-align: left !important;
+}
+
+.rtl .text-left {
+    text-align: right !important;
+}

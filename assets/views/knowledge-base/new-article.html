@@ -1,0 +1,43 @@
+<div ng-include src="'assets/views/includes/sidebar.html'"></div>
+<md-content class="app-wrapper">
+    <div class="md-toolbar-tools standart-feature-header">
+        <h2 flex md-truncate translate="NEW_ARTICLE"></h2>
+        <md-button ng-click="GO_PATH('knowledge-base')" class="md-icon-button action-icon-button" aria-label="Back">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/back.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Back"></span></md-tooltip>
+        </md-button>
+        <md-button ng-click="ADD_NEW_ARTICLE()" class="md-icon-button action-icon-button" aria-label="Update">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/update.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="ADD_ARTICLE"></span></md-tooltip>
+        </md-button>
+    </div>
+    <div class="col-md-12 p-0">
+        <div class="col-md-5 mt-10">
+            <div class="md-block col-md-12 pl-0 mb-10">
+                <label class="label-tickotty" translate="Title"></label>
+                <input type="text" class="type-new-ticket-title" required ng-class="{'required-input': !NEW_ARTICLE.TITLE}" ng-model="NEW_ARTICLE.TITLE" placeholder="Type subject here!" />
+            </div>
+            <md-input-container class="md-block col-md-12 pl-0 mb-0  mt-20">
+                <label translate="Category"></label>
+                <md-select ng-model="NEW_ARTICLE.CATEGORY" required>
+                    <md-option ng-value="CATEGORY.ID" ng-repeat="CATEGORY in ARTICLE_CATEGORIES">{{CATEGORY.NAME}}</md-option>
+                </md-select>
+            </md-input-container>
+            <div class="row">
+                <div class="col-sm-12 col-xs-12 mt-10">
+                    <div class="form-group">
+                        <label for="Keywords" translate="Keywords"></label>
+                        <md-chips ng-model="NEW_ARTICLE.KEYWORDS" input-aria-label="Tags" md-separator-keys="TAG_KEYS" placeholder="Eg:Tickets" secondary-placeholder="Add tag" input-aria-describedby="commaSeparatorKeyDescription"></md-chips>
+                    </div>
+                    <div class="form-group">
+                        <label for="Keywords" translate="Description"></label>
+                        <textarea type="text" class="form-control" ng-model="NEW_ARTICLE.DESCRIPTION" placeholder="..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7  mt-20">
+            <ckeditor ng-model="NEW_ARTICLE.CONTENT"></ckeditor>
+        </div>
+    </div>
+</md-content>

@@ -1,0 +1,47 @@
+<div ng-include src="'assets/views/includes/sidebar.html'"></div>
+<md-content class="app-wrapper">
+    <md-toolbar class="md-toolbar-tools standart-feature-header">
+        <h2 flex md-truncate translate="OPTIONS_BH_TITLE"></h2>
+        <md-button ng-click="GO_PATH('options/')" class="md-icon-button action-icon-button" aria-label="Back">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/back.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Back"></span></md-tooltip>
+        </md-button>
+        <md-button ng-click="UPDATE_OPTIONS()" class="md-icon-button action-icon-button" aria-label="Update">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/update.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Update"></span></md-tooltip>
+        </md-button>
+    </md-toolbar>
+    <md-toolbar class="inline-toolbar">
+        <div class="md-toolbar-tools">
+            <h2 flex md-truncate translate="OPTIONS_BH_DESC"></h2>
+        </div>
+    </md-toolbar>
+    <md-content class="pl-20 mb-20 bg-white" layout-padding>
+        <div class="staff-working-hours-container">
+            <md-content class="staff-working-hours-card" flex="13" ng-repeat="PLAN in OPTIONS.BUSINESS_HOURS">
+                <md-checkbox ng-model="PLAN.STATUS"><span class="text-uppercase text-bold">{{ PLAN.DAY }}</span></md-checkbox>
+                <fieldset>
+                    <md-input-container class="working-hours-input">
+                        <label translate="Start"></label>
+                        <input str-to-time="" ng-model="PLAN.START" type="time">
+                    </md-input-container>
+                    <md-input-container class="working-hours-input">
+                        <label translate="End"></label>
+                        <input str-to-time="" ng-model="PLAN.END" type="time">
+                    </md-input-container>
+                </fieldset>
+                <fieldset>
+                    <legend translate="Break_Time"></legend>
+                    <md-input-container class="working-hours-input">
+                        <label translate="Start"></label>
+                        <input str-to-time="" ng-model="PLAN.BREAKS.START" type="time">
+                    </md-input-container>
+                    <md-input-container class="working-hours-input">
+                        <label translate="End"></label>
+                        <input str-to-time="" ng-model="PLAN.BREAKS.END" type="time">
+                    </md-input-container>
+                </fieldset>
+            </md-content>
+        </div>
+    </md-content>
+</md-content>

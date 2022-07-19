@@ -1,0 +1,263 @@
+<div ng-include src="'assets/views/includes/sidebar.html'"></div>
+<md-content class="app-wrapper">
+    <md-toolbar class="md-toolbar-tools standart-feature-header">
+        <h2 flex md-truncate translate="OPTIONS_CF_TITLE"></h2>
+        <md-button ng-click="GO_PATH('options/')" class="md-icon-button action-icon-button" aria-label="Back">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/back.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Back"></span></md-tooltip>
+        </md-button>
+        <md-button ng-if="SELECTED_FIELD" ng-click="UPDATE_FIELD()" class="md-icon-button action-icon-button" aria-label="Update">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/update.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Update"></span></md-tooltip>
+        </md-button>
+        <md-button ng-if="SELECTED_FIELD" ng-click="REMOVE_FIELD()" class="md-icon-button action-icon-button" aria-label="More">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/remove.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Remove"></span></md-tooltip>
+        </md-button>
+        <md-button ng-hide="CREATE_CUSTOM_FIELD" ng-click="CREATE_CUSTOM_FIELD = ! CREATE_CUSTOM_FIELD" class="md-icon-button action-icon-button" aria-label="Update">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/create.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="New"></span></md-tooltip>
+        </md-button>
+        <md-button ng-show="CREATE_CUSTOM_FIELD" ng-click="ADD_FIELD()" class="md-icon-button action-icon-button" aria-label="Update">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/update.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Add"></span></md-tooltip>
+        </md-button>
+        <md-button ng-show="CREATE_CUSTOM_FIELD" ng-click="CREATE_CUSTOM_FIELD = ! CREATE_CUSTOM_FIELD" class="md-icon-button action-icon-button" aria-label="Update">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/close.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="New"></span></md-tooltip>
+        </md-button>
+    </md-toolbar>
+    <div class="col-md-4 input-list-container">
+        <md-toolbar class="inline-toolbar">
+            <div class="md-toolbar-tools">
+                <h2 flex md-truncate translate="Fields"></h2>
+            </div>
+        </md-toolbar>
+        <div ng-repeat="FIELD in CUSTOM_FIELDS track by $index" class="input-list-item" ng-class="{'selected-field': SELECTED_FIELD === FIELD}" ng-click='GET_FIELD_DETAIL($index); FIELD_DETAIL()'>
+            <div class="input-type pull-left" ng-if="FIELD.TYPE === 'input'"><img width="60px" src="assets/icons/input.svg" alt=""></div>
+            <div class="input-type pull-left" ng-if="FIELD.TYPE === 'number'"><img width="60px" src="assets/icons/number.svg" alt=""></div>
+            <div class="input-type pull-left" ng-if="FIELD.TYPE === 'textarea'"><img width="60px" src="assets/icons/textarea.svg" alt=""></div>
+            <div class="input-type pull-left" ng-if="FIELD.TYPE === 'date'"><img width="60px" src="assets/icons/date.svg" alt=""></div>
+            <div class="input-type pull-left" ng-if="FIELD.TYPE === 'select'"><img width="60px" src="assets/icons/select.svg" alt=""></div>
+            <div class="input-type pull-left" ng-if="FIELD.TYPE === 'radio'"><img width="60px" src="assets/icons/radio.svg" alt=""></div>
+            <div class="input-type pull-left" ng-if="FIELD.TYPE === 'checkbox'"><img width="60px" src="assets/icons/checkbox.svg" alt=""></div>
+            <div class="input-field-detail pull-right">
+                <div class="input-name">{{FIELD.NAME}} <span class="badge badge-sm pull-right">{{FIELD.TYPE}}</span></div>
+                <div class="input-description">{{FIELD.DESCRIPTION}}</div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="!SELECTED_FIELD && !CREATE_CUSTOM_FIELD" class="cf-right"></div>
+    <div ng-hide="!SELECTED_FIELD || CREATE_CUSTOM_FIELD" class="col-md-8 cf-right no-padding">
+        <md-toolbar class="inline-toolbar">
+            <div class="md-toolbar-tools">
+                <h2 flex md-truncate translate="INPUT_DETAILS_TITLE"></h2>
+            </div>
+        </md-toolbar>
+        <div class="col-md-6 pt-20 no-margin no-padding">
+            <div class="col-md-12 pl-25 pt-20">
+                <div class="md-block col-md-6 pl-0 mb-0">
+                    <label class="label-tickotty" translate="Name"></label>
+                    <input class="tickotty-input" required ng-model="SELECTED_FIELD.NAME">
+                </div>
+                <div class="md-block col-md-6 pl-0 pr-0 mb-0">
+                    <label class="label-tickotty" translate="Order"></label>
+                    <input class="tickotty-input" required ng-model="SELECTED_FIELD.ORDER">
+                </div>
+                <div class="md-block col-md-12 pl-0 pr-0 mb-0">
+                    <label class="label-tickotty" translate="Description"></label>
+                    <input class="tickotty-input" required ng-model="SELECTED_FIELD.DESCRIPTION">
+                </div>
+                <md-input-container class="md-block col-md-6 pl-0">
+                    <label translate="Type"></label>
+                    <md-select ng-model="SELECTED_FIELD.TYPE">
+                        <md-option ng-value="TYPE.TYPE" ng-repeat="TYPE in CUSTOM_FIELD_TYPES">{{TYPE.NAME}}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="md-block col-md-6 pl-0">
+                    <label translate="Relation"></label>
+                    <md-select ng-model="SELECTED_FIELD.RELATION_TYPE" ng-disabled="USER.ADMIN">
+                        <md-option ng-value="'TICKET'"><span translate="TICKET"></span></md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <md-toolbar class="inline-toolbar" ng-if="SELECTED_FIELD.TYPE === 'select' || SELECTED_FIELD.TYPE === 'radio' || SELECTED_FIELD.TYPE === 'checkbox'">
+                <div class="md-toolbar-tools">
+                    <h2 flex md-truncate translate="SELECT_OPTIONS_TITLE"></h2>
+                </div>
+            </md-toolbar>
+            <div class="col-md-12 pl-25 pt-20" ng-if="SELECTED_FIELD.TYPE === 'select' || SELECTED_FIELD.TYPE === 'radio' || SELECTED_FIELD.TYPE === 'checkbox'">
+                <div class="col-md-12 no-padding">
+                    <div class="md-block " class="md-icon-float md-icon-right md-block">
+                        <label class="label-tickotty" translate="Name"></label>
+                        <input class="tickotty-input" ng-model="SELECTED_FIELD.NEW_OPTION_NAME" placeholder="New option name">
+                        <i class="input-button-right" ng-click="ADD_OPTION_TO_FIELD()"></i>
+                        <md-list class="bg-white">
+                            <md-list-item class="md-2-line" ng-repeat="OPTION in SELECTED_FIELD.DATA">
+                                <div class="md-list-item-text">
+                                    <h3> {{ OPTION.NAME }} </h3>
+                                </div>
+                                <md-button class="md-secondary md-icon-button" ng-click='REMOVE_OPTION_FROM_FIELD($index)' aria-label="call">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </md-button>
+                                <md-divider></md-divider>
+                            </md-list-item>
+                        </md-list>
+                    </div>
+                </div>
+            </div>
+            <md-toolbar class="inline-toolbar" ng-show="SELECTED_FIELD.CONDITION.STATUS">
+                <div class="md-toolbar-tools">
+                    <h2 flex md-truncate translate="TRIGGER_OPTIONS_TITLE"></h2>
+                </div>
+            </md-toolbar>
+            <div ng-show="SELECTED_FIELD.CONDITION.STATUS" class="col-md-12 pl-25 pt-20">
+                <md-input-container class="md-block">
+                    <label class="p-l-10" translate="Trigger"></label>
+                    <md-select ng-model="SELECTED_FIELD.CONDITION.ID">
+                        <md-option ng-repeat="FIELD in CUSTOM_FIELDS" ng-value="FIELD.ID">{{FIELD.NAME}}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label class="p-l-10" translate="Operator"></label>
+                    <md-select ng-model="SELECTED_FIELD.CONDITION.OPERATOR">
+                        <md-option ng-value="1"><span translate="Equal"></span></md-option>
+                        <md-option ng-value="2"><span translate="Not_Equal"></span></md-option>
+                        <md-option ng-value="3"><span translate="Greater_than"></span></md-option>
+                        <md-option ng-value="4"><span translate="Less_than"></span></md-option>
+                    </md-select>
+                </md-input-container>
+                <div class="md-block " class="md-icon-float md-icon-right md-block">
+                    <label class="label-tickotty" translate="CONDITION_VAL_LABEL"></label>
+                    <input class="tickotty-input" ng-model="SELECTED_FIELD.NEW_CONDITION_VALUE" placeholder="New condition value">
+                    <i class="input-button-right" ng-click="ADD_CONDITION_TO_FIELD()"></i>
+                </div>
+                <md-list ng-if="SELECTED_FIELD.CONDITION.STATUS" class="bg-white p-l-10 p-r-0">
+                    <md-list-item class="md-2-line" ng-repeat="VALUE in SELECTED_FIELD.CONDITION.VALUE">
+                        <div class="md-list-item-text">
+                            <h3> {{ VALUE }} </h3>
+                        </div>
+                        <md-button class="md-secondary md-icon-button" ng-click='REMOVE_CONDITION_FROM_FIELD($index)' aria-label="Değer Sil">
+                            <ion-icon name="trash-outline"></ion-icon>
+                        </md-button>
+                        <md-divider class="p-r-10"></md-divider>
+                    </md-list-item>
+                </md-list>
+            </div>
+            <md-input-container class="col-md-12">
+                <md-switch ng-model="SELECTED_FIELD.ACTIVE" aria-label="Active"><span translate="Active"></span></md-switch>
+                <md-switch ng-model="SELECTED_FIELD.CONDITION.STATUS" aria-label="Conditional"><span translate="Conditional"></span></md-switch>
+                <md-switch ng-model="SELECTED_FIELD.REQUIRED" aria-label="Required"><span translate="Required"></span></md-switch>
+                <md-switch ng-model="SELECTED_FIELD.PERMISSIONS" aria-label="Admin"><span translate="Admin"></span></md-switch>
+            </md-input-container>
+        </div>
+        <div class="col-md-6 pt-20">
+            <pre><code class="code json">{{SELECTED_FIELD | json}}</code></pre>
+        </div>
+    </div>
+    <div ng-show="CREATE_CUSTOM_FIELD" class="col-md-8 cf-right no-padding">
+        <md-toolbar class="inline-toolbar">
+            <div class="md-toolbar-tools">
+                <h2 flex md-truncate translate="INPUT_DETAILS_TITLE"></h2>
+            </div>
+        </md-toolbar>
+        <div class="col-md-6 pt-20">
+            <div class="md-block col-md-6 mb-0">
+                <label class="label-tickotty" translate="Name"></label>
+                <input class="tickotty-input" required ng-model="NEW_FIELD.NAME">
+            </div>
+            <div class="md-block col-md-6 pr-0 mb-0">
+                <label class="label-tickotty" translate="Order"></label>
+                <input class="tickotty-input" required ng-model="NEW_FIELD.ORDER">
+            </div>
+            <div class="md-block col-md-12 pr-0 mb-0">
+                <label class="label-tickotty" translate="Description"></label>
+                <input class="tickotty-input" required ng-model="NEW_FIELD.DESCRIPTION">
+            </div>
+            <md-input-container class="md-block col-md-6">
+                <label translate="Type"></label>
+                <md-select ng-model="NEW_FIELD.TYPE">
+                    <md-option ng-value="TYPE.TYPE" ng-repeat="TYPE in CUSTOM_FIELD_TYPES">{{TYPE.NAME}}</md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container class="md-block col-md-6">
+                <label translate="Relation"></label>
+                <md-select ng-model="NEW_FIELD.RELATION_TYPE" ng-disabled="USER.ADMIN">
+                    <md-option ng-value="'TICKET'"><span translate="TICKET"></span></md-option>
+                </md-select>
+            </md-input-container>
+            <div class="col-md-12" ng-if="NEW_FIELD.TYPE === 'select' || NEW_FIELD.TYPE === 'radio' || NEW_FIELD.TYPE === 'checkbox'">
+                <md-toolbar class="inline-toolbar">
+                    <div class="md-toolbar-tools">
+                        <h2 flex md-truncate translate="SELECT_OPTIONS_TITLE"></h2>
+                    </div>
+                </md-toolbar>
+                <div class="col-md-12 no-padding">
+                    <div class="md-block " class="md-icon-float md-icon-right md-block" ng-if="NEW_FIELD.TYPE === 'select' || NEW_FIELD.TYPE === 'radio' || NEW_FIELD.TYPE === 'checkbox'">
+                        <label class="label-tickotty" translate="Name"></label>
+                        <input class="tickotty-input" ng-model="NEW_FIELD.NEW_OPTION_NAME" placeholder="New option name">
+                        <i class="input-button-right" ng-click="ADD_OPTION()"></i>
+                        <md-list class="bg-white">
+                            <md-list-item class="md-2-line" ng-repeat="OPTION in SELECT_OPTIONS">
+                                <div class="md-list-item-text">
+                                    <h3> {{ OPTION.NAME }} </h3>
+                                </div>
+                                <md-button class="md-secondary md-icon-button" ng-click='REMOVE_OPTION($index)' aria-label="call">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </md-button>
+                                <md-divider></md-divider>
+                            </md-list-item>
+                        </md-list>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="NEW_FIELD.CONDITION.STATUS" class="col-md-12 no-padding">
+                <md-toolbar class="inline-toolbar" ng-show="SELECTED_FIELD.CONDITION.STATUS">
+                    <div class="md-toolbar-tools">
+                        <h2 flex md-truncate translate="TRIGGER_OPTIONS_TITLE"></h2>
+                    </div>
+                </md-toolbar>
+                <md-input-container class="md-block">
+                    <label class="p-l-10" translate="Trigger"></label>
+                    <md-select ng-model="NEW_FIELD.CONDITION.ID">
+                        <md-option ng-repeat="FIELD in CUSTOM_FIELDS" ng-value="FIELD.ID">{{FIELD.NAME}}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label class="p-l-10" translate="Operator"></label>
+                    <md-select ng-model="NEW_FIELD.CONDITION.OPERATOR">
+                        <md-option ng-value="1"><span translate="Equal"></span></md-option>
+                        <md-option ng-value="2"><span translate="Not_Equal"></span></md-option>
+                        <md-option ng-value="3"><span translate="Greater_than"></span></md-option>
+                        <md-option ng-value="4"><span translate="Less_than"></span></md-option>
+                    </md-select>
+                </md-input-container>
+                <div class="md-block " class="md-icon-float md-icon-right md-block">
+                    <label class="label-tickotty" translate="CONDITION_VAL_LABEL"></label>
+                    <input class="tickotty-input" ng-model="NEW_FIELD.NEW_CONDITION_VALUE" placeholder="New option name">
+                    <i class="input-button-right" ng-click="ADD_NEW_CONDITION_VALUE()"></i>
+                </div>
+                <md-list ng-if="NEW_FIELD.CONDITION.STATUS" class="bg-white p-l-10 p-r-0">
+                    <md-list-item class="md-2-line" ng-repeat="VALUE in NEW_FIELD.CONDITION.VALUE">
+                        <div class="md-list-item-text">
+                            <h3> {{ VALUE }} </h3>
+                        </div>
+                        <md-button class="md-secondary md-icon-button" ng-click='REMOVE_NEW_CONDITION_VALUE($index)' aria-label="Değer Sil">
+                            <ion-icon name="trash-outline"></ion-icon>
+                        </md-button>
+                        <md-divider class="p-r-10"></md-divider>
+                    </md-list-item>
+                </md-list>
+            </div>
+            <md-input-container class="col-md-12">
+                <md-switch ng-model="NEW_FIELD.ACTIVE" aria-label="Active"><span translate="Active"></span></md-switch>
+                <md-switch ng-model="NEW_FIELD.CONDITION.STATUS" aria-label="Conditional"><span translate="Conditional"></span></md-switch>
+                <md-switch ng-model="NEW_FIELD.REQUIRED" aria-label="Required"><span translate="Required"></span></md-switch>
+                <md-switch ng-model="NEW_FIELD.PERMISSIONS" aria-label="Admin"><span translate="Admin"></span></md-switch>
+            </md-input-container>
+        </div>
+        <div class="col-md-6">
+            <pre><code class="code json">{{NEW_FIELD | json}}</code></pre>
+        </div>
+    </div>
+</md-content>

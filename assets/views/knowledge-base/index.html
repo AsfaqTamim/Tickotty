@@ -1,0 +1,115 @@
+<div ng-include src="'assets/views/includes/sidebar.html'"></div>
+<md-content class="app-wrapper">
+    <div class="md-toolbar-tools standart-feature-header">
+        <h2 flex md-truncate translate="Knowledge_Base"></h2>
+        <input type="text" class="top-search hide-xs" placeholder="{{ 'Search_Placeholder' | translate }}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search something quickly'" ng-model-options="{ debounce: 1000 }" ng-model="FILTER.KEYWORD" ng-change="GET_FILTERED_DATA()"
+        />
+        <md-button ng-click="GO_PATH('knowledge-base/new-article')" class="md-icon-button action-icon-button" aria-label="Update">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/create.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="NEW_ARTICLE"></span></md-tooltip>
+        </md-button>
+    </div>
+    <div class="col-md-4 no-padding categories-container">
+        <md-toolbar class="inline-toolbar">
+            <div class="md-toolbar-tools">
+                <h2 flex md-truncate translate="Categories"></h2>
+                <md-icon ng-click="NEW_CATEGORY()" class="action-icon-button-icon pull-right" md-svg-icon="assets/icons/create.svg"></md-icon>
+            </div>
+        </md-toolbar>
+        <div ng-repeat="CATEGORY in ARTICLE_CATEGORIES">
+            <div class="col-md-12 category-detail">
+                <div class="category-header">
+                    <div class="col-md-9 col-sm-9 col-xs-9 no-padding">
+                        <a class="category-title" href="#" editable-text="CATEGORY.NAME" onaftersave="RENAME_CATEGORY(CATEGORY.ID, CATEGORY.NAME)" onaftersave="RENAME_CATEGORY(DEPARTMENT.ID, CATEGORY.NAME)">
+                            {{ CATEGORY.NAME || 'empty' }}
+                          </a>
+                    </div>
+                    <div class="col-md-3 no-padding">
+                        <md-button ng-click="REMOVE = ! REMOVE" class="action-icon-small-button" aria-label="Remove">
+                            <md-icon class="action-icon-small-button-icon" md-svg-icon="assets/icons/remove.svg"></md-icon>
+                            <md-tooltip md-direction="bottom"><span translate="Remove"></span></md-tooltip>
+                        </md-button>
+                        <div ng-show="REMOVE" class="remove-item-container">
+                            <div class="remove-item-card">
+                                <h3 translate="REMOVE_WARN_TITLE"></h3>
+                                <h6 translate="REMOVE_WARN_DESC"></h6>
+                                <p translate="REMOVE_WARN_DETAIL"></p>
+                                <div class="action">
+                                    <button class="do-it" ng-click="REMOVE_CATEGORY($index)"><span translate="YES"></span></button>
+                                    <button class="cancel-it" ng-click="REMOVE = ! REMOVE"><span translate="CANCEL"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 no-padding articles-container">
+        <md-toolbar class="inline-toolbar">
+            <div class="md-toolbar-tools">
+                <h2 flex md-truncate translate="Articles"></h2>
+            </div>
+        </md-toolbar>
+        <table class="tickotty-table-item-container" ng-if="ARTICLES.length">
+            <tbody>
+                <tr class="table-header">
+                    <th class="pl-25 hide-xs" ng-click="FILTER.ORDER_BY_ID = ! FILTER.ORDER_BY_ID">
+                        <span>ID</span>
+                        <ion-icon ng-if="FILTER.ORDER_BY_ID" class="pull-right pr-20" name="arrow-down-outline"></ion-icon>
+                        <ion-icon ng-if="!FILTER.ORDER_BY_ID" class="pull-right pr-20" name="arrow-up-outline"></ion-icon>
+                    </th>
+                    <th class="pl-20" ng-click="FILTER.ORDER_BY_TITLE = ! FILTER.ORDER_BY_TITLE">
+                        <span translate="Title"></span>
+                        <ion-icon ng-if="FILTER.ORDER_BY_TITLE" class="pull-right pr-20" name="arrow-down-outline"></ion-icon>
+                        <ion-icon ng-if="!FILTER.ORDER_BY_TITLE" class="pull-right pr-20" name="arrow-up-outline"></ion-icon>
+                    </th>
+                    <th ng-click="FILTER.ORDER_BY_CATEGORY = ! FILTER.ORDER_BY_CATEGORY" class="hide-xs">
+                        <span translate="Category"></span>
+                        <ion-icon ng-if="FILTER.ORDER_BY_CATEGORY" class="pull-right pr-20" name="arrow-down-outline"></ion-icon>
+                        <ion-icon ng-if="!FILTER.ORDER_BY_CATEGORY" class="pull-right pr-20" name="arrow-up-outline"></ion-icon>
+                    </th>
+                    <th ng-click="FILTER.ORDER_BY_DATE = ! FILTER.ORDER_BY_DATE">
+                        <span translate="DATE"></span>
+                        <ion-icon ng-if="FILTER.ORDER_BY_DATE" class="pull-right pr-20" name="arrow-down-outline"></ion-icon>
+                        <ion-icon ng-if="!FILTER.ORDER_BY_DATE" class="pull-right pr-20" name="arrow-up-outline"></ion-icon>
+                    </th>
+                    <th ng-click="FILTER.ORDER_TOTAL_UPVOTE = ! FILTER.ORDER_TOTAL_UPVOTE">
+                        <ion-icon name="thumbs-up-outline"></ion-icon>
+                        <ion-icon ng-if="FILTER.ORDER_TOTAL_UPVOTE" class="pull-right pr-20" name="arrow-down-outline"></ion-icon>
+                        <ion-icon ng-if="!FILTER.ORDER_TOTAL_UPVOTE" class="pull-right pr-20" name="arrow-up-outline"></ion-icon>
+                    </th>
+                    <th ng-click="FILTER.ORDER_BY_TOTAL_DOWNVOTE = ! FILTER.ORDER_BY_TOTAL_DOWNVOTE">
+                        <ion-icon name="thumbs-down-outline"></ion-icon>
+                        <ion-icon ng-if="FILTER.ORDER_BY_TOTAL_DOWNVOTE" class="pull-right pr-20" name="arrow-down-outline"></ion-icon>
+                        <ion-icon ng-if="!FILTER.ORDER_BY_TOTAL_DOWNVOTE" class="pull-right pr-20" name="arrow-up-outline"></ion-icon>
+                    </th>
+                </tr>
+                <tr class="tickotty-table-item" ng-repeat="ARTICLE in ARTICLES" ng-click="GO_PATH('knowledge-base/article/edit/' + ARTICLE.ID)">
+                    <td class="pl-25 hide-xs">
+                        {{ARTICLE.ID}}
+                    </td>
+                    <td class="pl-25">
+                        {{ARTICLE.TITLE}}
+                    </td>
+                    <td class="hide-xs">
+                        {{ARTICLE.CATEGORY.NAME}}
+                    </td>
+                    <td>
+                        {{ARTICLE.DATE | date:'dd, MMMM yyyy HH:mm'}}
+                    </td>
+                    <td>
+                        <span class="text-success text-bold"> {{ARTICLE.TOTAL_UPVOTE}}</span> / <span class="text-muted"> {{ARTICLE.TOTAL_VOTES}}</span>
+                    </td>
+                    <td>
+                        <span class="text-danger text-bold"> {{ARTICLE.TOTAL_DOWNVOTE}}</span> / <span class="text-muted"> {{ARTICLE.TOTAL_VOTES}}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <md-content class="feature-footer">
+        <ul uib-pagination total-items="TOTAL_COUNT" ng-change="PAGE_CHANGED(FILTER.INDEX)" items-per-page="FILTER.SELECTED_PAGE_SIZE" direction-links="true" ng-model="FILTER.INDEX" max-size="FILTER.MAX_SIZE" class="pagination m-0 pull-right" boundary-links="true"
+            rotate="false" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+    </md-content>
+</md-content>

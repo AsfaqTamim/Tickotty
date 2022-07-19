@@ -1,0 +1,935 @@
+.dark header {
+    background: #292e32;
+    border-right: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+}
+
+.dark .color-palette {
+    background: #212529;
+}
+
+.dark .tickets-statements {
+    color: white;
+}
+
+.dark .profile-header {
+    background: #212529;
+    border-bottom: 1px solid #000000 !important;
+}
+
+.dark .calendar_plan {
+    background: #212529;
+}
+
+.dark .navbar-right {
+    background: #212529;
+}
+
+.dark .side-menu {
+    background-color: #212529 !important;
+    background: #212529;
+    border-right: 1px solid black;
+}
+
+.dark .side-menu .navbar-nav li a {
+    background: #212529 !important;
+    border-bottom: 1px solid #000000;
+}
+
+.dark .navbar-default {
+    background: #212529;
+    border-right: 1px solid #000000 !important;
+}
+
+.dark .standart-feature-header {
+    background: #292e32 !important;
+    border-bottom: 1px solid #000000 !important;
+}
+
+.dark .tickotty-tickets-stats-summary {
+    background: #1b1d21;
+    color: white;
+    border-top: 1.5px solid rgb(0 0 0);
+    border-right: 1.5px solid rgb(0 0 0);
+    border-bottom: 1.5px solid rgb(0 0 0);
+}
+
+.dark .app_dashboard_chart {
+    background: #212529 !important;
+}
+
+.dark .app-wrapper {
+    background: #1b1d21 !important;
+}
+
+.dark label {
+    color: #959595 !important;
+}
+
+.dark .today-ticket-widget {
+    background: #1b1d21;
+    color: white !important;
+}
+
+.dark .tickets-statements-panel {
+    background: #1b1d21;
+    color: white;
+}
+
+.dark .waiting-cases-count-bar {
+    background: linear-gradient( to bottom, #10101045 0%, #1b1d21 100%);
+}
+
+.dark .tick.x:hover {
+    background: linear-gradient(#0d0e10 100%, rgb(31 31 31) 100%);
+}
+
+.dark .value-revenue {
+    background: #1b1d21;
+}
+
+.dark .value-expenses {
+    background: #212529;
+}
+
+.dark .tickotty-clients-pre-box {
+    background: #1b1d21;
+    color: white;
+    border-bottom: 1px solid rgb(0 0 0);
+    border-left: 1px solid rgb(0 0 0);
+    border-right: 1px solid rgb(0 0 0);
+}
+
+.dark .tickotty-clients-list-item {
+    background: #1b1d21;
+    color: white;
+    border-bottom: 1px solid #000000;
+}
+
+.dark .feature-footer {
+    background: #1b1d21;
+    border-top: 1px solid #000000;
+}
+
+.dark .feature-footer-in {
+    background: #1b1d21;
+    border-top: 1px solid #000000;
+}
+
+.dark .top-search {
+    background: #292e32;
+    border-left: 1px solid #000000;
+    background-image: url(../../assets/icons/search.svg);
+    background-position: right 20px center;
+    background-origin: unset;
+    background-repeat: no-repeat;
+    background-size: 32px;
+}
+
+.dark .top-search::placeholder {
+    color: #d9dcde;
+}
+
+.dark .item-published-date {
+    background: #212529;
+}
+
+.dark .item-published-date .title {
+    color: white;
+}
+
+.dark .tickotty-ticket-stats {
+    background: #212529;
+    color: white;
+    border-bottom: 1px solid #000000;
+}
+
+.dark .tickotty-ticket-stats-container .status-card {
+    border-left: 1px solid #000000;
+}
+
+.dark .tickotty-table-item {
+    background: #212327;
+    border-bottom: 1px solid #000000;
+    color: white;
+    border-top: 1px solid #000000;
+    transition: none;
+}
+
+.dark .tickotty-table-item:hover {
+    background: #1b1d21f0;
+}
+
+.dark .ticket-token {
+    color: white;
+    /* border: 1px solid #000000; */
+}
+
+.dark .tickotty-ticket-owner .name {
+    color: white;
+}
+
+.dark .app-todo-input-ui {
+    background: #1b1d21;
+}
+
+.dark .calendar_plan {
+    border-bottom: 1px solid black;
+}
+
+.dark .app-todo-list-ui__item {
+    border-bottom: 1px solid black;
+}
+
+.dark .ticket-detail .ticket-header .timeline {
+    background: #212529;
+    color: white;
+}
+
+.dark .ticket-detail .ticket-header .timestamp {
+    color: white;
+}
+
+.dark button.md-icon-button.action-icon-button.md-button.md-ink-ripple {
+    border: 1px solid #1b1d21;
+}
+
+.dark .ticket-detail-header {
+    background: #212529;
+    border-bottom: 1px solid #000000;
+}
+
+.dark .panel-ticket-message {
+    border: none;
+    color: white;
+    background: #292e32;
+}
+
+.dark .ticket-detail-footer {
+    background: #292e32;
+    border-top: 1px solid #000000;
+}
+
+.dark .tickotty-tickets-owerview {
+    background: #1b1d21;
+    color: white;
+}
+
+.dark .bg-white {
+    background: #212529 !important;
+    color: white;
+}
+
+.dark .options-sla-list .options-sla-list-item {
+    background: #292e32;
+    color: white;
+}
+
+.dark .options-sla-list .options-sla-list-item .options-sla-list-item-title {
+    color: white;
+}
+
+.dark input {
+    color: white !important;
+    border-color: #313131;
+}
+
+.dark md-checkbox {
+    color: white;
+}
+
+.dark md-input-container>md-select {
+    color: white;
+    border: 1px solid #0000008a;
+}
+
+.dark md-select-value.md-select-placeholder {
+    color: white;
+}
+
+.dark .ticket-reply {
+    background: #212529;
+    border: none;
+    color: white;
+    border-radius: 0px;
+}
+
+.dark .ticket-reply .inner-wrap p {
+    color: white;
+}
+
+.dark .ticket-reply .bottom-bar {
+    border: solid 1px #000;
+}
+
+.dark .panel-ticket-message-comment {
+    border-top: 1px solid rgb(0 0 0);
+    background-color: rgb(41 46 50);
+    padding-bottom: 0px;
+}
+
+.dark .ql-snow .ql-stroke {
+    stroke: #e7e7e7 !important;
+}
+
+.dark .ql-snow .ql-fill,
+.ql-snow .ql-stroke.ql-fill {
+    fill: white !important;
+}
+
+.dark .ticket-detail {
+    background: #1c1d1f;
+}
+
+.dark .ticket-detail-aside {
+    background: #212529;
+    border: none;
+    color: white;
+}
+
+.dark .ticket-detail-body-user {
+    border-bottom: 1px solid #000000;
+}
+
+.dark .ticket-detail-body-user .signature .subtitle {
+    color: white;
+}
+
+.dark .axis .tick .value {
+    color: white !important;
+}
+
+.dark .axis .tick {
+    color: white;
+    border-image: linear-gradient(to top, #1a1a1a, rgb(225 52 52 / 0%)) 1 50%;
+}
+
+.dark .short-info-block-info h5 {
+    font-size: 10px;
+}
+
+.dark .short-info-block-info h3 {
+    font-size: 28px;
+    margin-top: 0;
+}
+
+.dark hr {
+    border-top: 1px solid #000;
+}
+
+.dark .tickets-summary-right-icon {
+    filter: invert(1);
+}
+
+.dark .css-scrollbar::-webkit-scrollbar-track {
+    background-color: #212529;
+    max-height: 5px !important;
+}
+
+.dark .css-scrollbar::-webkit-scrollbar {
+    width: 3px;
+    background-color: #f6f6fc;
+    height: 5px !important;
+}
+
+.dark .css-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #5d5d5d;
+    border-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.dark .panel-ticket-message .panel-body {
+    background: #212529;
+    color: white;
+}
+
+.dark .panel-ticket-message-comment-footer {
+    background: #292e32;
+    border-top: 1px solid #1e1f1f !important;
+}
+
+.dark .btn-ticket-comment-draft {
+    color: white;
+}
+
+.dark .clietns-right-icon {
+    filter: grayscale(1);
+}
+
+.dark .staff-con.staff-department {
+    background: #212529;
+    color: white;
+    border-bottom: 1px solid #000000;
+}
+
+.dark .user-info-card-text {
+    background: #212327;
+    border: 1px solid #000000;
+    color: white;
+}
+
+.dark .user-info-card-icon {
+    background: #212327;
+    border: 1px solid #000000;
+}
+
+.dark .staff-con.ng-scope.selected-bg {
+    background: #292e32;
+    color: white;
+}
+
+.dark .client-staff-members {
+    border-right: 1px solid #000000;
+    background: #212327;
+    color: white;
+}
+
+.dark h4.item-title.ng-binding {
+    color: white;
+}
+
+.dark .tickotty-ticket-info {
+    border: 1.3px solid #000000;
+}
+
+.dark .card .card-title {
+    color: white !important;
+}
+
+.dark .btn-default {
+    background: #1b1d21;
+    border: 1px solid black;
+    color: white;
+}
+
+.dark .ql-editor.ql-blank::before {
+    color: #979797;
+}
+
+.dark .ql-editor {
+    border: 1px solid black;
+}
+
+.dark button.btn.btn-succes.btn-ticket-comment-arrow.ng-scope.dropdown-toggle {
+    background: #212529;
+}
+
+.dark .requester-name h3 {
+    color: white;
+}
+
+.dark .ticket-detail-footer .created-date {
+    color: white;
+}
+
+.dark textarea {
+    color: white;
+    background: transparent;
+    border: 1px solid #000;
+}
+
+.dark .md-label {
+    color: white;
+}
+
+.dark .feature-filter-area {
+    background: #212529;
+    border-bottom: 1px solid #000000;
+}
+
+.dark .md-datepicker-input::placeholder {
+    color: white !important;
+}
+
+.dark .md-datepicker {
+    border-color: #363636;
+}
+
+.dark .tickotty-tickets-owerview p {
+    color: white;
+}
+
+.dark .tickotty-tickets-owerview__inner span {
+    color: var(--primary-color);
+}
+
+.dark .col-md-12.staff-chart-report.ng-scope {
+    color: white;
+}
+
+.dark .options-feature-header {
+    color: white;
+}
+
+.dark .sla-priority-name {
+    color: white;
+}
+
+.dark .hint {
+    color: #888888;
+}
+
+.dark input::placeholder {
+    color: #717171;
+}
+
+.dark .md-input::placeholder {
+    color: #7f7f7f !important;
+}
+
+.dark .notifications-container {
+    background: #292e32;
+    color: white !important;
+}
+
+.dark .notifications-container .notification-contnet .mail-desc {
+    color: white;
+}
+
+.dark .notifications-container .notification-contnet .time {
+    color: white;
+}
+
+.darl .notifications-header {
+    border-bottom: 1px solid red !important;
+}
+
+.dark .notifications-header {
+    background: #292e32;
+    border-bottom: 1px solid black;
+}
+
+.dark .sl-right {
+    color: darkgrey;
+}
+
+.dark .tickotty-case-predefined-replies {
+    background: #2b2f35;
+}
+
+.dark .sl-right {
+    color: darkgrey;
+}
+
+.dark .tickotty-case-predefined-replies {
+    background: #2b2f35;
+}
+
+.dark .reply-area {
+    border-top: 1px solid #000000;
+}
+
+.dark .staff-con {
+    border-bottom: 1px solid black;
+}
+
+.dark .client-details-right {
+    color: white;
+    background: #212529;
+    font-weight: 900 !important;
+    border-bottom: 1px solid #000000;
+}
+
+.dark .tickotty-ticket-status .status .confirmed {
+    color: white;
+}
+
+.dark .remove-item-card {
+    background: #292e32;
+    color: white;
+    background-image: url(../icons/delete-bg.svg);
+    background-repeat: no-repeat;
+    background-position: 238px bottom;
+    background-size: 374px;
+}
+
+.dark .remove-item-card h6 {
+    color: #ffffff;
+}
+
+.dark .client-detail {
+    border-color: black;
+}
+
+.dark .user-info-card-text a {
+    color: white;
+}
+
+.dark .md-toolbar-tools h2 {
+    color: white;
+}
+
+.dark .ticket-detail-body {
+    background: #292e32;
+}
+
+.dark .md-select-value>span:not(.md-select-icon) .md-text {
+    color: #cacaca;
+}
+
+.dark .tickotty-ticket-info .category .title {
+    color: white;
+}
+
+.dark .ticket-statements-container {
+    border-top: 1px solid black;
+}
+
+.dark .sla-breaches-countdown {
+    background: #212529;
+    background-image: url(../icons/reply-in.svg) !important;
+    background-size: 38px;
+    background-repeat: no-repeat;
+    background-position: 13px;
+    border-left: 1px solid #000000;
+}
+
+.dark legend {
+    border-bottom: 1px solid #292e32;
+}
+
+.dark .options-feature-card .card .description {
+    color: white;
+}
+
+.dark .custom-fields-content-header {
+    border-bottom: 1.5px solid black;
+    border-top: 1.5px solid black;
+    /* filter: none; */
+}
+
+.dark .ticket-reply-private-note {
+    background: #2f2f2f42;
+}
+
+.dark .ticket-create-form {
+    background: #1b1d21;
+}
+
+.dark h4 {
+    color: white;
+}
+
+.dark .table>thead>tr>th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #000;
+    color: white;
+}
+
+.dark .my-drop-zone {
+    color: white;
+}
+
+.dark .tickotty-ticket-info .date {
+    color: white;
+}
+
+.dark .tickotty-ticket-info .category {
+    color: white;
+}
+
+.dark .tickotty-ticket-assigned .assignee-name {
+    color: white;
+}
+
+.dark .selected-field {
+    background: #292e32;
+}
+
+.dark .input-list-item {
+    border: 0.5px solid #000000;
+    color: white;
+}
+
+.dark .input-name {
+    color: white;
+}
+
+.dark .input-type {
+    border-right: 1px solid #ffffff;
+    padding-left: 5px;
+    filter: invert(1);
+}
+
+.dark .staff-details-header {
+    border-bottom: 1px solid #000000;
+}
+
+.dark .cf-right {
+    border-left: 1px solid #000000;
+}
+
+.dark .department-header {
+    background: #1b1d21;
+    border-bottom: 1px solid #000000;
+}
+
+.dark .department-detail {
+    border: 1px solid #000000;
+}
+
+.dark .department-footer {
+    background: #1b1d21;
+    color: white;
+}
+
+.dark .action-icon-small-button.md-button {
+    border-left: 1px solid #000000;
+}
+
+.dark .department-header {
+    color: white;
+}
+
+.dark .category-header {
+    background: #1b1d21;
+    border-bottom: 1px solid #000000;
+}
+
+.dark .category-title {
+    color: white !important;
+}
+
+.dark .article-item {
+    background: #212529;
+    border-bottom: 1px solid #000000 !important;
+    color: white;
+}
+
+.dark .articles-container {
+    border-left: 1px solid #000000;
+}
+
+.dark .table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    border-top: 1px solid #000;
+}
+
+.dark .table-hover>tbody>tr:hover {
+    background: black;
+}
+
+.dark span {
+    color: white !important;
+}
+
+.dark a {
+    color: white !important;
+}
+
+.dark strong {
+    color: white;
+}
+
+.dark .processes-header {
+    background: #292e32;
+    border-bottom: 1px solid #000000;
+}
+
+.dark .processes-detail {
+    border: 1px solid #000000;
+}
+
+.dark .processes-item {
+    background: #1b1d1f;
+    border-bottom: 1px solid #000000;
+}
+
+.dark .assignated-staff-chart-name {
+    background: -webkit-gradient(linear, left top, right top, from(#1b1d21), to(#292e32));
+}
+
+.dark .notifications-container li:hover {
+    background: black;
+}
+
+.dark .notifications-container .unread {
+    background: #1c1e2136;
+}
+
+.dark .pagination>.disabled>a:hover {
+    background: #1b1d21;
+}
+
+.dark .pagination>.disabled>a {
+    background: #1b1d21;
+    border-color: #000;
+}
+
+.dark .pagination>li>a,
+.pagination>li>span {
+    border-color: black !important;
+}
+
+.dark tr.table-header {
+    background: #212327;
+    border-bottom: 1px solid #000000;
+    box-shadow: 0px 0px 1px 0px #000000;
+}
+
+.dark md-datepicker {
+    border: 1px solid black;
+}
+
+.dark .comment-center .comment-body:hover {
+    background: #12181c;
+    border-bottom: 1px solid rgb(0 0 0);
+}
+
+.dark .comment-center .comment-body {
+    border-bottom: 1px solid rgb(0 0 0);
+}
+
+.dark .comment-center .mail-contnet h5 {
+    color: #ffffff;
+}
+
+.dark .ticket-sla-policies {
+    border-top: 1px solid #000000;
+}
+
+.dark .options-feature-card .card {
+    border: 1px solid #000000;
+}
+
+.dark .options-feature-card .card:hover {
+    border: 1px solid var(--primary-color);
+    color: black;
+    transition: all 0.3s ease-in-out;
+}
+
+.dark .processes-item-title {
+    color: #ffffff !important;
+}
+
+.dark .md-list-item-text h3 {
+    color: white !important;
+}
+
+.dark li.toggle-button a {
+    border-top: 1px solid #000000 !important;
+}
+
+.dark .tickotty-tickets-owerview_container {
+    border-bottom: 1px solid #000000;
+}
+
+.dark .quick-stats-up {
+    border-color: black;
+}
+
+.dark .b-r {
+    border-color: black;
+}
+
+.dark .staff-based-tickets-chart .value {
+    --value: 0%;
+    width: var(--value);
+    padding: 14px;
+    border-radius: .6em;
+    background: hsl(30, 20%, calc(10% - var(--value) * 0.2));
+    overflow: hidden;
+    transition: var(--bounce);
+    max-height: 48px;
+    max-width: 100%;
+    filter: opacity(0.5);
+}
+
+.dark .merging-container {
+    background: #292e32;
+    color: white;
+}
+
+.dark .merge-header {
+    border-bottom: 1px solid #000000;
+}
+
+.dark .merging-action {
+    border-left: 1px solid #000000;
+}
+
+.dark .merging-footer {
+    border-top: 1px solid #000000;
+}
+
+.dark .tickets-to-merge li {
+    background-color: #212529;
+}
+
+.dark .tickets-to-merge li .token {
+    border-right: 1px solid #000000;
+}
+
+.dark .ticket-detail-text {
+    color: white;
+}
+
+.dark .md-tab.md-active {
+    color: white !important;
+}
+
+.dark md-tabs.md-default-theme .md-tab,
+md-tabs .md-tab {
+    color: rgb(94 94 94);
+}
+
+.dark .parent-ticket-inline {
+    background: #151515;
+    color: white;
+}
+
+.dark .child-ticket-inline {
+    background: #151515;
+    color: white;
+}
+
+.dark .ck.ck-toolbar {
+    background: #1b1d21;
+    padding: 0 var(--ck-spacing-small);
+    border: 1px solid black;
+}
+
+.dark .ck.ck-icon {
+    color: #929292 !important;
+}
+
+.dark .ck.ck-editor__editable_inline {
+    overflow: auto;
+    padding: 0 var(--ck-spacing-standard);
+    border: 1px solid black;
+    color: white;
+}
+
+.dark .ck.ck-editor__main>.ck-editor__editable {
+    background: #1b1d21;
+    border-radius: 0;
+}
+
+.dark .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) {
+    border-color: #000000;
+}
+
+.dark .ck.ck-list {
+    list-style-type: none;
+    background: #292e32;
+}
+
+.dark .ck.ck-button.ck-on,
+a.ck.ck-button.ck-on {
+    background: #292e32;
+}
+
+.dark li.toggle-button span {
+    border-color: black !important;
+}
+
+.dark .inline-toolbar {
+    background-color: #292e32 !important;
+    border-bottom: 1px solid #000000;
+    border-right: 1px solid #000000;
+    border-color: black;
+}

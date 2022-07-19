@@ -1,0 +1,128 @@
+<div class="side-menu" ng-controller="Sidebar">
+    <div ng-click="MOBILE_MENU = ! MOBILE_MENU" aria-label="Toggle" class="mobile-menu hide-md hide-lg"></div>
+    <ul ng-show="MOBILE_MENU" class="mobile-nav">
+        <li class="mobile-nav-link-container" ng-repeat="MENU in LEFT_MENU |orderBy:'ORDER' | filter: { SHOW: 'true'}">
+            <a ng-href="{{'#!' + MENU.URL}}"><span class="{{MENU.ICON}}"></span> <span>{{MENU.TITLE}}</span></a>
+        </li>
+    </ul>
+    <nav class="navbar navbar-default" role="navigation">
+        <header>
+            <md-icon class="logo" md-svg-icon="assets/icons/flash-logo.svg"></md-icon>
+        </header>
+        <div class="side-menu-container">
+            <ul class="nav navbar-nav">
+                <li ng-repeat="MENU in LEFT_MENU |orderBy:'ORDER' | filter: { SHOW: 'true'}">
+                    <a ng-href="{{'#!' + MENU.URL}}"><span class="{{MENU.ICON}}"></span> <span>{{MENU.TITLE}}</span></a>
+                    <md-tooltip md-direction="right">{{MENU.TITLE}}</md-tooltip>
+                </li>
+                <li class="toggle-button" ng-show="SIDE_TOGGLE_STATUS">
+                    <span ng-click="TRICK_TOGGLE()">
+                        <ion-icon ng-show="!SIDE_TOGGLE" name="arrow-back-outline"></ion-icon>
+                        <ion-icon ng-show="SIDE_TOGGLE" name="arrow-forward-outline"></ion-icon>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="navbar-right" ng-hide="SIDE_TOGGLE">
+        <div class="top">
+            <div class="profile-header">
+                <h1 class="staff-name" ng-click="GO_PATH('profile/')" ng-bind="USER.NAME + ' ' + USER.SURNAME"></h1>
+                <p class="staff-email" ng-bind="USER.EMAIL"></p>
+                <color-picker ng-if="USER.ADMIN" color="color" options="COLOR_OPTIONS" on-color-changed="colorChanged(newColor, oldColor)"></color-picker>
+                <div class="sidebar-log-out-button pull-right">
+                    <ion-icon ng-click="LOGOUT()" name="log-out-outline"></ion-icon>
+                    <md-tooltip md-direction="left"><span translate="Sign_Out"></span></md-tooltip>
+                </div>
+                <div ng-mouseenter="SELECT_LANG = ! SELECT_LANG" class="sidebar-language-button pull-right">
+                    <ion-icon name="language-outline"></ion-icon>
+                    <md-tooltip md-direction="left"><span translate="Language"></span></md-tooltip>
+                </div>
+                <div ng-show="SELECT_LANG" ng-mouseleave="SELECT_LANG = ! SELECT_LANG" class="language-selector">
+                    <button class="lang-change-button" ng-click="CHANGE_LANGUAGE('en_US')">EN</button>
+                    <button class="lang-change-button" ng-click="CHANGE_LANGUAGE('nl_NL')">NL</button>
+                    <button class="lang-change-button" ng-click="CHANGE_LANGUAGE('ru_RU')">RU</button>
+                    <button class="lang-change-button" ng-click="CHANGE_LANGUAGE('tr_TR')">TR</button>
+                </div>
+            </div>
+        </div>
+        <div class="calendar">
+            <div class="calendar_plan">
+                <div class="cl_plan">
+                    <div class="cl_title" ng-bind="DATE | date:'dd, MMMM yyyy EEEE'"></div>
+                    <div class="cl_copy" ng-bind="CLOCK | date:'HH:mm'"></div>
+                    <div ng-click="MODE_COLOR()" class="cl_add">
+                        <ion-icon ng-if="!DARK_MODE" name="contrast-outline"></ion-icon>
+                        <ion-icon ng-if="DARK_MODE" name="moon-outline"></ion-icon>
+                        <md-tooltip md-direction="left"><span translate="DARK_MODE"></span></md-tooltip>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="app-todo-wrapper app-todo-wrapper--small" ng-controller="Todo">
+            <div class="app-todo-box app-todo-box--small  app-todo-box--highlight">
+                <span translate="TODO_TRANSLATION" translate-values="{'TOTAL_TODO_COUNT':TOTAL_TODO_COUNT(),'COMPLETED_TODOS_COUNT':COMPLETED_TODOS.length,'TODO_COMPLETION_TOTAL_COUNT':TODO_COMPLETION_TOTAL(COMPLETED_TODOS.length)}"></span>
+            </div>
+            <div class="app-todo-list-ui__item">
+                <form name="add_TODO" ng-submit="CREATE_TODO()" novalidate>
+                    <input class="app-todo-input-ui" type="text" ng-model="newTitle" placeholder="{{ 'Todo_Placeholder' | translate }}" ng-required />
+                </form>
+            </div>
+            <ul class="app-todo-list-ui css-scrollbar">
+                <li ng-hide='TOTAL_TODO_COUNT() > 0' class="no-personal-todo"></li>
+                <li class="app-todo-list-ui__item" ng-repeat="TODO in ALL_TODOS">
+                    <span>{{TODO.DETAIL}}</span>
+                    <div class="app-todo-fr">
+                        <a href class="app-todo-button" ng-click="REMOVE_TODO($index)">
+                            <ion-icon name="close"></ion-icon>
+                        </a>
+                        <a href class="app-todo-button" ng-click="MARK_AS_TODO_DONE($index)">
+                            <ion-icon name="checkmark-circle-outline"></ion-icon>
+                        </a>
+                    </div>
+                </li>
+                <li class="app-todo-list-ui__item" ng-class="{ 'app-todo-status app-todo-status--done' : TODO.DONE }" ng-repeat="TODO in COMPLETED_TODOS">
+                    <span>{{TODO.DETAIL}}</span>
+                    <div class="app-todo-fr">
+                        <a href class="app-todo-button-undo" ng-click="UNMARK_AS_TODO_DONE($index)">
+                            <ion-icon name="arrow-undo-circle-outline"></ion-icon>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="calendar" ng-controller="Logs">
+            <div class="calendar_events css-scrollbar">
+                <div ng-repeat="LOG in LATEST_LOGS" class="event_item">
+                    <div class="ei_Dot dot_active"></div>
+                    <div class="ei_Title text-bold" ng-bind="LOG.DATE | date:'dd, MMMM yyyy HH:mm'"></div>
+                    <div class="ei_Copy" compile="LOG.DETAIL"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-controller="Notifications">
+    <div class="notifications-button" aria-label="Notifications" ng-click="SHOW_NOTIFICATIONS = ! SHOW_NOTIFICATIONS">
+        <div ng-if="(NOTIFICATIONS | filter:{READ:false}).length" class="tickotty-notification-notify">
+            <span class="tickotty-notification-animate"></span> <span class="point"></span>
+        </div>
+    </div>
+    <div ng-show="SHOW_NOTIFICATIONS" ng-mouseleave="SHOW_NOTIFICATIONS = ! SHOW_NOTIFICATIONS" class="notifications-container">
+        <div class="notifications-header">
+            <h4 translate="Notifications"></h4>
+            <button class="btn btn-default mark-as-all-read btn-sm" ng-click="MARK_NOTIFICATION_AS_ALL_READ()"><ion-icon name="checkmark-done-outline"></ion-icon> <span translate="MARK_ALL_AS_READ"></span></button>
+        </div>
+        <div class="text-center pt-20" ng-if="!NOTIFICATIONS.length">
+            <span translate="No_Notifications"></span>
+        </div>
+        <li ng-repeat="NOTIFICATION in NOTIFICATIONS" ng-class="{ 'unread' : NOTIFICATION.READ === false }">
+            <div class="notification-contnet">
+                <span ng-if="!NOTIFICATION.READ" ng-click="MARK_NOTIFICATION_AS_READ(NOTIFICATION.ID); NOTIFICATION.READ = 'false'" class="profile-status online pull-right"></span>
+                <span class="mail-desc" compile="NOTIFICATION.DETAIL"></span> <span class="time" ng-bind="NOTIFICATION.DATE | date : 'MMM d, y h:mm:ss a'"></span>
+            </div>
+            <div class="user-img"> <img ng-src="{{NOTIFICATION.ICON}}" alt="user">
+            </div>
+        </li>
+    </div>
+</div>

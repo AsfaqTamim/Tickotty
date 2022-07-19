@@ -1,0 +1,166 @@
+<div ng-include src="'assets/views/includes/sidebar.html'"></div>
+<md-content class="app-wrapper">
+    <div ng-show="REMOVE" class="remove-item-container">
+        <div class="remove-item-card">
+            <h3 translate="REMOVE_WARN_TITLE"></h3>
+            <h6 translate="REMOVE_WARN_DESC"></h6>
+            <p translate="REMOVE_WARN_DETAIL"></p>
+            <div class="action">
+                <button class="do-it" ng-click="REMOVE_USER()"><span translate="YES"></span></button>
+                <button class="cancel-it" ng-click="REMOVE = ! REMOVE"><span translate="CANCEL"></span></button>
+            </div>
+        </div>
+    </div>
+    <div class="md-toolbar-tools standart-feature-header">
+        <h2 flex md-truncate>{{STAFF.NAME}} {{STAFF.SURNAME}}</h2>
+        <md-button ng-click="GO_PATH('profile/edit/')" class="md-icon-button action-icon-button" aria-label="More">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/edit.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Edit"></span></md-tooltip>
+        </md-button>
+    </div>
+    <div class="grid-container">
+        <div class="client-staff-members">
+            <div class="client-detail">
+                <div class="staff-con staff-department">
+                    <span translate="USER_INFO_TITLE"></span>
+                </div>
+                <div class="user-info-card col-md-12 p-0">
+                    <div class="user-info-card-icon">
+                        <md-icon class="user-info-card-icon-a" md-svg-icon="assets/icons/phone.svg"></md-icon>
+                    </div>
+                    <div class="user-info-card-text">
+                        <a href="tel:{{STAFF.PHONE}}">{{STAFF.PHONE}}</a>
+                    </div>
+                </div>
+                <div class="user-info-card col-md-12 p-0">
+                    <div class="user-info-card-icon">
+                        <md-icon class="user-info-card-icon-a" md-svg-icon="assets/icons/mail.svg"></md-icon>
+                    </div>
+                    <div class="user-info-card-text">
+                        <a href="mailto:{{STAFF.EMAIL}}">{{STAFF.EMAIL}}</a>
+                    </div>
+                </div>
+                <div class="user-info-card col-md-12 p-0">
+                    <div class="user-info-card-icon">
+                        <md-icon class="user-info-card-icon-a" md-svg-icon="assets/icons/pin.svg"></md-icon>
+                    </div>
+                    <div class="user-info-card-text">{{STAFF.ADDRESS}} </div>
+                </div>
+            </div>
+            <div class="logs-by-target">
+                <div class="staff-con staff-department" ng-if="STAFF.LOGS.length">
+                    <span translate="USER_LOG_TITLE"></span>
+                </div>
+                <div class="log-container">
+                    <div class="steamline mt-0">
+                        <div class="sl-item" ng-repeat="LOG in STAFF.LOGS">
+                            <div class="sl-left"> <img ng-src="https://avatar.oxro.io/avatar.svg?name={{LOG.USER.NAME}}+{{LOG.USER.SURNAME | lowercase}}&background=d0d0d0&caps=3&bold=true" alt="user" class="rounded-circle"> </div>
+                            <div class="sl-right">
+                                <div><a href="javascript:void(0)" class="link text-uppercase">{{LOG.USER.NAME}}</a> <span class="sl-date" ng-bind="LOG.DATE | relativeDate"></span>
+                                    <p compile="LOG.DETAIL"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="client-details-right">
+            <md-content ng-show="USER.ADMIN && STAFF.ADMIN || STAFF.STAFF" class="feature-stats">
+                <div class="tickotty-tickets-owerview_container">
+                    <div class="tickotty-tickets-owerview">
+                        <div class="tickotty-tickets-owerview__inner">
+                            <h2 translate="AVERAGE_FIRST_RESPONSE_TIME_TITLE"></h2>
+                            <p translate="AVERAGE_FIRST_DESC"></p>
+                            <div class="stat"><span ng-bind="STAFF.STATS.AVERAGE_RESPOND_TIME"></span> <small translate="AVERAGE_FIRST_MIN"></small></div>
+                            <p translate="AVERAGE_FIRST_RESPONSE_TIME_DESC"></p>
+                        </div>
+                    </div>
+                    <div class="tickotty-tickets-owerview">
+                        <div class="tickotty-tickets-owerview__inner">
+                            <h2 translate="AVERAGE_FIRST_RESOLVE_TIME_TITLE"></h2>
+                            <p translate="AVERAGE_FIRST_DESC"></p>
+                            <div class="stat"><span ng-bind="STAFF.STATS.AVERAGE_RESOLVE_TIME"></span> <small translate="AVERAGE_FIRST_MIN"></small></div>
+                            <p translate="AVERAGE_FIRST_RESPONSE_TIME_DESC"></p>
+                        </div>
+                    </div>
+                    <div class="tickotty-tickets-owerview">
+                        <div class="tickotty-tickets-owerview__inner">
+                            <h2 translate="SOLVED_TICKETS_TITLE"></h2>
+                            <p translate="AVERAGE_FIRST_DESC"></p>
+                            <div class="stat"><span ng-bind="STAFF.STATS.CLOSED_TICKET_COUNTS + ' / ' + STAFF.STATS.TOTAL_TICKET_COUNTS"></span></div>
+                            <div class="progress">
+                                <div class="progress_bar--two" ng-style="{'width': STAFF.STATS.CLOSED_TICKET_COUNTS * 100 /  STAFF.STATS.TOTAL_TICKET_COUNTS + '%'}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </md-content>
+            <div class="col-md-12 no-margin text-center no-padding" ng-hide="SELECTED_USER || CREATE_USER || STAFF.TICKETS.length" class="bt-1">
+                <img class="mt-10-percent" width="40%" src="assets/img/empty.svg" alt="">
+                <h3 class="text-bold text-muted" translate="EMPTY_PAGE_TITLE"></h3>
+                <p translate="EMPTY_PAGE_DESC"></p>
+            </div>
+            <table class="tickotty-table-item-container" ng-hide="SELECTED_USER || CREATE_USER || !STAFF.TICKETS.length">
+                <tbody>
+                    <tr class="table-header">
+                        <th class="pl-25" ng-click="FILTER.ORDER_BY_CLIENT = ! FILTER.ORDER_BY_CLIENT">
+                            <span translate="Client"></span>
+                            <ion-icon ng-if="FILTER.ORDER_BY_CLIENT" class="pull-right pr-20" name="arrow-down-outline"></ion-icon>
+                            <ion-icon ng-if="!FILTER.ORDER_BY_CLIENT" class="pull-right pr-20" name="arrow-up-outline"></ion-icon>
+                        </th>
+                        <th class="pl-20" ng-click="FILTER.ORDER_BY_DATE = ! FILTER.ORDER_BY_DATE">
+                            <span translate="DATE"></span>
+                            <ion-icon ng-if="FILTER.ORDER_BY_DATE" class="pull-right pr-20" name="arrow-down-outline"></ion-icon>
+                            <ion-icon ng-if="!FILTER.ORDER_BY_DATE" class="pull-right pr-20" name="arrow-up-outline"></ion-icon>
+                        </th>
+                        <th ng-click="FILTER.ORDER_BY_STATUS = ! FILTER.ORDER_BY_STATUS">
+                            <span translate="STATUS"></span>
+                            <ion-icon ng-if="FILTER.ORDER_BY_STATUS" class="pull-right pr-20" name="arrow-down-outline"></ion-icon>
+                            <ion-icon ng-if="!FILTER.ORDER_BY_STATUS" class="pull-right pr-20" name="arrow-up-outline"></ion-icon>
+                        </th>
+                    </tr>
+                    <tr class="tickotty-table-item " ng-repeat="TICKET in STAFF.TICKETS" ng-click="GO_PATH('tickets/ticket/' + TICKET.TOKEN)">
+                        <td>
+                            <div ng-click="SELECT_APPLICATION(TICKET)" class="tickotty-ticket-owner">
+                                <div class="name">{{TICKET.USER.NAME}} {{TICKET.USER.SURNAME}}</div>
+                                <div class="other">
+                                    <span class="identity">{{TICKET.SUBJECT}} </span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div ng-click="SELECT_APPLICATION(TICKET)" class="tickotty-ticket-info">
+                                <div class="date col-md-5">
+                                    <span class="title" translate="Created"></span>
+                                    <span class="date" ng-bind="TICKET.CREATED_DATE | date:'dd, MMMM yyyy HH:mm'"></span>
+                                </div>
+                                <div class="indicator col-md-1">
+                                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                                </div>
+                                <div class="category col-md-6">
+                                    <span class="title" translate="Department"></span>
+                                    <span class="category">{{TICKET.DEPARTMENT.NAME}}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div ng-click="SELECT_APPLICATION(TICKET)" class="tickotty-ticket-status">
+                                <div class="status">
+                                    <div ng-if="TICKET.STATUS === '1'" class="waiting" translate="OPENED"></div>
+                                    <div ng-if="TICKET.STATUS === '2'" class="confirmed" translate="ASSIGNED"></div>
+                                    <div ng-if="TICKET.STATUS === '3'" class="confirmed" translate="REPLIED"></div>
+                                    <div ng-if="TICKET.STATUS === '4'" class="solved" translate="CLOSED"></div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <md-content class="feature-footer-in">
+                <ul uib-pagination total-items="TOTAL_COUNT" ng-change="PAGE_CHANGED(FILTER.INDEX)" items-per-page="FILTER.SELECTED_PAGE_SIZE" direction-links="true" ng-model="FILTER.INDEX" max-size="FILTER.MAX_SIZE" class="pagination m-0 pull-right" boundary-links="true"
+                    rotate="false" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+            </md-content>
+        </div>
+    </div>
+</md-content>

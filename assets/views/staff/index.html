@@ -1,0 +1,152 @@
+<div ng-include src="'assets/views/includes/sidebar.html'"></div>
+<md-content class="app-wrapper">
+    <div class="md-toolbar-tools standart-feature-header">
+        <h2 flex md-truncate translate="Staff"></h2>
+        <md-button ng-click="GO_PATH('dashboard/')" class="md-icon-button action-icon-button" aria-label="Back">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/back.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Back"></span></md-tooltip>
+        </md-button>
+        <md-button ng-click="CREATE_USER = ! CREATE_USER" ng-show="!CREATE_USER" class="md-icon-button action-icon-button" aria-label="More">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/add-staff.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Create"></span></md-tooltip>
+        </md-button>
+        <md-button ng-click="CREATE_USER = ! CREATE_USER" ng-show="CREATE_USER" class="md-icon-button action-icon-button" aria-label="More">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/close.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Close"></span></md-tooltip>
+        </md-button>
+        <md-button ng-show="CREATE_USER" ng-click="CREATE_STAFF()" class="md-icon-button action-icon-button" aria-label="Update">
+            <md-icon class="action-icon-button-icon" md-svg-icon="assets/icons/update.svg"></md-icon>
+            <md-tooltip md-direction="bottom"><span translate="Create"></span></md-tooltip>
+        </md-button>
+    </div>
+    <div class="col-md-12 no-padding" ng-hide="CREATE_USER">
+        <div class="comment-center">
+            <div class="comment-body" ng-repeat="USER in ALL_STAFF" ng-click="GO_PATH('staff/' + USER.TOKEN)">
+                <div class="user-img">
+                    <img ng-src="https://avatar.oxro.io/avatar.svg?name={{USER.NAME}}+{{USER.SURNAME | lowercase}}&background=d0d0d0&caps=3&bold=true" alt="user" class="img-circle"></div>
+                <div class="mail-contnet">
+                    <h5>{{USER.NAME}} {{USER.SURNAME}}</h5>
+                    <span class="time">{{USER.EMAIL}}</span><br>
+                    <span class="mail-desc">{{USER.JOIN_DATE | date:'dd, MMMM yyyy HH:mm' }}</span>
+                </div>
+                <div class="tickotty-user-roles-badge pull-right text-right">
+                    <div class="user-role-label admin" ng-if="USER.ADMIN"></div>
+                    <div class="user-role-label staff" ng-if="USER.STAFF"></div>
+                    <div class="user-role-label default" ng-if="!USER.ADMIN && !USER.STAFF"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-show="CREATE_USER" class="col-md-12 white-box no-padding bt-1 bl-1">
+        <div class="col-md-12 white-box">
+            <md-content class="pt-0 row">
+                <div class="col-md-6 no-margin no-padding">
+                    <md-toolbar class="inline-toolbar">
+                        <div class="md-toolbar-tools">
+                            <h2 flex md-truncate translate="USER_DETAILS_TITLE"></h2>
+                        </div>
+                    </md-toolbar>
+                    <div class="col-md-12 mt-20 pl-20">
+                        <md-input-container class="md-block col-md-6 pl-0 mb-0">
+                            <label translate="Name"></label>
+                            <input required ng-model="NEW_USER.NAME">
+                        </md-input-container>
+                        <md-input-container class="md-block col-md-6 pl-0 pr-0 mb-0">
+                            <label translate="Surname"></label>
+                            <input required ng-model="NEW_USER.SURNAME">
+                        </md-input-container>
+                        <md-input-container class="md-block col-md-6 pl-0 mb-0">
+                            <label translate="Phone"></label>
+                            <input required ng-model="NEW_USER.PHONE">
+                        </md-input-container>
+                        <md-input-container class="md-block col-md-6 pl-0 pr-0 mb-0">
+                            <label translate="Email"></label>
+                            <input required ng-model="NEW_USER.EMAIL">
+                        </md-input-container>
+                        <md-input-container class="md-block col-md-12 pl-0">
+                            <label translate="New_Password"></label>
+                            <input ng-model="NEW_USER.PASSWORD">
+                        </md-input-container>
+                        <md-input-container class="md-block col-md-12 pl-0 mb-0">
+                            <label translate="Address"></label>
+                            <textarea required ng-model="NEW_USER.ADDRESS" rows="2"></textarea>
+                        </md-input-container>
+                        <md-input-container class="md-block col-md-6 pl-0" ng-if="USER.IS_ADMIN">
+                            <label translate="Department"></label>
+                            <md-select ng-model="NEW_USER.DEPARTMENT_ID">
+                                <md-option ng-repeat="DEPARTMENT in DEPARTMENTS" value="{{DEPARTMENT.ID}}">
+                                    {{DEPARTMENT.NAME}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <div class="md-block col-md-6 pr-0 mb-0">
+                            <md-input-container class="md-block">
+                                <label translate="Language"></label>
+                                <md-select ng-model="NEW_USER.LANGUAGE">
+                                    <md-option value="en_US">English</md-option>
+                                    <md-option value="nl_NL">Nederlands</md-option>
+                                    <md-option value="ru_RU">Russian</md-option>
+                                    <md-option value="tr_TR">Turkish</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 no-margin no-padding" ng-if="USER.IS_ADMIN">
+                    <md-toolbar class="inline-toolbar">
+                        <div class="md-toolbar-tools">
+                            <h2 flex md-truncate translate="USER_PERMISSIONS_TITLE"></h2>
+                        </div>
+                    </md-toolbar>
+                    <div class="col-md-12 mt-20 pl-25">
+                        <span class="text-bold text-muted" translate="Privileges"></span>
+                        <div layout="row" layout-wrap="" flex="" class="layout-wrap layout-row flex">
+                            <div flex="50" ng-repeat="PRIVILEGE in NEW_USER.PRIVILEGES">
+                                <md-switch class="m-t-5 m-b-5" ng-model="PRIVILEGE.VALUE" aria-label="Durum"><strong class="text-muted">{{PRIVILEGE.NAME}}</strong></md-switch>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 pl-25">
+                        <span class="text-bold text-muted">User Role</span>
+                        <md-switch ng-model="NEW_USER.ADMIN" aria-label="Admin"><span translate="Admin"></span></md-switch>
+                        <md-switch ng-model="NEW_USER.STAFF" aria-label="Staff"><span translate="Staff"></span></md-switch>
+                    </div>
+                </div>
+                <div class="col-md-12 no-margin no-padding">
+                    <md-toolbar class="inline-toolbar">
+                        <div class="md-toolbar-tools">
+                            <h2 flex md-truncate translate="USER_WORKING_HOURS_TITLE"></h2>
+                        </div>
+                    </md-toolbar>
+                    <div class="staff-working-hours-container pl-20">
+                        <md-content class="staff-working-hours-card" flex="13" ng-repeat="PLAN in OPTIONS.BUSINESS_HOURS" layout-padding>
+                            <md-checkbox ng-model="PLAN.STATUS"><span class="text-uppercase text-bold">{{ PLAN.DAY }}</span></md-checkbox>
+                            <fieldset>
+                                <md-input-container class="working-hours-input">
+                                    <label translate="Start"></label>
+                                    <input str-to-time="" ng-model="PLAN.START" type="time">
+                                </md-input-container>
+                                <md-input-container class="working-hours-input">
+                                    <label translate="End"></label>
+                                    <input str-to-time="" ng-model="PLAN.END" type="time">
+                                </md-input-container>
+                            </fieldset>
+                            <fieldset>
+                                <legend translate="Break_Time"></legend>
+                                <md-input-container class="working-hours-input">
+                                    <label translate="Start"></label>
+                                    <input str-to-time="" ng-model="PLAN.BREAKS.START" type="time">
+                                </md-input-container>
+                                <md-input-container class="working-hours-input">
+                                    <label translate="End"></label>
+                                    <input str-to-time="" ng-model="PLAN.BREAKS.END" type="time">
+                                </md-input-container>
+                            </fieldset>
+                            </fieldset>
+                        </md-content>
+                    </div>
+                </div>
+            </md-content>
+        </div>
+    </div>
+</md-content>
