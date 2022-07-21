@@ -2,7 +2,7 @@
 Open source ticket help desk
 
 <p>No more confusing interfaces and operations! With Tickotty, you can quickly deal with support requests by adding your own agents. Thanks to its easy and user-friendly interface, navigating through its features is effortless.</p>
-<img width="610px" src="http://luceat.solutions/trivia/tickotty-landing.jpg" alt="">
+<img style="width: 100% !important" src="http://luceat.solutions/trivia/tickotty-landing.jpg" alt="">
 <h3 id="item-description__features">Features</h3>
 
 <ul>
@@ -31,7 +31,7 @@ Open source ticket help desk
 
 <h3 id="item-description__features">Demo</h3>
 <br>
-<a href="http://luceat.solutions/auxilium"><img src="http://luceat.solutions/trivia/tickotty-visit-demo.png" alt=""></a>
+<a href="http://luceat.solutions/auxilium"><img style="width: 100% !important" src="http://luceat.solutions/trivia/tickotty-visit-demo.png" alt=""></a>
 <h4>Admin</h4>
 <p>Mail: admin@luceat.solutions</p>
 <p>Pass: admin</p>
@@ -43,4 +43,4 @@ Open source ticket help desk
 <p>Pass: demo</p>
 
 <br>
-<a href="http://luceat.solutions/tickotty/documentation"><img src="http://luceat.solutions/trivia/tickotty-documentation.png" alt=""></a>
+<a href="http://luceat.solutions/tickotty/documentation"><img style="width: 100% !important" src="http://luceat.solutions/trivia/tickotty-documentation.png" alt=""></a>
