@@ -1,8 +1,12 @@
 # Tickotty
-Open source ticket help desk
-
+Free open-source helpdesk ticketing system
 <p>No more confusing interfaces and operations! With Tickotty, you can quickly deal with support requests by adding your own agents. Thanks to its easy and user-friendly interface, navigating through its features is effortless.</p>
-<img style="width: 100% !important" src="http://luceat.solutions/trivia/tickotty-landing.jpg" alt="">
+<a href="https://github.com/Prokfantasmist/Tickotty/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/Prokfantasmist/Tickotty"></a>
+<a href="https://github.com/Prokfantasmist/Tickotty/network"><img alt="GitHub forks" src="https://img.shields.io/github/forks/Prokfantasmist/Tickotty"></a>
+<a href="https://github.com/Prokfantasmist/Tickotty/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/Prokfantasmist/Tickotty"></a>
+<a href="https://github.com/Prokfantasmist/Tickotty/blob/main/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/Prokfantasmist/Tickotty"></a>
+<a href="https://patreon.com/luceat"><img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.vercel.app%2Fapi%3Fusername%3Dluceat%26type%3Dpatrons&style=flat" alt="Support me on Patreon" /></a>
+<img style="width: 100% !important" src="http://luceat.solutions/trivia/tickotty-main-intro.jpg" alt="">
 <h3 id="item-description__features">Features</h3>
 
 <ul>
@@ -30,8 +34,8 @@ Open source ticket help desk
 </ul>
 
 <h3 id="item-description__features">Demo</h3>
-<br>
-<a href="http://luceat.solutions/auxilium"><img style="width: 100% !important" src="http://luceat.solutions/trivia/tickotty-visit-demo.png" alt=""></a>
+<a href="http://luceat.solutions/auxilium"><img style="width: 300px !important" src="http://luceat.solutions/trivia/tickotty-visit-demo.png" alt=""></a>
+<a href="http://luceat.solutions/tickotty/documentation"><img style="width: 300px !important" src="http://luceat.solutions/trivia/tickotty-documentation.png" alt=""></a>
 <h4>Admin</h4>
 <p>Mail: admin@luceat.solutions</p>
 <p>Pass: admin</p>
@@ -43,4 +47,4 @@ Open source ticket help desk
 <p>Pass: demo</p>
 
 <br>
-<a href="http://luceat.solutions/tickotty/documentation"><img style="width: 100% !important" src="http://luceat.solutions/trivia/tickotty-documentation.png" alt=""></a>
+
