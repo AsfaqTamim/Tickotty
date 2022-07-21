@@ -1,6 +1,9 @@
 # Tickotty
-Free open-source helpdesk ticketing system
+<h2>Free open-source helpdesk ticketing system</h2>
 <p>No more confusing interfaces and operations! With Tickotty, you can quickly deal with support requests by adding your own agents. Thanks to its easy and user-friendly interface, navigating through its features is effortless.</p>
+<a href="#"><img alt="AngularJS" src="https://img.shields.io/badge/php-%3E%3D_7.4-8892BF.svg"></a>
+<a href="#"><img alt="AngularJS" src="https://img.shields.io/badge/mysql-%3E%3D_5.7-F29111.svg"></a>
+<a href="#"><img alt="AngularJS" src="https://img.shields.io/badge/AngularJS-E23237?style=flat&logo=angularjs&logoColor=white"></a>
 <a href="https://github.com/Prokfantasmist/Tickotty/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/Prokfantasmist/Tickotty"></a>
 <a href="https://github.com/Prokfantasmist/Tickotty/network"><img alt="GitHub forks" src="https://img.shields.io/github/forks/Prokfantasmist/Tickotty"></a>
 <a href="https://github.com/Prokfantasmist/Tickotty/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/Prokfantasmist/Tickotty"></a>
