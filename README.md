@@ -9,7 +9,9 @@
 <a href="https://github.com/Prokfantasmist/Tickotty/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/Prokfantasmist/Tickotty"></a>
 <a href="https://github.com/Prokfantasmist/Tickotty/blob/main/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/Prokfantasmist/Tickotty"></a>
 <a href="https://patreon.com/luceat"><img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.vercel.app%2Fapi%3Fusername%3Dluceat%26type%3Dpatrons&style=flat" alt="Support me on Patreon" /></a>
+<hr>
 <img style="width: 100% !important" src="http://luceat.solutions/trivia/tickotty-main-intro.jpg" alt="">
+<hr>
 <h3 id="item-description__features">Features</h3>
 
 <ul>
@@ -35,7 +37,7 @@
         on other fields.
     </li>
 </ul>
-
+<hr>
 <h3 id="item-description__features">Demo</h3>
 <a href="http://luceat.solutions/auxilium"><img style="width: 300px !important" src="http://luceat.solutions/trivia/tickotty-visit-demo.png" alt=""></a>
 <a href="http://luceat.solutions/tickotty/documentation"><img style="width: 300px !important" src="http://luceat.solutions/trivia/tickotty-documentation.png" alt=""></a>
