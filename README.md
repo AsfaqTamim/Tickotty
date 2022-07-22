@@ -162,6 +162,7 @@ You can use custom fields to get additional information from customers who submi
 
 [![](http://luceat.solutions/trivia/tickotty-visit-demo.png)](http://luceat.solutions/auxilium) [![](http://luceat.solutions/trivia/tickotty-documentation.png)](http://luceat.solutions/tickotty/documentation)
 
+## Credentials
 |Role|User|Password|
 |:--- |:---- |:----|
 |Admin|admin@luceat.solutions|admin|
