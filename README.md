@@ -160,7 +160,8 @@ You can use custom fields to get additional information from customers who submi
 
 # Demo
 
-[![](http://luceat.solutions/trivia/tickotty-visit-demo.png)](http://luceat.solutions/auxilium) [![](http://luceat.solutions/trivia/tickotty-documentation.png)](http://luceat.solutions/tickotty/documentation)
+[![](https://img.shields.io/badge/visit-demo-brightgreen?style=flat)](http://luceat.solutions/auxilium) 
+[![](https://img.shields.io/badge/documentation-black?style=flat)](http://luceat.solutions/tickotty/documentation)
 
 ## Credentials
 |Role|User|Password|
