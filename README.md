@@ -36,7 +36,9 @@ Tickotty - Help Desk has an easy setup, first, create a database, then go to you
 
 ## Hosting Installation
 ### cPanel
-#### First Step
+
+**First Step**
+
 First of all, please upload the application files to the folder where you want to install the application with the cPanel file manager.
 
 **To create a MySQL database**
