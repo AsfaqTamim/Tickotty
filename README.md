@@ -43,8 +43,8 @@ You can use custom fields to get additional information from customers who submi
 
 [![](http://luceat.solutions/trivia/tickotty-visit-demo.png)](http://luceat.solutions/auxilium) [![](http://luceat.solutions/trivia/tickotty-documentation.png)](http://luceat.solutions/tickotty/documentation)
 
-| Role      | E-mail | Pass     |
-| :---        |    :----:   |          ---: |
-| Admin      | admin@luceat.solutions       |admin|
-| Staff   | harper@luceat.solutions        |demo|
-| Client   | juniper@luceat.solutions        |demo|
+|Role|User|Password|
+|:--- |:---- |:----|
+|Admin|admin@luceat.solutions|admin|
+|Staff|harper@luceat.solutions|demo|
+|Client|juniper@luceat.solutions|demo|
