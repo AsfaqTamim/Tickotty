@@ -38,29 +38,41 @@ Tickotty - Help Desk has an easy setup, first, create a database, then go to you
 ### cPanel
 #### First Step
 First of all, please upload the application files to the folder where you want to install the application with the cPanel file manager.
-#### To create a MySQL database:
+
+**To create a MySQL database**
+
 *   Log in to cPanel.
 *   Click MySQL Databases under Databases in cPanel.
 *   Type your database name.
 *   When ready, click Create Database.
-#### Creating a database user
+
+**Creating a database user**
+
 *   Click MySQL Databases under Databases in cPanel.
 *   Under MySQL Users > Add New User, enter the MySQL username in the Username text box.
 *   In the Password text box, enter the user password.
 *   In the Password (Again) text box, retype the user password.
 *   When ready, click Create User.
-#### Adding user to a database
+
+**Adding user to a database**
+
 *   Click MySQL Databases under Databases in cPanel.
 *   Under Add User to Database, select the user that you want to add from the User drop-down menu.
 *   In the Database drop-down menu, select the database.
 *   Click Add.
 *   Select the privileges you want to grant the user, or click ALL PRIVILEGES to grant the user all permissions to the database.
 *   When ready, click Make Changes.
-#### If the creating database and adding users to the database are completed.
+
+**If the creating database and adding users to the database are completed**
+
 Now you can go to the installation screen via the folder where the files are uploaded ([http://example.com/yours](#)), the page will automatically redirect you to the setup screen.
-#### If it does not automatically switch to the installation screen
+
+**If it does not automatically switch to the installation screen**
+
 All you have to do is go to the link [http://example.com/yours/service/install](#)
-#### On Installation Screen
+
+**On Installation Screen**
+
 *   Make sure all the dependencies are installed.
 *   Click “Next” only if you see “Green Tick” beside all the dependencies.
 *   Type your database credentials
@@ -68,6 +80,7 @@ All you have to do is go to the link [http://example.com/yours/service/install](
 Congratulations, the installation is complete!
 
 ## XAMP Installation
+
 Few changes we need to do in **XAMPP** default installation.
 
 **1\. Change the .htaccess**
@@ -110,8 +123,6 @@ RewriteRule ^(.\*)$ index.php?/$1 \[L,QSA\]
 ## 500 Internal Server
 
 If you are getting 500 Internal Server error after your install, this means that you need to adjust the main .htaccess for Tickotty
-
-#### Info
 
 If you getting this error try to change your PHP version to 7.4 or higher
 
